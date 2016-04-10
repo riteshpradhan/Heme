@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-10 16:20:17
+-- @Last Modified time: 2016-04-10 17:18:00
 
 -- Heme Player
 -- There is just one player
@@ -29,20 +29,24 @@ function _M:newPlayer (o)
 	return o;
 end
 
+
+
 -- launch player once game starts
 function _M:launch()
 	-- rotate by 90 degree and set at  certain height
-	transition.to( self.shape, { time=4000, x=240, y=60, rotation=90, transition=easing.inOutQuart } )
+	transition.to( self.shape, { time=4000, x=240, y=60, rotation=90, transition=easing.inQuart } )
 	self.shape.bodyType = 'dynamic' -- Change to dynamic so it can move with force and for collision
 	self.isLaunched = true;
 	-- start with Impulse
 	self.shape:applyLinearImpulse(5, 0, self.shape.x, self.shape.y)
-	self.shape:addEventListener('collision', self.playerCollide)
-	self.shape:addEventListener('tap', self.testingTap)
+	self.shape:addEventListener('collision', self)
+	self.shape:addEventListener('tap', self)
 end
 
 
-function _M:playerCollide(event)
+
+
+function _M:collision(event)
 	self.health = self.health - 1
 	if (self.HP > 0) then
 		-- sound
@@ -54,6 +58,8 @@ function _M:playerCollide(event)
 		self = nil;
 	end
 end
+
+
 
 function _M:destroy()
 	if self ~= nil and self.shape ~= nil then
@@ -77,10 +83,15 @@ function _M:explode()
 	self.destroy()
 end
 
-function _M:testingTap(event)
-	print ("Testing tap")
+function _M:die()
+	transition.to( self.shape, {time=2000, y=display.contentHeight-60, x=self.shape.x+ 100, rotation=270, transition=easing.outQuart} )
 end
 
+
+function _M:tap(event)
+	print ("Testing tap")
+	self:die()
+end
 
 
 return _M
