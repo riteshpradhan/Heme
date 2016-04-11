@@ -1,17 +1,17 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-10 17:18:00
+-- @Last Modified time: 2016-04-10 19:31:57
 
 -- Heme Player
 -- There is just one player
 
 local physics = require('physics')
 local sounds = require('libs.sounds')
--- local newBullet = require('classes.playerBullet').newBullet
+local newPlayerBullet = require('classes.playerBullet').newPlayerBullet
+-- local newPlayerBullet = require('classes.playerBullet').new
 
-
-local _M = {tag="player", xPos=40, yPos=display.contentHeight-60, ammo=0, health=0, fuel=0, width=48, height=48}
+local _M = {tag="player", xPos=40, yPos=display.contentHeight-60, ammo=0, health=100, fuel=0, width=48, height=48}
 
 
 function _M:newPlayer (o)
@@ -47,15 +47,17 @@ end
 
 
 function _M:collision(event)
-	self.health = self.health - 1
-	if (self.HP > 0) then
-		-- sound
-		self.shape:setFillColor(1,0,0);
-	else
-		-- sound
-		-- die
-		self.shape:removeSelf();
-		self = nil;
+	if event.phase == "ended" then
+		self.health = self.health - 1
+		if (self.health > 0) then
+			-- sound
+			self.shape:setFillColor(1,0,0);
+		else
+			-- sound
+			-- die
+			self.shape:removeSelf();
+			self = nil;
+		end
 	end
 end
 
@@ -71,16 +73,17 @@ end
 
 -- fire bullets
 function _M:fire()
-	sound.play('player_fire')
+	print("Firing bullet from player")
+	-- sound.play('player_fire')
 	-- create a self destructible bullet
-	-- newBullet({g = params.g, x = self.x, y = self.y, isExplosion = self.type == 'playerBullet'})
+	local bullet = newPlayerBullet({x = self.shape.x, y = self.shape.y, isExplosion = self.type == 'playerBullet'})
 
 end
 
 function _M:explode()
 	sounds.play("player_explosion")
 	-- explode animation if any
-	self.destroy()
+	self:destroy()
 end
 
 function _M:die()
@@ -91,6 +94,7 @@ end
 function _M:tap(event)
 	print ("Testing tap")
 	self:die()
+	self:fire()
 end
 
 
