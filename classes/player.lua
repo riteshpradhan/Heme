@@ -1,13 +1,15 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-10 19:31:57
+-- @Last Modified time: 2016-04-11 22:44:15
 
 -- Heme Player
 -- There is just one player
 
 local physics = require('physics')
 local sounds = require('libs.sounds')
+local utils = require('libs.utils')
+
 local newPlayerBullet = require('classes.playerBullet').newPlayerBullet
 -- local newPlayerBullet = require('classes.playerBullet').new
 
@@ -18,8 +20,11 @@ function _M:newPlayer (o)
 	o = o or {};
 	setmetatable(o, self);
 	self.__index = self;
+
+	utils.print_table(self)
+	-- print(_M)
 	-- self.shape = display.newImageRect(params.g, 'images/player/' .. params.type .. '.png', 48, 48)
-	self.shape = display.newImageRect('images/player/' .. params.type .. '.png', self.width, self.height)
+	self.shape = display.newImageRect('images/player/' .. o.type .. '.png', self.width, self.height)
 	self.shape.ref = self;
 	self.shape.tag = self.tag;
 	self.shape.x, self.shape.y = self.xPos, self.yPos	--start position
@@ -33,6 +38,8 @@ end
 
 -- launch player once game starts
 function _M:launch()
+	print("Printng self: ")
+	utils.print_table(self.shape.ref)
 	-- rotate by 90 degree and set at  certain height
 	transition.to( self.shape, { time=4000, x=240, y=60, rotation=90, transition=easing.inQuart } )
 	self.shape.bodyType = 'dynamic' -- Change to dynamic so it can move with force and for collision
@@ -48,6 +55,7 @@ end
 
 function _M:collision(event)
 	if event.phase == "ended" then
+		print("Collision with player")
 		self.health = self.health - 1
 		if (self.health > 0) then
 			-- sound
@@ -76,7 +84,7 @@ function _M:fire()
 	print("Firing bullet from player")
 	-- sound.play('player_fire')
 	-- create a self destructible bullet
-	local bullet = newPlayerBullet({x = self.shape.x, y = self.shape.y, isExplosion = self.type == 'playerBullet'})
+	local bullet = newPlayerBullet({x = self.shape.x, y = self.shape.y, isExplosion = self.type == 'playerBullet', hp=3})
 
 end
 
