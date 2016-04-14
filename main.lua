@@ -1,18 +1,24 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-08 13:51:34
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-12 00:34:44
+-- @Last Modified time: 2016-04-13 23:13:59
 
 local physics = require( "physics" )
 physics.start( )
 physics.setGravity( 0, 0 )
+physics.setDrawMode( 'hybrid' )
 
+--------- globals and utils -----------
+local hemeGlobals = require( "libs.globals")
+local utils = require( 'libs.utils')
+
+---------- classes -------------
 local player = require ('classes.player')
 local birdEnemy = require ('classes.birdEnemy')
 -- local newAircraftEnemy = require ('classes.aircraftEnemy')
 local aircraftEnemy = require ('classes.aircraftEnemy')
-local hemeGlobals = require( "libs.globals")
-local utils = require( 'libs.utils')
+local dynamicBirdEnemy = require('classes.dynamicBirdEnemy')
+
 
 print("Testing player")
 
@@ -28,3 +34,6 @@ bird:spawn()
 
 local aircraft = aircraftEnemy:newEnemy({g=nil, type='aircraftEnemy', x=display.contentCenterX + 300, y=hemeGlobals.yLevel[1]})
 aircraft:spawn()
+
+local dynamicBird = dynamicBirdEnemy:newEnemy({g=nil, w=20, h=50})
+dynamicBird:spawn()

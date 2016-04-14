@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-11 22:44:15
+-- @Last Modified time: 2016-04-13 23:17:19
 
 -- Heme Player
 -- There is just one player
@@ -29,7 +29,7 @@ function _M:newPlayer (o)
 	self.shape.tag = self.tag;
 	self.shape.x, self.shape.y = self.xPos, self.yPos	--start position
 	self.shape:setFillColor(1,0,0,0.9)
-	physics.addBody(self.shape, 'static', {density = 2, friction = 0.5, bounce = 0.5}) -- While the player rests near the cannon, it's static
+	physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5}) -- While the player rests near the cannon, it's kinematic
 	print(self.shape, self.shape.ref, self, self.shape.bodyType)
 	return o;
 end

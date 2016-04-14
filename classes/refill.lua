@@ -1,42 +1,43 @@
 -- @Author: Ritesh Pradhan
--- @Date:   2016-04-10 19:32:35
+-- @Date:   2016-04-13 22:58:39
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-13 23:14:58
+-- @Last Modified time: 2016-04-13 23:26:44
 
 
--- Enemy: bird, aircraft
--- Enemy can be either can be of bird or aircraft
+-- This refill is used for instant bonus items during game play
+-- fuel
+-- health
+-- ammo
 
 local physics = require("physics")
 local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
 
-local _M = {tag='enemy', hp=5, health=20, type='default', w=40, h=40, x=0, y=0}
+local _M = {tag='refill', type='default', w=50, h=50, x=1030, y=hemeGlobals.yLevel[1], value=10}
 
-function _M:newEnemy(params)
+function _M:newRefill(params)
 	local o = params or {}
 	setmetatable(o, self);
 	self.__index = self;
 	-- self.__newindex = function(o, k, v) rawset(self, k, v) end
-	print ("In enenmy")
+	print ("In refill")
 	utils.print_table(o)
 	return o
 end
 
 function _M:spawn()
-
-	print("sefl: " )
+	print("refill self: " )
 	utils.print_table(self)
 
-	self.shape = display.newImageRect('images/enemy/' .. self.type .. '.png', self.w, self.h)
+	self.shape = display.newImageRect('images/refill/' .. self.type .. '.png', self.w, self.h)
 	self.shape.x, self.shape.y = self.x, self.y
 	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5})
 	self.shape.isSensor = true
 	self.shape.type = self.type
+	self.shape:applyLinearImpulse(-5, 0, self.shape.x, self.shape.y)
 
 	self.shape:addEventListener("collision", self)
 	self.shape:addEventListener("tap", self)
-
 end
 
 function _M:move()
@@ -62,20 +63,20 @@ end
 
 function _M:collision(event)
 	if event.phase == "ended" then
-	-- print("Collision of enemy")
+	-- print("Collision of Refill")
 	end
 
 end
 
 
 function _M:tap(event)
-	print("Tap of enemy")
+	print("Tapped of Refill")
 	print (event.target)
 end
 
 
 function _M:destroy()
-	print("Destroying enemy")
+	print("Destroying Refill")
 	if (self ~= nil) then
 		transition.to(self, {time=100, alpha=0})
 		self:removeSelf( )
