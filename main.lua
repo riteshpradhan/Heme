@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-08 13:51:34
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-13 23:13:59
+-- @Last Modified time: 2016-04-14 22:42:47
 
 local physics = require( "physics" )
 physics.start( )
@@ -18,6 +18,7 @@ local birdEnemy = require ('classes.birdEnemy')
 -- local newAircraftEnemy = require ('classes.aircraftEnemy')
 local aircraftEnemy = require ('classes.aircraftEnemy')
 local dynamicBirdEnemy = require('classes.dynamicBirdEnemy')
+local obs = require('classes.generalObstruction')
 
 
 print("Testing player")
@@ -37,3 +38,6 @@ aircraft:spawn()
 
 local dynamicBird = dynamicBirdEnemy:newEnemy({g=nil, w=20, h=50})
 dynamicBird:spawn()
+
+local tree = obs:newObstruction({g=nil, type='tree', xVel=-5})
+tree:spawn()

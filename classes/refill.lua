@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 22:58:39
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-13 23:26:44
+-- @Last Modified time: 2016-04-14 22:52:39
 
 
 -- This refill is used for instant bonus items during game play
@@ -13,7 +13,7 @@ local physics = require("physics")
 local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
 
-local _M = {tag='refill', type='default', w=50, h=50, x=1030, y=hemeGlobals.yLevel[1], value=10}
+local _M = {tag='refill', type='default', w=50, h=50, x=1030, y=hemeGlobals.yLevel[1], value=10, xVel=-10, yVel=0}
 
 function _M:newRefill(params)
 	local o = params or {}
@@ -34,7 +34,8 @@ function _M:spawn()
 	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5})
 	self.shape.isSensor = true
 	self.shape.type = self.type
-	self.shape:applyLinearImpulse(-5, 0, self.shape.x, self.shape.y)
+	-- self.shape:applyLinearImpulse(-5, 0, self.shape.x, self.shape.y)
+	self.shape:setLinearVelocity( self.xVel, self.yVel )
 
 	self.shape:addEventListener("collision", self)
 	self.shape:addEventListener("tap", self)

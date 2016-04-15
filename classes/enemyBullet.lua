@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 18:23:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-10 22:23:08
+-- @Last Modified time: 2016-04-14 22:47:14
 
 local physics = require("physics")
 local newBullet = require("classes.bullet").newBullet
@@ -15,7 +15,8 @@ function _M.newEnemyBullet(params)
 	local enemyBullet = newBullet(params)
 	enemyBullet.hp = params.hp or 5
 
-	enemyBullet:applyLinearImpulse(-30, 0, enemyBullet.x, enemyBullet.y)
+	-- enemyBullet:applyLinearImpulse(-30, 0, enemyBullet.x, enemyBullet.y)
+	enemyBullet:setLinearVelocity( -30, 0 )
 
 	function enemyBullet:collision(event)
 		print("Collision of enemyBullet")

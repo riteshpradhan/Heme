@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:28:21
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-13 23:36:39
+-- @Last Modified time: 2016-04-14 22:49:08
 
 
 -- This collectible is used for long term bonus items during game play; power up levels and get more health, ammo and fuel
@@ -12,7 +12,7 @@ local physics = require("physics")
 local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
 
-local _M = {tag='collectible', type='default', w=50, h=50, x=1030, y=hemeGlobals.yLevel[1]}
+local _M = {tag='collectible', type='default', w=50, h=50, x=1030, y=hemeGlobals.yLevel[1], xVel=-10, yVel=0}
 
 function _M:newCollectible(params)
 	local o = params or {}
@@ -33,7 +33,10 @@ function _M:spawn()
 	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5})
 	self.shape.isSensor = true
 	self.shape.type = self.type
-	self.shape:applyLinearImpulse(-5, 0, self.shape.x, self.shape.y)
+
+	--kinematic body move with velocity --
+	self.shape:setLinearVelocity( self.xVel, self.yVel )
+	-- self.shape:applyLinearImpulse(-5, 0, self.shape.x, self.shape.y)
 
 	self.shape:addEventListener("collision", self)
 	self.shape:addEventListener("tap", self)
