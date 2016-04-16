@@ -2,5 +2,8 @@ settings = {
     orientation = {
         default = 'landscapeRight',
         supported = {'landscapeLeft', 'landscapeRight'}
-    }
+    },
+    plugins = {
+	    ['plugin.toast'] = {publisherId = 'com.spiralcodestudio'}
+	}
 }
