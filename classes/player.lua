@@ -1,14 +1,17 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-13 23:17:19
+-- @Last Modified time: 2016-04-16 14:24:48
 
 -- Heme Player
 -- There is just one player
 
 local physics = require('physics')
+local toast = require('plugin.toast')
+
 local sounds = require('libs.sounds')
 local utils = require('libs.utils')
+local collisionFilters = require( 'libs.collisionFilters')
 
 local newPlayerBullet = require('classes.playerBullet').newPlayerBullet
 -- local newPlayerBullet = require('classes.playerBullet').new
@@ -29,7 +32,7 @@ function _M:newPlayer (o)
 	self.shape.tag = self.tag;
 	self.shape.x, self.shape.y = self.xPos, self.yPos	--start position
 	self.shape:setFillColor(1,0,0,0.9)
-	physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5}) -- While the player rests near the cannon, it's kinematic
+	physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5, filter=collisionFilters.player}) -- While the player rests near the cannon, it's kinematic
 	print(self.shape, self.shape.ref, self, self.shape.bodyType)
 	return o;
 end
@@ -103,6 +106,7 @@ function _M:tap(event)
 	print ("Testing tap")
 	self:die()
 	self:fire()
+	toast.show("Bullet is fired by Heme")
 end
 
 

@@ -1,18 +1,18 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-08 13:51:34
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-15 21:34:35
+-- @Last Modified time: 2016-04-16 15:03:59
 
 local physics = require( "physics" )
 physics.start( )
 physics.setGravity( 0, 0 )
 physics.setDrawMode( 'hybrid' )
 
+
 --------- globals and utils -----------
 local hemeGlobals = require( "libs.globals")
 local utils = require( 'libs.utils')
 local hemeDatabox = require('libs.databox') -- This library automatically loads and saves it's storage into databox.json inside Documents directory
-
 
 ---------- classes -------------
 local player = require ('classes.player')
@@ -23,6 +23,15 @@ local dynamicBirdEnemy = require('classes.dynamicBirdEnemy')
 local obs = require('classes.generalObstruction')
 
 
+local composer = require( "composer" )
+local scene = composer.newScene()
+
+local toast = require('plugin.toast')
+----------------------------------------------------
+-------------- Initialization -----------
+hemeDatabox()
+
+------------------------------------------
 
 print("Testing player")
 
@@ -45,13 +54,15 @@ local tree = obs:newObstruction({g=nil, type='tree', xVel=-5})
 tree:spawn()
 
 
--- Testing databox
-hemeDatabox({
-	isSoundOn = true,
-	isMusicOn = true,
-	isHelpShown = false,
-})
-
-
+-------------  Testing databox -----------------------
 print ("Is sound ON? : ", hemeDatabox.isSoundOn)
-print ("Is ritesh present ? ? : ", hemeDatabox.ritesh)
+print ("Ammo: ", hemeDatabox.ammo)
+print ("Is ritesh present ? : ", hemeDatabox.ritesh)
+hemeDatabox.ritesh = 999
+print ("Is ritesh present ? : ", hemeDatabox.ritesh)
+hemeDatabox.ammo = hemeDatabox.ammo + 1
+hemeDatabox({ ["ammo"] = 100, bbbbbbbb= 8})
+------------------------------------------------------
+
+composer.gotoScene( 'scenes.store', {effect='fade', time=1000} )
+

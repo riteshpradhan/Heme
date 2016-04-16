@@ -1,9 +1,9 @@
 -- @Author: ritesh
 -- @Date:   2016-04-08 13:51:14
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-08 13:52:15
+-- @Last Modified time: 2016-04-16 01:08:17
 
-local normalW, normalH = 720, 1080
+local normalW, normalH = 720, 1280
 
 -- This calculation extends the standard letterbox scaling
 -- Using this point x = 0, y = 0 is always in the top left corner of the screen on all devices
