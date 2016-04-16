@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-08 13:51:34
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-14 22:42:47
+-- @Last Modified time: 2016-04-15 20:55:45
 
 local physics = require( "physics" )
 physics.start( )
@@ -26,7 +26,6 @@ print("Testing player")
 local params = {g=nil, type='bomb'}
 local heme = player:newPlayer(params)
 heme:launch()
-
 
 
 local bird = birdEnemy:newEnemy({g=nil, x=display.contentCenterX, y=hemeGlobals.yLevel[2]})

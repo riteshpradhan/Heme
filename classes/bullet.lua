@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 17:06:15
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-10 22:20:57
+-- @Last Modified time: 2016-04-15 20:32:20
 
 -- Bullet visual effect
 -- Bullet can be either can be of Player or Enemy, or it can act as an explosion visualisation.
@@ -16,13 +16,13 @@ function _M.newBullet(params)
 	local bullet = display.newImageRect('images/bullets/' .. params.type .. '.png', params.w, params.h)
 	bullet.x, bullet.y = params.x, params.y
 	bullet.type = params.type
-	physics.addBody(bullet, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5})
+	-- physics.addBody(bullet, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5})
 
 	local selfDestroyTimer = timer.performWithDelay( 3000, function() bullet:selfDestroy() end, 1 )
 
-	function bullet:collision(event)
-		print("Collision of bullet")
-	end
+	-- function bullet:collision(event)
+	-- 	print("Collision of bullet")
+	-- end
 
 
 	function bullet:tap(event)

@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-14 21:52:06
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-14 22:39:51
+-- @Last Modified time: 2016-04-15 20:36:11
 
 -- This is also enemy but industrible one
 -- static type; infinite mass
@@ -13,6 +13,7 @@
 local physics = require("physics")
 local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
+local collisionFilters = require( 'libs.collisionFilters')
 
 local _M = {tag='obstruction', type='default', w=30, h=80, x=830, y=hemeGlobals.yLevel[1], xVel=-100, yVel=0}
 
@@ -32,7 +33,7 @@ function _M:spawn()
 
 	self.shape = display.newImageRect('images/obstruction/' .. self.type .. '.png', self.w, self.h)
 	self.shape.x, self.shape.y = self.x, self.y
-	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5})
+	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5, filter = collisionFilters.obstruction})
 	self.shape.type = self.type
 	self.shape:setLinearVelocity( self.xVel, self.yVel )
 

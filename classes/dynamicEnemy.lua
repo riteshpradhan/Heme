@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 22:19:05
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-14 22:34:31
+-- @Last Modified time: 2016-04-15 20:35:27
 
 -- Enemy: bird, aircraft
 -- Enemy can be either can be of bird or aircraft
@@ -10,6 +10,7 @@
 local physics = require("physics")
 local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
+local collisionFilters = require( 'libs.collisionFilters')
 
 local _M = {tag='enemy', hp=5, health=20, type='default', w=40, h=40, x=1030, y=hemeGlobals.yLevel[1]}
 
@@ -18,7 +19,7 @@ function _M:newEnemy(params)
 	setmetatable(o, self);
 	self.__index = self;
 	-- self.__newindex = function(o, k, v) rawset(self, k, v) end
-	print ("In enenmy")
+	print ("In enemy")
 	utils.print_table(o)
 	return o
 end
@@ -30,7 +31,7 @@ function _M:spawn()
 
 	self.shape = display.newImageRect('images/enemy/' .. self.type .. '.png', self.w, self.h)
 	self.shape.x, self.shape.y = self.x, self.y
-	physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5})
+	physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5, filter = collisionFilters.enemy})
 	self.shape.isSensor = true
 	self.shape.type = self.type
 	self.shape:applyLinearImpulse(-5, 0, self.shape.x, self.shape.y)

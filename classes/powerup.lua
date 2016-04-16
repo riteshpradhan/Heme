@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:42:01
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-14 22:52:04
+-- @Last Modified time: 2016-04-15 20:36:30
 
 -- This powerup is used at the instant of consumption. Amazing powerups
 -- airblast
@@ -11,6 +11,7 @@
 local physics = require("physics")
 local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
+local collisionFilters = require( 'libs.collisionFilters')
 
 local _M = {tag='powerup', type='default', w=50, h=50, x=1030, y=hemeGlobals.yLevel[1], xVel=-10, yVel=0}
 
@@ -30,7 +31,7 @@ function _M:spawn()
 
 	self.shape = display.newImageRect('images/powerup/' .. self.type .. '.png', self.w, self.h)
 	self.shape.x, self.shape.y = self.x, self.y
-	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5})
+	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5, filter = collisionFilters.powerup})
 	self.shape.isSensor = true
 	self.shape.type = self.type
 	-- self.shape:applyLinearImpulse(-5, 0, self.shape.x, self.shape.y)
