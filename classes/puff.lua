@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 23:24:20
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-09 23:24:23
+-- @Last Modified time: 2016-04-17 01:35:38
 
 -- Puff visual effect
 -- Puff can be either white when a ball, a block or a bug dies, or it can act as an explosion visualisation.
@@ -35,3 +35,28 @@ function _M.newPuff(params)
 end
 
 return _M
+
+local physicsDisplayObjects = {}
+
+...
+
+function scene:createScene(event)
+    ...
+    local displayObject1 = ... -- display object
+    physics.addBody(displayObject1, ...) -- transform it into a physics body
+    table.insert(physicsDisplayObjects, displayObject1)
+    ...
+end
+
+...
+
+function something()
+    ...
+    for i,obj in ipairs(physicsDisplayObjects) do
+        physics.removeBody(obj) -- revert obj into regular display object
+    end
+    physicsDisplayObjects = {} -- clear
+    ...
+end
+
+...

@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:30:58
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 00:07:12
+-- @Last Modified time: 2016-04-17 17:23:53
 
 
 local widget = require("widget")
@@ -78,14 +78,22 @@ function touchHandler(event)
     if "began" == phase then
         return true
     elseif "moved" == phase then
+
         if (event.yStart > event.y and swipeLength > 50 ) then
-            transition.to( heme.shape, { time=50, y=(heme.shape.y - 180) } )
+            if (heme.shape.y == hemeGlobals.yLevel[1]) then
+                transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[2] } )
+            elseif (heme.shape.y == hemeGlobals.yLevel[2]) then
+                transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[3] } )
+            end
         elseif event.yStart < event.y and swipeLength > 50 then
-            transition.to( heme.shape, { time=50, y=(heme.shape.y + 180) } )
-            -- print( "Swiped Down", heme.shape.y )
+            if (heme.shape.y == hemeGlobals.yLevel[3]) then
+                transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[2] } )
+            elseif (heme.shape.y == hemeGlobals.yLevel[2]) then
+                transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[1] } )
+            end
         end
     elseif "ended" == phase or "cancelled" == phase then
-                    print( "Position: ", heme.shape.y )
+                    print( "Position: ", heme.shape.y , heme.shape.x)
     end
 end
 
@@ -120,8 +128,10 @@ function scene:create( event )
 
     local button_pause = widget.newButton({
         defaultFile = "images/menu/pause.png",
-        onRelease = btnPauseHandler
+        onRelease = btnPauseHandler,
     })
+    button_pause.alpha=0.5
+
     button_pause.x = display.contentCenterX
     button_pause.y = display.contentHeight - 100
     sceneGroup:insert(button_pause)
@@ -158,6 +168,11 @@ function scene:create( event )
     currentDistanceText = display.newText( scoreBoardG, currentDistance, 5.65 * eachBoxWidth, 50, native.systemFont, 40 )
 
     sceneGroup:insert(scoreBoardG)
+    sceneGroup:insert( ground1.shape )
+
+    utils.print_table(bg)
+    -- sceneGroup:insert( bg.bg1 )
+    -- sceneGroup:insert( bg.bg2 )
 
     Runtime:addEventListener("touch", touchHandler)
     Runtime:addEventListener( "tap", tapHandler )
@@ -172,11 +187,11 @@ function scene:show( event )
 
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen)
-        local params = {g=nil, type='bomb'}
+        local params = {g=nil, type='bomb', ammo=55}
 		heme = player:newPlayer(params)
 		heme:launch()
 
-		local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[2], xVel=-scrollSpeed*30})
+		local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[2], xVel=-scrollSpeed*30, ritesh=9999})
 		bird:spawn()
 
 		currentMedalText.text = currentMedal
@@ -185,6 +200,11 @@ function scene:show( event )
 		currentFuelText.text = currentFuel
 		currentHealthText.text = currentHealth
 		currentDistanceText.text = currentDistance
+
+
+        sceneGroup:insert( scoreBoardG )
+        sceneGroup:insert( heme.shape )
+        sceneGroup:insert( scoreBoardG )
 
     elseif ( phase == "did" ) then
         -- Called when the scene is now on screen

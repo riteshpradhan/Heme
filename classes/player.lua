@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-16 23:42:19
+-- @Last Modified time: 2016-04-17 15:56:28
 
 -- Heme Player
 -- There is just one player
@@ -24,9 +24,7 @@ function _M:newPlayer (o)
 	o = o or {};
 	setmetatable(o, self);
 	self.__index = self;
-
 	utils.print_table(self)
-	-- print(_M)
 	return o
 end
 
@@ -42,9 +40,13 @@ function _M:launch()
 	self.shape.x, self.shape.y = self.xPos, self.yPos	--start position
 	self.shape:setFillColor(1,0,0,0.9)
 	physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5, filter=collisionFilters.player}) -- While the player rests near the cannon, it's kinematic
+	-- physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5}) -- While the player rests near the cannon, it's kinematic
 	print(self.shape, self.shape.ref, self, self.shape.bodyType)
 
+	print("Self.shape.ref:", self.health, self.ammo)
 	utils.print_table(self.shape.ref)
+	print("Self.shape:")
+	utils.print_table(self.shape)
 	-- rotate by 90 degree and set at  certain height
 	-- transition.to( self.shape, { time=4000, x=240, y=hemeGlobals.yLevel[2], rotation=90, transition=easing.inQuart } )
 	-- self.shape.bodyType = 'dynamic' -- Change to dynamic so it can move with force and for collision
@@ -59,28 +61,66 @@ end
 
 
 function _M:collision(event)
-	if event.phase == "ended" then
-		print("Collision with player")
-		self.health = self.health - 1
-		if (self.health > 0) then
-			-- sound
-			self.shape:setFillColor(1,0,0);
+	if event.phase == "began" then
+		print("Collision with player here")
+
+		utils.print_table(event.other)
+		print(event.other.test_param)
+
+
+		if (event.other.tag == "ground") then
+			print ("player collided with groound")
+			--destroy
+			self:destroy()
 		else
-			-- sound
-			-- die
-			self.shape:removeSelf();
-			self = nil;
+			if (event.other.tag == "enemy") then
+				self.health = self.health - event.other.hp
+				print("collides enemy here and now health is : ", self.health)
+			elseif (event.other.tag == "bullet") then
+				self.health = self.health - event.other.hp
+			elseif (event.other.tag == "powerup") then
+				-- use powerup
+				if (event.other.type == "hyperdrivePowerup") then
+					-- do something
+					print("hyperdrivePowerup")
+				elseif (event.other.type == "plasmashieldPowerup") then
+					-- do something
+					print("hyperdrivePowerup")
+				elseif (event.other.type == "airblastPowerup") then
+					-- do something
+					print("hyperdrivePowerup")
+				end
+			elseif (event.other.tag == "refill") then
+				-- do refill
+				if (event.other.type == "ammoRefill") then
+					self.ammo = self.ammo + event.other.value
+				elseif (event.other.type == "fuelRefill") then
+					self.fuel = self.fuel + event.other.value
+				elseif (event.other.type == "healthRefill") then
+					self.health = self.health + event.other.value
+				end
+			elseif (event.other.tag == "obstruction") then
+				-- -- instant death; game over; destroy event
+				self.health = 0
+			end
+
+			if (self.health > 0) then
+				-- sound
+				self.shape:setFillColor(1,0,0);
+			else
+				-- sound
+				-- die ; falls to ground
+				self:die()
+			end
 		end
 	end
 end
 
-
-
 function _M:destroy()
 	if self ~= nil and self.shape ~= nil then
-		physics.removeBody( self.shape )
-		self.shape:removeSelf( )
+		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 		sounds.play('player_destroy')
+		-- dispatch game over event
 	end
 end
 
@@ -100,7 +140,8 @@ function _M:explode()
 end
 
 function _M:die()
-	transition.to( self.shape, {time=2000, y=display.contentHeight-60, x=self.shape.x+ 100, rotation=270, transition=easing.outQuart} )
+	self.shape:applyLinearImpulse(5, 25, self.shape.x, self.shape.y)
+	-- transition.to( self.shape, {time=2000, y=display.contentHeight-60, x=self.shape.x+ 100, rotation=270, transition=easing.outQuart} )
 end
 
 
