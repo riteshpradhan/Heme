@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-08 13:51:34
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-16 15:03:59
+-- @Last Modified time: 2016-04-16 20:09:13
 
 local physics = require( "physics" )
 physics.start( )
@@ -62,7 +62,24 @@ hemeDatabox.ritesh = 999
 print ("Is ritesh present ? : ", hemeDatabox.ritesh)
 hemeDatabox.ammo = hemeDatabox.ammo + 1
 hemeDatabox({ ["ammo"] = 100, bbbbbbbb= 8})
-------------------------------------------------------
+print(type(hemeDatabox))
 
-composer.gotoScene( 'scenes.store', {effect='fade', time=1000} )
+------------------------------------------------------
+------------- alert test ----------------------------
+---- physics pause -----
+---- transition pause -----
+
+local options = {effect='fade', time=1000}
+-- native.showAlert('Corona Cannon', 'Are you sure you want to go to menu?', {'Yes', 'Cancel'}, function(event)
+-- 		if event.action == 'clicked' and event.index == 1 then
+-- 			physics.pause()
+-- 			transition.pause()
+-- 			composer.gotoScene( 'scenes.menu', options )
+-- 		end
+-- 	end)
+-----------------------------------------------------
+
+
+
+composer.gotoScene( 'scenes.store',  options)
 
