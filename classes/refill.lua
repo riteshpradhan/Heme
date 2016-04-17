@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 22:58:39
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-15 20:36:53
+-- @Last Modified time: 2016-04-17 13:15:19
 
 
 -- This refill is used for instant bonus items during game play
@@ -35,6 +35,7 @@ function _M:spawn()
 	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5, filter = collisionFilters.refill})
 	self.shape.isSensor = true
 	self.shape.type = self.type
+	self.shape.value = self.value
 	-- self.shape:applyLinearImpulse(-5, 0, self.shape.x, self.shape.y)
 	self.shape:setLinearVelocity( self.xVel, self.yVel )
 

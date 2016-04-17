@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 19:32:35
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-16 23:58:57
+-- @Last Modified time: 2016-04-17 15:22:24
 
 
 -- Enemy: bird, aircraft
@@ -19,8 +19,11 @@ function _M:newEnemy(params)
 	setmetatable(o, self);
 	self.__index = self;
 	-- self.__newindex = function(o, k, v) rawset(self, k, v) end
-	print ("In enenmy")
+	print ("In enemy", o)
 	utils.print_table(o)
+	print ("In enemy self", self)
+	utils.print_table(self)
+
 	return o
 end
 
@@ -37,6 +40,8 @@ function _M:spawn()
 	self.shape.type = self.type
 	self.shape.ref = self
 	self.shape.health = self.health
+	self.shape.hp = self.hp
+	self.shape.tag = self.tag
 	--kinematic body move with velocity --
 	print ("Scroll speed: ", self.xVel)
 	self.shape:setLinearVelocity( self.xVel, self.yVel )
