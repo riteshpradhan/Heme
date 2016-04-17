@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-08 13:51:34
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-16 20:09:13
+-- @Last Modified time: 2016-04-16 21:10:53
 
 local physics = require( "physics" )
 physics.start( )
@@ -35,23 +35,23 @@ hemeDatabox()
 
 print("Testing player")
 
-local params = {g=nil, type='bomb'}
-local heme = player:newPlayer(params)
-heme:launch()
+-- local params = {g=nil, type='bomb'}
+-- local heme = player:newPlayer(params)
+-- heme:launch()
 
 
-local bird = birdEnemy:newEnemy({g=nil, x=display.contentCenterX, y=hemeGlobals.yLevel[2]})
-bird:spawn()
+-- local bird = birdEnemy:newEnemy({g=nil, x=display.contentCenterX, y=hemeGlobals.yLevel[2]})
+-- bird:spawn()
 -- local bird = birdEnemy({g=nil, type='birdEnemy', x=display.contentCenterX, y=hemeGlobals.yLevel[2]})
 
-local aircraft = aircraftEnemy:newEnemy({g=nil, type='aircraftEnemy', x=display.contentCenterX + 300, y=hemeGlobals.yLevel[1]})
-aircraft:spawn()
+-- local aircraft = aircraftEnemy:newEnemy({g=nil, type='aircraftEnemy', x=display.contentCenterX + 300, y=hemeGlobals.yLevel[1]})
+-- aircraft:spawn()
 
-local dynamicBird = dynamicBirdEnemy:newEnemy({g=nil, w=20, h=50})
-dynamicBird:spawn()
+-- local dynamicBird = dynamicBirdEnemy:newEnemy({g=nil, w=20, h=50})
+-- dynamicBird:spawn()
 
-local tree = obs:newObstruction({g=nil, type='tree', xVel=-5})
-tree:spawn()
+-- local tree = obs:newObstruction({g=nil, type='tree', xVel=-5})
+-- tree:spawn()
 
 
 -------------  Testing databox -----------------------
@@ -81,5 +81,6 @@ local options = {effect='fade', time=1000}
 
 
 
-composer.gotoScene( 'scenes.store',  options)
+-- composer.gotoScene( 'scenes.store',  options)
 
+composer.gotoScene( 'scenes.game', options )

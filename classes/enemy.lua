@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 19:32:35
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-15 20:29:22
+-- @Last Modified time: 2016-04-16 21:08:44
 
 
 -- Enemy: bird, aircraft
@@ -12,7 +12,7 @@ local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
 local collisionFilters = require('libs.collisionFilters')
 
-local _M = {tag='enemy', hp=5, health=20, type='default', w=40, h=40, x=0, y=0, xVel=-10, yVel=0}
+local _M = {tag='enemy', hp=5, health=20, type='default', w=40, h=40, x=0, y=0, xVel=0, yVel=0}
 
 function _M:newEnemy(params)
 	local o = params or {}
@@ -37,6 +37,7 @@ function _M:spawn()
 	self.shape.type = self.type
 
 	--kinematic body move with velocity --
+	print ("Scroll speed: ", self.xVel)
 	self.shape:setLinearVelocity( self.xVel, self.yVel )
 
 	self.shape:addEventListener("collision", self)
