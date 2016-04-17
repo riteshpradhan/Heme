@@ -1,9 +1,9 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:30:58
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-16 21:26:06
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-16 23:13:26
 
-
+local widget = require("widget")
 local composer = require( "composer" )
 local scene = composer.newScene()
 
@@ -35,7 +35,6 @@ local touchHandler = {}
 local tapHandler = {}
 
 
-
 function getDeltaTime()
    local temp = system.getTimer()
    local dt = (temp-runtime) / (1000/60)
@@ -46,6 +45,12 @@ end
 function enterFrame()
     local dt = getDeltaTime()
     bg.moveBg(dt, scrollSpeed)
+end
+
+function scene:resumeGame()
+    physics.start();
+    transition.resume();    
+    Runtime:addEventListener("enterFrame", enterFrame) 
 end
 
 function touchHandler(event)
@@ -67,9 +72,36 @@ function touchHandler(event)
     end
 end
 
+function btnPauseHandler(event)
+    local options = {
+        isModal = true,
+        effect = "fade",
+        time = 400,
+        params = {is_playing = true}
+    }
+    physics.pause();
+    transition.pause();
+    Runtime:removeEventListener("enterFrame", enterFrame)
+    composer.showOverlay( "scenes.settings", options )
+    -- physics.start();
+        -- transition.resume();
+        -- game_status = true
+        -- composer.hideOverlay( "scenes.settings")
+end
+
+
 -- "scene:create()"
 function scene:create( event )
     local sceneGroup = self.view
+    game_status = true;
+    local button_pause = widget.newButton({
+        defaultFile = "images/menu/pause.png",
+        onRelease = btnPauseHandler
+    })
+    button_pause.x = display.contentCenterX
+    button_pause.y = display.contentHeight - 100 
+    sceneGroup:insert(button_pause)
+
     -- Initialize the scene here
     -- Example: add display objects to "sceneGroup", add touch listeners, etc.
     bg.addScrollableBg()

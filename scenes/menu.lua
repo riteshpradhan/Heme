@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:05:55
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-16 15:28:38
+-- @Last Modified time: 2016-04-16 22:41:52
 
 -- load required library files
 local widget = require("widget")
@@ -21,17 +21,23 @@ function scene:create( event )
         composer.gotoScene("scenes.help", sceneOpt)
 	end
 
-    local function btnSettingsHandler(event)
-		-- local sceneOpt = {effect = "flipFadeOutIn", time = 200}
-  --       composer.gotoScene("scenes.settings", sceneOpt)
+    local function btnPlayHandler(event)
+        local sceneOpt = {effect = "fade", time = 800}
+        composer.gotoScene("scenes.game", sceneOpt)
+    end
 
-        -- Options table for the overlay scene "pause.lua"
+    local function btnCartHandler(event)
+        local sceneOpt = {effect = "slideLeft", time = 800}
+        composer.gotoScene("scenes.store", sceneOpt)
+    end
+
+    local function btnSettingsHandler(event)
         local options = {
             isModal = true,
             effect = "fade",
-            time = 400
+            time = 400,
+            params = {is_playing = false}
         }
-
         composer.showOverlay( "scenes.settings", options )
 	end
 
@@ -71,14 +77,16 @@ function scene:create( event )
     sceneGroup:insert(button_credits)
 
     local button_cart = widget.newButton({
-        defaultFile = "images/menu/cart.png"
+        defaultFile = "images/menu/cart.png",
+        onRelease = btnCartHandler
     })
     button_cart.x = display.contentWidth - 100	
 	button_cart.y = display.contentHeight - 100	
     sceneGroup:insert(button_cart)
 
     local button_play = widget.newButton({
-        defaultFile = "images/menu/play.png"
+        defaultFile = "images/menu/play.png",
+        onRelease = btnPlayHandler
     })
     button_play.x = display.contentCenterX
 	button_play.y = display.contentCenterY
