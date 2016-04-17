@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 20:45:50
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-12 00:24:38
+-- @Last Modified time: 2016-04-16 21:12:12
 
 
 -- Enemy: bird
@@ -17,7 +17,7 @@ local _M = enemy:newEnemy({hp=5, health=10, type='birdEnemy', test_param=88})
 _M.superSpawn = _M.spawn
 function _M:spawn()
 	self:superSpawn()
-	self:move()
+	-- self:move()
 end
 
 

@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-08 13:51:34
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-16 15:03:59
+-- @Last Modified time: 2016-04-16 21:10:53
 
 local physics = require( "physics" )
 physics.start( )
@@ -35,23 +35,23 @@ hemeDatabox()
 
 print("Testing player")
 
-local params = {g=nil, type='bomb'}
-local heme = player:newPlayer(params)
-heme:launch()
+-- local params = {g=nil, type='bomb'}
+-- local heme = player:newPlayer(params)
+-- heme:launch()
 
 
-local bird = birdEnemy:newEnemy({g=nil, x=display.contentCenterX, y=hemeGlobals.yLevel[2]})
-bird:spawn()
+-- local bird = birdEnemy:newEnemy({g=nil, x=display.contentCenterX, y=hemeGlobals.yLevel[2]})
+-- bird:spawn()
 -- local bird = birdEnemy({g=nil, type='birdEnemy', x=display.contentCenterX, y=hemeGlobals.yLevel[2]})
 
-local aircraft = aircraftEnemy:newEnemy({g=nil, type='aircraftEnemy', x=display.contentCenterX + 300, y=hemeGlobals.yLevel[1]})
-aircraft:spawn()
+-- local aircraft = aircraftEnemy:newEnemy({g=nil, type='aircraftEnemy', x=display.contentCenterX + 300, y=hemeGlobals.yLevel[1]})
+-- aircraft:spawn()
 
-local dynamicBird = dynamicBirdEnemy:newEnemy({g=nil, w=20, h=50})
-dynamicBird:spawn()
+-- local dynamicBird = dynamicBirdEnemy:newEnemy({g=nil, w=20, h=50})
+-- dynamicBird:spawn()
 
-local tree = obs:newObstruction({g=nil, type='tree', xVel=-5})
-tree:spawn()
+-- local tree = obs:newObstruction({g=nil, type='tree', xVel=-5})
+-- tree:spawn()
 
 
 -------------  Testing databox -----------------------
@@ -62,7 +62,25 @@ hemeDatabox.ritesh = 999
 print ("Is ritesh present ? : ", hemeDatabox.ritesh)
 hemeDatabox.ammo = hemeDatabox.ammo + 1
 hemeDatabox({ ["ammo"] = 100, bbbbbbbb= 8})
+print(type(hemeDatabox))
+
 ------------------------------------------------------
+------------- alert test ----------------------------
+---- physics pause -----
+---- transition pause -----
 
-composer.gotoScene( 'scenes.store', {effect='fade', time=1000} )
+local options = {effect='fade', time=1000}
+-- native.showAlert('Corona Cannon', 'Are you sure you want to go to menu?', {'Yes', 'Cancel'}, function(event)
+-- 		if event.action == 'clicked' and event.index == 1 then
+-- 			physics.pause()
+-- 			transition.pause()
+-- 			composer.gotoScene( 'scenes.menu', options )
+-- 		end
+-- 	end)
+-----------------------------------------------------
 
+
+
+-- composer.gotoScene( 'scenes.store',  options)
+
+composer.gotoScene( 'scenes.game', options )

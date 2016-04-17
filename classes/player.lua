@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-16 14:24:48
+-- @Last Modified time: 2016-04-16 21:16:46
 
 -- Heme Player
 -- There is just one player
@@ -11,12 +11,13 @@ local toast = require('plugin.toast')
 
 local sounds = require('libs.sounds')
 local utils = require('libs.utils')
+local hemeGlobals = require('libs.globals' )
 local collisionFilters = require( 'libs.collisionFilters')
 
 local newPlayerBullet = require('classes.playerBullet').newPlayerBullet
 -- local newPlayerBullet = require('classes.playerBullet').new
 
-local _M = {tag="player", xPos=40, yPos=display.contentHeight-60, ammo=0, health=100, fuel=0, width=48, height=48}
+local _M = {tag="player", xPos=display.contentWidth*.20, yPos=hemeGlobals.yLevel[2], ammo=0, health=100, fuel=0, width=48, height=48}
 
 
 function _M:newPlayer (o)
@@ -44,11 +45,11 @@ function _M:launch()
 	print("Printng self: ")
 	utils.print_table(self.shape.ref)
 	-- rotate by 90 degree and set at  certain height
-	transition.to( self.shape, { time=4000, x=240, y=60, rotation=90, transition=easing.inQuart } )
+	-- transition.to( self.shape, { time=4000, x=240, y=hemeGlobals.yLevel[2], rotation=90, transition=easing.inQuart } )
 	self.shape.bodyType = 'dynamic' -- Change to dynamic so it can move with force and for collision
 	self.isLaunched = true;
 	-- start with Impulse
-	self.shape:applyLinearImpulse(5, 0, self.shape.x, self.shape.y)
+	-- self.shape:applyLinearImpulse(5, 0, self.shape.x, self.shape.y)
 	self.shape:addEventListener('collision', self)
 	self.shape:addEventListener('tap', self)
 end
