@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:28:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-16 21:03:29
+-- @Last Modified time: 2016-04-17 00:18:47
 
 local background = {}
 
@@ -46,5 +46,7 @@ end
 
 background.addScrollableBg = addScrollableBg
 background.moveBg = moveBg
+background.bg1 = bg1
+background.bg2 = bg2
 
 return background
