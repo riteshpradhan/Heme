@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 20:45:50
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-16 21:12:12
+-- @Last Modified time: 2016-04-16 23:59:31
 
 
 -- Enemy: bird
@@ -29,8 +29,22 @@ end
 
 
 function _M:collision(event)
-	if event.phase == "ended" then
+	if event.phase == "began" then
 		print("Collision of birdEnemy")
+		utils.print_table(event.other)
+		if (event.other.tag == "player") then
+			self:destroy()
+		else
+			print("Collision of birdEnemy with player bullet")
+			utils.print_table(self)
+			utils.print_table(self.shape)
+			self.shape.health = self.shape.health - event.other.hp
+			if (self.shape.health <= 0) then
+				self:destroy()
+			end
+		end
+
+
 	end
 end
 

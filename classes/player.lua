@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-16 21:16:46
+-- @Last Modified time: 2016-04-16 23:42:19
 
 -- Heme Player
 -- There is just one player
@@ -17,7 +17,7 @@ local collisionFilters = require( 'libs.collisionFilters')
 local newPlayerBullet = require('classes.playerBullet').newPlayerBullet
 -- local newPlayerBullet = require('classes.playerBullet').new
 
-local _M = {tag="player", xPos=display.contentWidth*.20, yPos=hemeGlobals.yLevel[2], ammo=0, health=100, fuel=0, width=48, height=48}
+local _M = {tag="player", xPos=display.contentWidth*.20, yPos=hemeGlobals.yLevel[2], ammo=0, health=100, fuel=0, width=48, height=48, type='default'}
 
 
 function _M:newPlayer (o)
@@ -27,15 +27,7 @@ function _M:newPlayer (o)
 
 	utils.print_table(self)
 	-- print(_M)
-	-- self.shape = display.newImageRect(params.g, 'images/player/' .. params.type .. '.png', 48, 48)
-	self.shape = display.newImageRect('images/player/' .. o.type .. '.png', self.width, self.height)
-	self.shape.ref = self;
-	self.shape.tag = self.tag;
-	self.shape.x, self.shape.y = self.xPos, self.yPos	--start position
-	self.shape:setFillColor(1,0,0,0.9)
-	physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5, filter=collisionFilters.player}) -- While the player rests near the cannon, it's kinematic
-	print(self.shape, self.shape.ref, self, self.shape.bodyType)
-	return o;
+	return o
 end
 
 
@@ -43,10 +35,19 @@ end
 -- launch player once game starts
 function _M:launch()
 	print("Printng self: ")
+		-- self.shape = display.newImageRect(params.g, 'images/player/' .. params.type .. '.png', 48, 48)
+	self.shape = display.newImageRect('images/player/' .. self.type .. '.png', self.width, self.height)
+	self.shape.ref = self;
+	self.shape.tag = self.tag;
+	self.shape.x, self.shape.y = self.xPos, self.yPos	--start position
+	self.shape:setFillColor(1,0,0,0.9)
+	physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5, filter=collisionFilters.player}) -- While the player rests near the cannon, it's kinematic
+	print(self.shape, self.shape.ref, self, self.shape.bodyType)
+
 	utils.print_table(self.shape.ref)
 	-- rotate by 90 degree and set at  certain height
 	-- transition.to( self.shape, { time=4000, x=240, y=hemeGlobals.yLevel[2], rotation=90, transition=easing.inQuart } )
-	self.shape.bodyType = 'dynamic' -- Change to dynamic so it can move with force and for collision
+	-- self.shape.bodyType = 'dynamic' -- Change to dynamic so it can move with force and for collision
 	self.isLaunched = true;
 	-- start with Impulse
 	-- self.shape:applyLinearImpulse(5, 0, self.shape.x, self.shape.y)
@@ -105,8 +106,8 @@ end
 
 function _M:tap(event)
 	print ("Testing tap")
-	self:die()
-	self:fire()
+	-- self:die()
+	-- self:fire()
 	toast.show("Bullet is fired by Heme")
 end
 

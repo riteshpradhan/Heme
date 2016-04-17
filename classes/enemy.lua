@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 19:32:35
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-16 21:08:44
+-- @Last Modified time: 2016-04-16 23:58:57
 
 
 -- Enemy: bird, aircraft
@@ -35,7 +35,8 @@ function _M:spawn()
 	self.shape.filter = collisionFilters.enemy
 	self.shape.isSensor = true
 	self.shape.type = self.type
-
+	self.shape.ref = self
+	self.shape.health = self.health
 	--kinematic body move with velocity --
 	print ("Scroll speed: ", self.xVel)
 	self.shape:setLinearVelocity( self.xVel, self.yVel )
