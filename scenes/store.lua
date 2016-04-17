@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 00:33:25
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-16 15:37:02
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-16 22:33:12
 
 
 
@@ -9,6 +9,7 @@
 local composer = require( "composer" )
 local scene = composer.newScene()
 local toast = require('plugin.toast')
+local widget = require("widget")
 
 local hemeDatabox = require('libs.databox')
 
@@ -105,6 +106,19 @@ end
 -- "scene:create()"
 function scene:create( event )
     local sceneGroup = self.view
+
+    local function btnBackHandler(event)
+        local sceneOpt = {effect = "slideRight", time = 800}
+        composer.gotoScene("scenes.menu", sceneOpt)
+    end
+
+    local button_back = widget.newButton({
+        defaultFile = "images/menu/back.png",
+        onRelease = btnBackHandler
+    })
+    button_back.x = 100
+    button_back.y = display.contentHeight - 100 
+    sceneGroup:insert(button_back)
     -- Initialize the scene here
     -- Example: add display objects to "sceneGroup", add touch listeners, etc.
 

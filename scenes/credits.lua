@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:45:03
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-16 14:34:21
+-- @Last Modified time: 2016-04-16 22:31:51
 
 -- load required library files
 local widget = require("widget")
@@ -12,7 +12,7 @@ function scene:create( event )
     local sceneGroup = self.view
 
     local function btnBackHandler(event)
-		local sceneOpt = {effect = "flipFadeOutIn", time = 200}
+		local sceneOpt = {effect = "slideRight", time = 800}
         composer.gotoScene("scenes.menu", sceneOpt)
 	end
 
