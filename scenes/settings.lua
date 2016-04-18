@@ -1,13 +1,15 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-16 01:05:55
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 00:49:01
+-- @Last Modified time: 2016-04-18 01:03:55
+
 
 -- load required library files
 local widget = require("widget");
 local composer = require("composer");
 local hemeDatabox = require('libs.databox')
 local utils = require("libs.utils");
+local sounds = require( "libs.sounds" );
 local scene = composer.newScene();
 
 function scene:create( event )
@@ -33,6 +35,7 @@ function scene:show( event )
         end
 
         local function btnMenuHandler(event)
+            sounds.play('back')
             if(is_playing) then
                 local sceneOpt = {effect = "fade", time = 400}
                 composer.gotoScene("scenes.menu", sceneOpt)
@@ -46,12 +49,16 @@ function scene:show( event )
             button_music:removeSelf()
             if(hemeDatabox.isMusicOn == true) then
                 hemeDatabox.isMusicOn = false
+                sounds.isMusicOn = hemeDatabox.isMusicOn
+                sounds.play('music_toggle_off')
                 button_music = widget.newButton({
                     defaultFile = "images/menu/music_off.png",
                     onRelease = btnMusicHandler
                 })
             else
                 hemeDatabox.isMusicOn = true
+                sounds.isMusicOn = hemeDatabox.isMusicOn
+                sounds.play('music_toggle_on')
                 button_music = widget.newButton({
                     defaultFile = "images/menu/music_on.png",
                     onRelease = btnMusicHandler
@@ -66,12 +73,16 @@ function scene:show( event )
             button_sound:removeSelf()
             if(hemeDatabox.isSoundOn == true) then
                 hemeDatabox.isSoundOn = false
+                -- sounds.play('sound_toggle_off')
+                sounds.isSoundOn = hemeDatabox.isSoundOn
                 button_sound = widget.newButton({
                     defaultFile = "images/menu/sound_off.png",
                     onRelease = btnSoundHandler
                 })
             else
                 hemeDatabox.isSoundOn = true
+                sounds.isSoundOn = hemeDatabox.isSoundOn
+                sounds.play('sound_toggle_on')
                 button_sound = widget.newButton({
                     defaultFile = "images/menu/sound_on.png",
                     onRelease = btnSoundHandler
@@ -87,12 +98,19 @@ function scene:show( event )
         end
 
         local function btnPlayHandler(event)
+            utils.print_table(event)
+            if(event.target == button_play) then
+                sounds.play('play')
+            else
+                sounds.play('back')
+            end
             button_play:addEventListener("tap", returnTapEvent);
             parent:resumeGame()
             composer.hideOverlay( "fade", 400 )
         end
 
         local function btnRestartHandler(event)
+            sounds.play('back')
             print("restarts here")
         end
 

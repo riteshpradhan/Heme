@@ -3,58 +3,56 @@
 -- @Last Modified by:   Ritesh Pradhan
 -- @Last Modified time: 2016-04-17 20:12:26
 
-local background = {}
+local utils = require('libs.utils')
 
-local bg1
-local bg2
-local runtime = 0
-local defaultScrollSpeed = 5
+local _M = {tag="background", bgImage="images/scenes/bg.jpg", runtime=0, defaultScrollSpeed=5, type='default'}
+
+function _M:newBackground (o)
+    o = o or {};
+    setmetatable(o, self);
+    self.__index = self;
+    utils.print_table(self)
+    return o
+end
 
 
-local function addScrollableBg()
-    local bgImage = { type="image", filename="images/scenes/bg.jpg" }
+function _M:addScrollableBg (img)
     -- Add First bg image
-    bg1 = display.newRect(0, 0, display.contentWidth, display.actualContentHeight)
-    bg1.fill = bgImage
-    bg1.x = display.contentCenterX
-    bg1.y = display.contentCenterY
-    bg1:toBack()
+    self.bg1 = display.newRect(0, 0, display.contentWidth, display.actualContentHeight)
+    self.bg1.fill = img
+    self.bg1.x = display.contentCenterX
+    self.bg1.y = display.contentCenterY
+    self.bg1:toBack()
 
     -- Add Second bg image
-    bg2 = display.newRect(0, 0, display.contentWidth, display.actualContentHeight)
-    bg2.fill = bgImage
-    bg2.x = display.contentCenterX + display.actualContentWidth
-    bg2.y = display.contentCenterY -- - display.actualContentHeight
-    bg2:toBack()
+    self.bg2 = display.newRect(0, 0, display.contentWidth, display.actualContentHeight)
+    self.bg2.fill = img
+    self.bg2.x = display.contentCenterX + display.actualContentWidth - 5
+    self.bg2.y = display.contentCenterY -- - display.actualContentHeight
+    self.bg2:toBack()
 end
 
-local function moveBg(dt, scrollSpeed)
-	scrollSpeed = scrollSpeed or defaultScrollSpeed
-    bg1.x = bg1.x - scrollSpeed * dt
-    bg2.x = bg2.x - scrollSpeed * dt
+function _M:moveBg(dt, speed)
+	local scrollSpeed = speed or self.defaultScrollSpeed
+    self.bg1.x = self.bg1.x - scrollSpeed * dt
+    self.bg2.x = self.bg2.x - scrollSpeed * dt
     -- if (bg1.x - display.contentWidth/2) > display.actualContentWidth then
-    if(bg1.x + display.contentWidth / 2) <= 0 then
-    	print("translate bg 1!!!!!!!!!!!!")
-        bg1:translate(bg1.contentWidth * 2, 0)
+    if(self.bg1.x + display.contentWidth / 2) <= 0 then
+        self.bg1:translate(self.bg1.contentWidth * 2 - 8, 0)
     end
-    if (bg2.x + display.contentWidth / 2 ) <= 0 then
+    if (self.bg2.x + display.contentWidth / 2 ) <= 0 then
         -- bg2:translate(0, -bg2.contentHeight * 2)
-        bg2:translate(bg2.contentWidth * 2, 0)
+        self.bg2:translate(self.bg2.contentWidth * 2 - 8, 0)
 
     end
 end
 
-local function destroy()
-    if (bg1 ~= nil and bg2 ~= nil) then
-        transition.to(bg1, {time=100, alpha=0})
-        timer.performWithDelay( 1, function() bg1:removeSelf( ); bg2:removeSelf( ) end , 1 )
+
+function _M:destroy()
+    if (self.bg1 ~= nil and self.bg2 ~= nil) then
+        transition.to(self.bg1, {time=100, alpha=0})
+        timer.performWithDelay( 1, function() self.bg1:removeSelf( ); self.bg2:removeSelf( ) end , 1 )
     end
 end
 
-background.addScrollableBg = addScrollableBg
-background.moveBg = moveBg
-background.bg1 = bg1
-background.bg2 = bg2
-background.destroy = destroy
-
-return background
+return _M

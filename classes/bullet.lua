@@ -27,7 +27,8 @@ function _M.newBullet(params)
 
 	function bullet:enterFrame(event)
 		if(bullet.x ~= nil and (bullet.x >= display.contentWidth - 150 or bullet.x < 0)) then
-			bullet:destroy()
+			bullet:selfDestroy()
+			print("Bullet entered frame!!!!!!!!!!!")
 		end
 	end
 	Runtime:addEventListener( "enterFrame", function() bullet:enterFrame() end)
@@ -39,13 +40,15 @@ function _M.newBullet(params)
 	function bullet:selfDestroy()
 		print("Self destroying bullet")
 		if (self ~= nil) then
-			timer.cancel( selfDestroyTimer )
-			transition.to(self, {time=100, alpha=0})
+			Runtime:removeEventListener("enterFrame", self.enterFrame)
 			physics.removeBody( self )
+			self:removeSelf()
+			self = nil;
 		end
 	end
 
 	function bullet:destroy()
+		print("FIred!!!!!!!!!!!!!!!!!1")
 		if (self ~= nil ) then
 			transition.to(self, {time=100, alpha=0})
 			timer.performWithDelay( 1, function() physics.removeBody( self ); self:removeSelf( ); self = nil end , 1 )

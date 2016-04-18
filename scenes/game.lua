@@ -1,7 +1,8 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:30:58
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 01:00:23
+-- @Last Modified time: 2016-04-18 01:03:18
+
 
 local physics = require("physics")
 -- physics.start()
@@ -10,9 +11,10 @@ local widget = require("widget")
 local composer = require( "composer" )
 local scene = composer.newScene()
 
-local bg = require('classes.background')
+local background = require('classes.background')
 local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
+local sounds = require( "libs.sounds" );
 local hemeDatabox = require('libs.databox')
 
 ---------- classes -------------
@@ -69,6 +71,17 @@ function getDeltaTime()
    return dt
 end
 
+function enterFrame()
+    local dt = getDeltaTime()
+    bg:moveBg(dt, scrollSpeed)
+end
+
+function scene:resumeGame()
+    physics.start();
+    transition.resume();
+    Runtime:addEventListener("enterFrame", enterFrame)
+end
+
 function touchHandler(event)
     local swipeLength = math.abs(event.y - event.yStart)
     local t = event.target
@@ -79,14 +92,18 @@ function touchHandler(event)
         if (event.yStart > event.y and swipeLength > 50 ) then
             if (heme.shape.y == hemeGlobals.yLevel[1]) then
                 transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[2] } )
+                transition.to( heme.idleAnimation, { time=50, y=hemeGlobals.yLevel[2] } )
             elseif (heme.shape.y == hemeGlobals.yLevel[2]) then
                 transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[3] } )
+                transition.to( heme.idleAnimation, { time=50, y=hemeGlobals.yLevel[3] } )
             end
         elseif event.yStart < event.y and swipeLength > 50 then
             if (heme.shape.y == hemeGlobals.yLevel[3]) then
                 transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[2] } )
+                transition.to( heme.idleAnimation, { time=50, y=hemeGlobals.yLevel[2] } )
             elseif (heme.shape.y == hemeGlobals.yLevel[2]) then
                 transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[1] } )
+                transition.to( heme.idleAnimation, { time=50, y=hemeGlobals.yLevel[1] } )
             end
         end
     elseif "ended" == phase or "cancelled" == phase then
@@ -102,6 +119,7 @@ end
 
 
 function btnPauseHandler(event)
+    sounds.play('pause')
     local options = {
         isModal = true,
         effect = "fade",
@@ -124,7 +142,7 @@ function enterFrame()
         onGameOver()
     end
     local dt = getDeltaTime()
-    bg.moveBg(dt, scrollSpeed)
+    bg:moveBg(dt, scrollSpeed)
 
 end
 
@@ -163,7 +181,7 @@ end
 
 function scene:enterFrame(event)
     local dt = getDeltaTime()
-    bg.moveBg(dt, scrollSpeed)
+    bg:moveBg(dt, scrollSpeed)
 end
 
 function scene:resumeGame()
@@ -187,7 +205,9 @@ function scene:create( event )
 
     -- Initialize the scene here
     -- Example: add display objects to "sceneGroup", add touch listeners, etc.
-    bg.addScrollableBg()
+    local bgImage = { type="image", filename="images/scenes/bg.jpg" }
+    bg = background:newBackground()
+    bg:addScrollableBg(bgImage)
 
 
     scoreBoardRect = display.newRect(display.contentCenterX, 50, display.contentWidth, 100 )
@@ -219,8 +239,8 @@ function scene:create( event )
     print("Table")
     print(bg.bg1)
     utils.print_table(bg)
-    -- sceneGroup:insert( bg.bg1 )
-    -- sceneGroup:insert( bg.bg2 )
+    sceneGroup:insert( bg.bg1 )
+    sceneGroup:insert( bg.bg2 )
 
     Runtime:addEventListener("touch", touchHandler)
     Runtime:addEventListener( "tap", tapHandler )
@@ -262,6 +282,7 @@ function scene:show( event )
 
         sceneGroup:insert( scoreBoardG )
         sceneGroup:insert( heme.shape )
+        sceneGroup:insert(heme.idleAnimation)
         sceneGroup:insert( scoreBoardG )
         sceneGroup:insert( ground1.shape )
 

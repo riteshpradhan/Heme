@@ -1,7 +1,8 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 22:48:41
+-- @Last Modified time: 2016-04-18 01:02:51
+
 
 -- Heme Player
 -- There is just one player
@@ -39,11 +40,21 @@ end
 function _M:launch()
 	print("Printng self: ")
 		-- self.shape = display.newImageRect(params.g, 'images/player/' .. params.type .. '.png', 48, 48)
-	self.shape = display.newImageRect('images/player/' .. self.type .. '.png', self.width, self.height)
+
+	self.sheetIdleData = { width=194, height=76, numFrames=2, sheetContentWidth=388, sheetContentHeight=76 }
+	self.sheetIdle = graphics.newImageSheet( 'images/player/hemeIdleSheet.png', self.sheetIdleData )
+	self.idleSequenceData = { name="idle", start=1, count=2, time=200 }
+	self.idleAnimation = display.newSprite( self.sheetIdle, self.idleSequenceData )
+	self.idleAnimation.x, self.idleAnimation.y = self.xPos, self.yPos
+	self.idleAnimation:play()
+
+	-- self.shape = display.newImageRect('images/player/' .. self.type .. '.png', self.width, self.height)
+	self.shape = display.newRect(0,0,194,76)
 	self.shape.ref = self;
 	self.shape.tag = self.tag;
 	self.shape.x, self.shape.y = self.xPos, self.yPos	--start position
-	self.shape:setFillColor(1,0,0,0.9)
+	self.shape:setFillColor(1,0,0,0)
+	sounds.play('player_spawn')
 	physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5, filter=collisionFilters.player}) -- While the player rests near the cannon, it's kinematic
 	self.shape.isPlasmaShielded = false
 	print(self.shape, self.shape.ref, self, self.shape.bodyType)
@@ -78,19 +89,22 @@ function _M:collision(event)
 			utils.print_table(event.other)
 			print(event.other.test_param)
 
-
 			if (event.other.tag == "ground") then
+				sounds.play('player_destroy')
 				print ("player collided with groound")
 				--destroy
 				self:destroy()
 			else
 				if (event.other.tag == "enemy") then
+					sounds.play('player_collide')
 					self.health = self.health - event.other.hp
 					print("collides enemy here and now health is : ", self.health)
 				elseif (event.other.tag == "bullet") then
+					sounds.play('player_hit')
 					self.health = self.health - event.other.hp
 				elseif (event.other.tag == "powerup") then
 					-- use powerup
+					sounds.play('player_collect_powerups')
 					if (event.other.type == "hyperdrivePowerup") then
 						-- do something
 						print("hyperdrivePowerup")
@@ -109,6 +123,7 @@ function _M:collision(event)
 					end
 				elseif (event.other.tag == "refill") then
 					-- do refill
+					sounds.play('player_collect_refills')
 					if (event.other.type == "ammoRefill") then
 						self.ammo = self.ammo + event.other.value
 					elseif (event.other.type == "fuelRefill") then
@@ -117,12 +132,14 @@ function _M:collision(event)
 						self.health = self.health + event.other.value
 					end
 				elseif (event.other.tag == "collectible") then
+					sounds.play('player_collect_collectible')
 					if (event.other.type == "coinCollectible") then
 						self.coin = self.coin + event.other.value
 					elseif (event.other.type == "medalCollectible") then
 						self.medal = self.medal + event.other.value
 					end
 				elseif (event.other.tag == "obstruction") then
+					sounds.play('player_collide')
 					-- -- instant death; game over; destroy event
 					self.health = 0
 				end
@@ -143,7 +160,8 @@ end
 
 function _M:destroy()
 	if self ~= nil and self.shape ~= nil then
-		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
+		timer.performWithDelay(1, function() self.idleAnimation:removeSelf() end)
+		timer.performWithDelay( 2, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 		sounds.play('player_destroy')
 		-- game Over
 		hemeGlobals.isGameOver = true
@@ -156,7 +174,7 @@ function _M:fire()
 	-- sound.play('player_fire')
 	-- create a self destructible bullet
 	local bullet = newPlayerBullet({x = self.shape.x, y = self.shape.y, isExplosion = self.type == 'playerBullet', hp=3})
-
+	sounds.play('player_fire')
 end
 
 function _M:explode()
@@ -166,8 +184,10 @@ function _M:explode()
 end
 
 function _M:die()
-	self.shape:applyLinearImpulse(5, 25, self.shape.x, self.shape.y)
-	-- transition.to( self.shape, {time=2000, y=display.contentHeight-60, x=self.shape.x+ 100, rotation=270, transition=easing.outQuart} )
+	-- self.shape:applyLinearImpulse(5, 25, self.shape.x, self.shape.y)
+	transition.to( self.shape, {time=5000, y=display.contentHeight-60, x=self.shape.x+ 100, rotation=720, transition=easing.outQuart} )
+	transition.to( self.idleAnimation, {time=5000, y=display.contentHeight-60, x=self.idleAnimation.x+ 100, rotation=720, xScale=0.2, yScale=0.2, transition=easing.outQuart} )
+	sounds.play('player_destroy')
 end
 
 

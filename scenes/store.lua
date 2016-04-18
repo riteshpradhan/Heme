@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 00:33:25
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-16 22:33:12
+-- @Last Modified time: 2016-04-17 22:52:51
 
 
 
@@ -10,6 +10,7 @@ local composer = require( "composer" )
 local scene = composer.newScene()
 local toast = require('plugin.toast')
 local widget = require("widget")
+local sounds = require( "libs.sounds" ); 
 
 local hemeDatabox = require('libs.databox')
 
@@ -52,8 +53,10 @@ print("IN store: Coin: ", currentCoin)
 
 function buyCoin(event)
 	if (currentMedal < hemeDatabox.medalBuyCoin) then
+        sounds.play('insufficient_fund')
 		toast.show("Insufficient Fund!")
 	else
+        sounds.play('purchase_coin')
 		currentMedal = currentMedal - hemeDatabox.medalBuyCoin
 		currentCoin = currentCoin + hemeDatabox.coinAdd
 
@@ -65,8 +68,10 @@ end
 
 function buyAmmo(event)
 	if (currentCoin < hemeDatabox.coinBuyAmmo) then
+        sounds.play('insufficient_fund')
 		toast.show("Insufficient Fund!")
 	else
+        sounds.play('purchase_ammo')
 		currentCoin = currentCoin - hemeDatabox.coinBuyAmmo
 		currentAmmo = currentAmmo + hemeDatabox.ammoAdd
 
@@ -78,8 +83,10 @@ end
 
 function buyFuel(event)
 	if (currentCoin < hemeDatabox.coinBuyFuel) then
+        sounds.play('insufficient_fund')
 		toast.show("Insufficient Fund!")
 	else
+        sounds.play('purchase_fuel')
 		currentCoin = currentCoin - hemeDatabox.coinBuyFuel
 		currentFuel = currentFuel + hemeDatabox.fuelAdd
 
@@ -91,9 +98,12 @@ function buyFuel(event)
 end
 
 function buyHealth(event)
+
 	if (currentCoin < hemeDatabox.coinBuyHealth) then
+        sounds.play('insufficient_fund')
 		toast.show("Insufficient Fund!")
 	else
+        sounds.play('purchase_health')
 		currentCoin = currentCoin - hemeDatabox.coinBuyHealth
 		currentHealth = currentHealth + hemeDatabox.healthAdd
 
@@ -108,6 +118,7 @@ function scene:create( event )
     local sceneGroup = self.view
 
     local function btnBackHandler(event)
+        sounds.play('back')
         local sceneOpt = {effect = "slideRight", time = 800}
         composer.gotoScene("scenes.menu", sceneOpt)
     end

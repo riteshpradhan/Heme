@@ -1,37 +1,70 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:05:55
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-17 20:18:47
+-- @Last Modified time: 2016-04-17 23:07:37
 
 -- load required library files
 local widget = require("widget")
-local composer = require( "composer" ); 
+local composer = require( "composer" )
+local background = require('classes.background')
+
+local sounds = require( "libs.sounds" ); 
 local scene = composer.newScene();
+
+local runtime = 0
+local scrollSpeed = 1
+
+function getDeltaTime()
+   local temp = system.getTimer()
+   local dt = (temp-runtime) / (1000/60)
+   runtime = temp
+   return dt
+end
+
+function enterFrame()
+    local dt = getDeltaTime()
+    bg:moveBg(dt, scrollSpeed)
+
+end
 
 function scene:create( event ) 
     local sceneGroup = self.view
+    -- bg.addScrollableBg()
+    local bgImage = { type="image", filename="images/scenes/bg.jpg" }
+    bg = background:newBackground()
+    bg:addScrollableBg(bgImage)
+    Runtime:addEventListener("enterFrame", enterFrame)
+
+    sceneGroup:insert(bg.bg1);
+    sceneGroup:insert(bg.bg2);
+
 
     local function btnCreditsHandler(event)
+        sounds.play('menu_item')
 		local sceneOpt = {effect = "crossFade", time = 600}
         composer.gotoScene("scenes.credits", sceneOpt)
 	end
 
 	local function btnHelpHandler(event)
+        sounds.play('menu_item')
 		local sceneOpt = {effect = "crossFade", time = 600}
         composer.gotoScene("scenes.help", sceneOpt)
 	end
 
     local function btnPlayHandler(event)
+        sounds.play('play')
         local sceneOpt = {effect = "fade", time = 800}
         composer.gotoScene("scenes.game", sceneOpt)
     end
 
     local function btnCartHandler(event)
+        sounds.play('menu_item')
         local sceneOpt = {effect = "slideLeft", time = 800}
         composer.gotoScene("scenes.store", sceneOpt)
     end
 
     local function btnSettingsHandler(event)
+        sounds.play('menu_item')
         local options = {
             isModal = true,
             effect = "fade",
@@ -42,10 +75,10 @@ function scene:create( event )
 	end
 
     -- Load Background image
-    local bgImage = display.newImage("images/menu/bg.png")
-    bgImage.x = display.contentCenterX
-	bgImage.y = display.contentCenterY
-    sceneGroup:insert(bgImage)
+    local titleImage = display.newImage("images/menu/titleImage.png")
+    titleImage.x = display.contentCenterX
+	titleImage.y = display.contentCenterY - 200
+    sceneGroup:insert(titleImage)
 
     local button_settings = widget.newButton({
         defaultFile = "images/menu/setting.png",
@@ -95,8 +128,10 @@ function scene:show( event )
     local phase = event.phase
     local params = event.params
     if ( phase == "did" ) then
-        
+        -- bg = background:newBackground()
     end
+
+
 end
 
 -- Added event listener for scene

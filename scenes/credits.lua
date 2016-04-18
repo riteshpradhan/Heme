@@ -1,17 +1,19 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:45:03
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-17 20:17:15
+-- @Last Modified time: 2016-04-17 22:43:38
 
 -- load required library files
 local widget = require("widget")
 local composer = require( "composer" ); 
 local scene = composer.newScene();
+local sounds = require( "libs.sounds" ); 
 
 function scene:create( event ) 
     local sceneGroup = self.view
 
     local function btnBackHandler(event)
+        sounds.play('back')
 		local sceneOpt = {effect = "crossFade", time = 600}
         composer.gotoScene("scenes.menu", sceneOpt)
 	end
