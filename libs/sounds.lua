@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:42:51
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-17 23:38:51
+-- @Last Modified time: 2016-04-18 00:09:01
 
 -- Sounds library
 -- Manager for the sound and music files.
@@ -37,6 +37,7 @@ local sounds = {
     player_collide = 'sounds/fire-player.wav',
     player_collect_powerups = 'sounds/fire-player.wav',
     player_collect_refills = 'sounds/fire-player.wav',
+    player_collect_collectible = 'sounds/fire-player.wav',
     player_hit = 'sounds/fire-player.wav',
 
     -- Enemy aircraft sounds
