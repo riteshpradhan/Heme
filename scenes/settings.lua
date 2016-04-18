@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-16 01:05:55
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-16 23:39:00
+-- @Last Modified time: 2016-04-17 18:02:10
 
 -- load required library files
 local widget = require("widget");
@@ -37,7 +37,7 @@ function scene:show( event )
             composer.gotoScene("scenes.menu", sceneOpt)
         end
 
-        local button_music, button_sound, button_back
+        local button_music, button_sound, button_back, button_play
         local function btnMusicHandler(event)
             button_music:removeSelf()
             if(hemeDatabox.isMusicOn == true) then
@@ -78,8 +78,13 @@ function scene:show( event )
             sceneGroup:insert(button_sound)
         end
 
+        function returnTapEvent(event)
+            return true;
+        end
+
         local function btnPlayHandler(event)
-            parent:resumeGame();
+            button_play:addEventListener("tap", returnTapEvent);
+            parent:resumeGame()
             composer.hideOverlay( "fade", 400 )
         end
 
@@ -96,7 +101,7 @@ function scene:show( event )
         	button_menu.y = display.contentCenterY
             sceneGroup:insert(button_menu)
 
-            local button_play = widget.newButton({
+            button_play = widget.newButton({
                 defaultFile = "images/menu/play.png",
                 onRelease = btnPlayHandler
             })
