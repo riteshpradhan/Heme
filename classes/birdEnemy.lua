@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 20:45:50
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 01:08:36
+-- @Last Modified time: 2016-04-18 17:04:18
 
 -- Enemy: bird
 -- This enemy doesn't fire back
@@ -33,7 +33,10 @@ function _M:collision(event)
 	if event.phase == "ended" then
 		print("Collision of birdEnemy")
 		utils.print_table(event.other)
-		if (event.other.tag == "player") then
+		if (event.other.tag == "leftOffScreen") then
+			print("OFF screen ; destroy")
+			self:destroy()
+		elseif (event.other.tag == "player") then
 			sounds.play('bird_collide')
 			self:destroy()
 		else

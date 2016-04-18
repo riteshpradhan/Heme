@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:30:58
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 16:34:37
+-- @Last Modified time: 2016-04-18 16:59:53
 
 
 local physics = require("physics")
@@ -52,6 +52,7 @@ local runtime = 0
 local scrollSpeed = hemeGlobals.scrollSpeed
 local heme
 local ground1
+local leftOffScreen
 local counter = 0
 
 -------- functions  -----------
@@ -262,12 +263,16 @@ function scene:show( event )
         local params = {g=nil, type='heme', ammo=55}
 		heme = player:newPlayer(params)
 		heme:launch()
-        -- heme.shape:addEventListener("onGameOver", onGameOver)
-        -- table.insert(physicsBodies, heme)
 
         -- Single ground Instance
         ground1 = ground:newGround()
         ground1:spawn()
+
+        -- Single left off screen instance
+        leftOffScreen = display.newRect( 5, display.contentHeight/2, 10, display.contentHeight - 100)
+        physics.addBody( leftOffScreen, 'dynamic', {isSensor = true} )
+        leftOffScreen.tag = "leftOffScreen"
+
 
         -- Randomly generate many enemies; powerups; refills; collectible
         -- insert all into physicsBodies
@@ -291,6 +296,7 @@ function scene:show( event )
         sceneGroup:insert( heme.playerSprite )
         sceneGroup:insert( scoreBoardG )
         sceneGroup:insert( ground1.shape )
+        sceneGroup:insert( leftOffScreen )
 
     elseif ( phase == "did" ) then
         -- Called when the scene is now on screen
@@ -323,6 +329,11 @@ function scene:hide( event )
         end
         if(ground1 ~= nil) then
             ground1:destroy()
+        end
+        if(leftOffScreen ~= nil) then
+            physics.removeBody( leftOffScreen )
+            leftOffScreen:removeSelf( )
+            leftOffScreen = nil
         end
         -- destroy all other bodies
         destroyBodies()
