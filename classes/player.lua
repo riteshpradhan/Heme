@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 01:02:51
+-- @Last Modified time: 2016-04-18 16:30:03
 
 
 -- Heme Player
@@ -12,6 +12,7 @@ physics.start()
 
 local toast = require('plugin.toast')
 
+local images = require('libs.images')
 local sounds = require('libs.sounds')
 local utils = require('libs.utils')
 local hemeGlobals = require('libs.globals' )
@@ -41,12 +42,9 @@ function _M:launch()
 	print("Printng self: ")
 		-- self.shape = display.newImageRect(params.g, 'images/player/' .. params.type .. '.png', 48, 48)
 
-	self.sheetIdleData = { width=194, height=76, numFrames=2, sheetContentWidth=388, sheetContentHeight=76 }
-	self.sheetIdle = graphics.newImageSheet( 'images/player/hemeIdleSheet.png', self.sheetIdleData )
-	self.idleSequenceData = { name="idle", start=1, count=2, time=200 }
-	self.idleAnimation = display.newSprite( self.sheetIdle, self.idleSequenceData )
-	self.idleAnimation.x, self.idleAnimation.y = self.xPos, self.yPos
-	self.idleAnimation:play()
+	self.playerSprite = display.newSprite( images[self.type].sheet, images[self.type].sequenceData )
+	self.playerSprite.x, self.playerSprite.y = self.xPos, self.yPos
+	self.playerSprite:play()
 
 	-- self.shape = display.newImageRect('images/player/' .. self.type .. '.png', self.width, self.height)
 	self.shape = display.newRect(0,0,194,76)
@@ -56,7 +54,8 @@ function _M:launch()
 	self.shape:setFillColor(1,0,0,0)
 	sounds.play('player_spawn')
 	physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5, filter=collisionFilters.player}) -- While the player rests near the cannon, it's kinematic
-	self.shape.isPlasmaShielded = false
+	self.shape.isHyperDriveActive = false
+	self.shape.isPlasmaShieldActive = false
 	print(self.shape, self.shape.ref, self, self.shape.bodyType)
 
 
@@ -160,7 +159,7 @@ end
 
 function _M:destroy()
 	if self ~= nil and self.shape ~= nil then
-		timer.performWithDelay(1, function() self.idleAnimation:removeSelf() end)
+		timer.performWithDelay(1, function() self.playerSprite:removeSelf() end)
 		timer.performWithDelay( 2, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 		sounds.play('player_destroy')
 		-- game Over
@@ -186,7 +185,7 @@ end
 function _M:die()
 	-- self.shape:applyLinearImpulse(5, 25, self.shape.x, self.shape.y)
 	transition.to( self.shape, {time=5000, y=display.contentHeight-60, x=self.shape.x+ 100, rotation=720, transition=easing.outQuart} )
-	transition.to( self.idleAnimation, {time=5000, y=display.contentHeight-60, x=self.idleAnimation.x+ 100, rotation=720, xScale=0.2, yScale=0.2, transition=easing.outQuart} )
+	transition.to( self.playerSprite, {time=5000, y=display.contentHeight-60, x=self.playerSprite.x+ 100, rotation=720, xScale=0.2, yScale=0.2, transition=easing.outQuart} )
 	sounds.play('player_destroy')
 end
 

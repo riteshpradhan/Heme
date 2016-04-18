@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:30:58
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 02:00:52
+-- @Last Modified time: 2016-04-18 16:34:37
 
 
 local physics = require("physics")
@@ -83,18 +83,18 @@ function touchHandler(event)
         if (event.yStart > event.y and swipeLength > 50 ) then
             if (heme.shape.y == hemeGlobals.yLevel[1]) then
                 transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[2] } )
-                transition.to( heme.idleAnimation, { time=50, y=hemeGlobals.yLevel[2] } )
+                transition.to( heme.playerSprite, { time=50, y=hemeGlobals.yLevel[2] } )
             elseif (heme.shape.y == hemeGlobals.yLevel[2]) then
                 transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[3] } )
-                transition.to( heme.idleAnimation, { time=50, y=hemeGlobals.yLevel[3] } )
+                transition.to( heme.playerSprite, { time=50, y=hemeGlobals.yLevel[3] } )
             end
         elseif event.yStart < event.y and swipeLength > 50 then
             if (heme.shape.y == hemeGlobals.yLevel[3]) then
                 transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[2] } )
-                transition.to( heme.idleAnimation, { time=50, y=hemeGlobals.yLevel[2] } )
+                transition.to( heme.playerSprite, { time=50, y=hemeGlobals.yLevel[2] } )
             elseif (heme.shape.y == hemeGlobals.yLevel[2]) then
                 transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[1] } )
-                transition.to( heme.idleAnimation, { time=50, y=hemeGlobals.yLevel[1] } )
+                transition.to( heme.playerSprite, { time=50, y=hemeGlobals.yLevel[1] } )
             end
         end
     elseif "ended" == phase or "cancelled" == phase then
@@ -259,7 +259,7 @@ function scene:show( event )
         hemeGlobals.isGameOver = false
 
         -- Single player Instance
-        local params = {g=nil, type='bomb', ammo=55}
+        local params = {g=nil, type='heme', ammo=55}
 		heme = player:newPlayer(params)
 		heme:launch()
         -- heme.shape:addEventListener("onGameOver", onGameOver)
@@ -288,7 +288,7 @@ function scene:show( event )
 
         sceneGroup:insert( scoreBoardG )
         sceneGroup:insert( heme.shape )
-        sceneGroup:insert(heme.idleAnimation)
+        sceneGroup:insert( heme.playerSprite )
         sceneGroup:insert( scoreBoardG )
         sceneGroup:insert( ground1.shape )
 
@@ -324,6 +324,7 @@ function scene:hide( event )
         if(ground1 ~= nil) then
             ground1:destroy()
         end
+        -- destroy all other bodies
         destroyBodies()
 
     elseif ( phase == "did" ) then
