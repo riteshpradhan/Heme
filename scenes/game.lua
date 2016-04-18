@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:30:58
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 01:03:18
+-- @Last Modified time: 2016-04-18 02:00:52
 
 
 local physics = require("physics")
@@ -52,6 +52,7 @@ local runtime = 0
 local scrollSpeed = hemeGlobals.scrollSpeed
 local heme
 local ground1
+local counter = 0
 
 -------- functions  -----------
 local getDeltaTime = {}
@@ -71,16 +72,6 @@ function getDeltaTime()
    return dt
 end
 
-function enterFrame()
-    local dt = getDeltaTime()
-    bg:moveBg(dt, scrollSpeed)
-end
-
-function scene:resumeGame()
-    physics.start();
-    transition.resume();
-    Runtime:addEventListener("enterFrame", enterFrame)
-end
 
 function touchHandler(event)
     local swipeLength = math.abs(event.y - event.yStart)
@@ -144,6 +135,14 @@ function enterFrame()
     local dt = getDeltaTime()
     bg:moveBg(dt, scrollSpeed)
 
+    counter = counter + 1
+    if (counter % 20) == 0 then
+        currentDistance = currentDistance + scrollSpeed/hemeGlobals.scrollSpeed
+        currentDistanceText.text = currentDistance
+        if (currentDistance == 20) then
+            scrollSpeed = scrollSpeed + 5
+        end
+    end
 end
 
 
@@ -155,9 +154,11 @@ function destroyBodies()
         print(i, obj)
         print("...")
         if (obj.bodyType ~= nil) then
-           physics.removeBody( obj )
+           -- physics.removeBody( obj )
+           obj:destroy()
         elseif (obj.shape ~= nil and obj.shape.bodyType ~= nil) then
-           physics.removeBody( obj.shape )
+           -- physics.removeBody( obj.shape )
+           obj:destroy()
         end
         utils.print_table(obj.shape)
         print("End destruction .... ")
@@ -178,11 +179,11 @@ function onGameOver()
 end
 
 
-
 function scene:enterFrame(event)
     local dt = getDeltaTime()
     bg:moveBg(dt, scrollSpeed)
 end
+
 
 function scene:resumeGame()
     physics.start();
@@ -242,8 +243,6 @@ function scene:create( event )
     sceneGroup:insert( bg.bg1 )
     sceneGroup:insert( bg.bg2 )
 
-    Runtime:addEventListener("touch", touchHandler)
-    Runtime:addEventListener( "tap", tapHandler )
     -- Runtime:addEventListener( "onGameOver", listener )
 end
 
@@ -258,18 +257,25 @@ function scene:show( event )
         -- Called when the scene is still off screen (but is about to come on screen)
         physicsBodies = {}
         hemeGlobals.isGameOver = false
+
+        -- Single player Instance
         local params = {g=nil, type='bomb', ammo=55}
 		heme = player:newPlayer(params)
 		heme:launch()
         -- heme.shape:addEventListener("onGameOver", onGameOver)
         -- table.insert(physicsBodies, heme)
 
+        -- Single ground Instance
+        ground1 = ground:newGround()
+        ground1:spawn()
+
+        -- Randomly generate many enemies; powerups; refills; collectible
+        -- insert all into physicsBodies
 		local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[2], xVel=-scrollSpeed*30, ritesh=9999})
 		bird:spawn()
         table.insert(physicsBodies, bird)
 
-        ground1 = ground:newGround()
-        ground1:spawn()
+
         -- table.insert(physicsBodies, ground1)
 
 		currentMedalText.text = currentMedal
@@ -290,6 +296,8 @@ function scene:show( event )
         -- Called when the scene is now on screen
         -- Insert code here to make the scene come alive
         -- Example: start timers, begin animation, play audio, etc.
+        Runtime:addEventListener("touch", touchHandler)
+        Runtime:addEventListener( "tap", tapHandler )
         Runtime:addEventListener("enterFrame", enterFrame)
     end
 end
@@ -309,7 +317,14 @@ function scene:hide( event )
         Runtime:removeEventListener("touch", touchHandler)
         Runtime:removeEventListener("tap", tapHandler)
 
-
+        -- destroy physical objects
+        if(heme ~= nil) then
+            heme:destroy()
+        end
+        if(ground1 ~= nil) then
+            ground1:destroy()
+        end
+        destroyBodies()
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen

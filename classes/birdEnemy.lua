@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 20:45:50
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-17 23:46:53
+-- @Last Modified by:   Ritesh Pradhan
+-- @Last Modified time: 2016-04-18 01:08:36
 
 -- Enemy: bird
 -- This enemy doesn't fire back
@@ -10,7 +10,7 @@
 local physics = require("physics")
 local enemy = require("classes.enemy")
 local utils = require('libs.utils')
-local sounds = require( "libs.sounds" ); 
+local sounds = require( "libs.sounds" );
 
 local _M = enemy:newEnemy({hp=10, health=10, type='birdEnemy', test_param=88})
 
