@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:42:01
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-15 20:36:30
+-- @Last Modified time: 2016-04-17 19:34:24
 
 -- This powerup is used at the instant of consumption. Amazing powerups
 -- airblast
@@ -34,9 +34,9 @@ function _M:spawn()
 	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5, filter = collisionFilters.powerup})
 	self.shape.isSensor = true
 	self.shape.type = self.type
-	-- self.shape:applyLinearImpulse(-5, 0, self.shape.x, self.shape.y)
+	self.shape.tag = self.tag
+	self.shape.ref = self
 	self.shape:setLinearVelocity( self.xVel, self.yVel )
-
 
 	self.shape:addEventListener("collision", self)
 	self.shape:addEventListener("tap", self)
@@ -65,25 +65,23 @@ end
 
 function _M:collision(event)
 	if event.phase == "ended" then
-	-- print("Collision of powerup")
+		-- print("Collision of powerup")
+		self:destroy()
 	end
-
 end
-
 
 function _M:tap(event)
 	print("Tapped of powerup")
 	print (event.target)
 end
 
-
 function _M:destroy()
 	print("Destroying powerup")
-	if (self ~= nil) then
+	if (self ~= nil and self.shape ~= nil) then
 		transition.to(self, {time=100, alpha=0})
-		self:removeSelf( )
+		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
+		sounds.play('powerup_destroy')
 	end
 end
-
 
 return _M

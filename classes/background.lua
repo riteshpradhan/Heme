@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:28:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 00:18:47
+-- @Last Modified time: 2016-04-17 20:12:26
 
 local utils = require('libs.utils')
 
@@ -44,6 +44,14 @@ function _M:moveBg(dt, speed)
         -- bg2:translate(0, -bg2.contentHeight * 2)
         self.bg2:translate(self.bg2.contentWidth * 2 - 8, 0)
 
+    end
+end
+
+
+function _M:destroy()
+    if (self.bg1 ~= nil and self.bg2 ~= nil) then
+        transition.to(self.bg1, {time=100, alpha=0})
+        timer.performWithDelay( 1, function() self.bg1:removeSelf( ); self.bg2:removeSelf( ) end , 1 )
     end
 end
 

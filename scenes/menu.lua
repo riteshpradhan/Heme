@@ -1,13 +1,14 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:05:55
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-16 22:41:52
+-- @Last Modified time: 2016-04-17 23:07:37
 
 -- load required library files
 local widget = require("widget")
-local composer = require( "composer" ); 
+local composer = require( "composer" )
 local background = require('classes.background')
 
+local sounds = require( "libs.sounds" ); 
 local scene = composer.newScene();
 
 local runtime = 0
@@ -39,26 +40,31 @@ function scene:create( event )
 
 
     local function btnCreditsHandler(event)
-		local sceneOpt = {effect = "flipFadeOutIn", time = 200}
+        sounds.play('menu_item')
+		local sceneOpt = {effect = "crossFade", time = 600}
         composer.gotoScene("scenes.credits", sceneOpt)
 	end
 
 	local function btnHelpHandler(event)
-		local sceneOpt = {effect = "flipFadeOutIn", time = 200}
+        sounds.play('menu_item')
+		local sceneOpt = {effect = "crossFade", time = 600}
         composer.gotoScene("scenes.help", sceneOpt)
 	end
 
     local function btnPlayHandler(event)
+        sounds.play('play')
         local sceneOpt = {effect = "fade", time = 800}
         composer.gotoScene("scenes.game", sceneOpt)
     end
 
     local function btnCartHandler(event)
+        sounds.play('menu_item')
         local sceneOpt = {effect = "slideLeft", time = 800}
         composer.gotoScene("scenes.store", sceneOpt)
     end
 
     local function btnSettingsHandler(event)
+        sounds.play('menu_item')
         local options = {
             isModal = true,
             effect = "fade",
@@ -66,11 +72,6 @@ function scene:create( event )
             params = {is_playing = false}
         }
         composer.showOverlay( "scenes.settings", options )
-	end
-
-	local function btnHelpHandler(event)
-		local sceneOpt = {effect = "flipFadeOutIn", time = 200}
-        composer.gotoScene("scenes.help", sceneOpt)
 	end
 
     -- Load Background image

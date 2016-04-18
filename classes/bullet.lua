@@ -1,12 +1,13 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 17:06:15
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-17 19:03:41
+-- @Last Modified by:   Ritesh Pradhan
+-- @Last Modified time: 2016-04-17 19:58:40
 
 -- Bullet visual effect
 -- Bullet can be either can be of Player or Enemy, or it can act as an explosion visualisation.
 
 local physics = require("physics")
+local sounds = require('libs.sounds')
 
 local _M = {}
 
@@ -20,15 +21,14 @@ function _M.newBullet(params)
 
 	-- local selfDestroyTimer = timer.performWithDelay( 4000, function() bullet:selfDestroy() end, 1 )
 
-	-- function bullet:collision(event)
-	-- 	print("Collision of bullet")
-	-- end
+	function bullet:collision(event)
+		print("Collision of bullet")
+	end
 
 	function bullet:enterFrame(event)
-		-- print(display.contentWidth .. " --- " .. bullet.x)
-		if(bullet.x ~= nil and bullet.x >= display.contentWidth - 150) then
+		if(bullet.x ~= nil and (bullet.x >= display.contentWidth - 150 or bullet.x < 0)) then
 			bullet:selfDestroy()
-			-- print("destroy hereeeeee")
+			print("Bullet entered frame!!!!!!!!!!!")
 		end
 	end
 	Runtime:addEventListener( "enterFrame", function() bullet:enterFrame() end)
@@ -38,17 +38,23 @@ function _M.newBullet(params)
 	end
 
 	function bullet:selfDestroy()
-		-- print("Self destroying bullet")
+		print("Self destroying bullet")
 		if (self ~= nil) then
-			-- timer.cancel( selfDestroyTimer )
-			-- transition.to(self, {time=100, alpha=0})
-			Runtime:removeEventListener( "enterFrame" , self.enterFrame)
-			self:removeSelf( )
+			Runtime:removeEventListener("enterFrame", self.enterFrame)
+			physics.removeBody( self )
+			self:removeSelf()
+			self = nil;
 		end
 	end
 
-	-- bullet:addEventListener( 'collision')
-	-- bullet:addEventListener( 'tap')
+	function bullet:destroy()
+		print("FIred!!!!!!!!!!!!!!!!!1")
+		if (self ~= nil ) then
+			transition.to(self, {time=100, alpha=0})
+			timer.performWithDelay( 1, function() physics.removeBody( self ); self:removeSelf( ); self = nil end , 1 )
+			sounds.play('refill_destroy')
+		end
+	end
 
 	return bullet
 end

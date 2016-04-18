@@ -1,9 +1,12 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 17:50:18
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-15 20:30:54
+-- @Last Modified time: 2016-04-17 20:05:37
 
 local physics = require("physics")
+local sounds = require("libs.sounds")
+local utils = require( 'libs.utils')
+
 local newBullet = require("classes.bullet").newBullet
 -- local newBullet = require("classes.bullet").new
 local collisionFilters = require( 'libs.collisionFilters')
@@ -24,8 +27,10 @@ function _M.newPlayerBullet(params)
 	playerBullet:setLinearVelocity( 300, 0 )
 
 	function playerBullet:collision(event)
-		if event.phase == "began" then
+		if event.phase == "ended" then
 			print("Collision of playerBullet")
+			utils.print_table(self)
+			self:destroy()
 		end
 	end
 

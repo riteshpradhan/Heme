@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-14 21:52:06
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-15 20:36:11
+-- @Last Modified time: 2016-04-17 20:07:50
 
 -- This is also enemy but industrible one
 -- static type; infinite mass
@@ -35,6 +35,8 @@ function _M:spawn()
 	self.shape.x, self.shape.y = self.x, self.y
 	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5, filter = collisionFilters.obstruction})
 	self.shape.type = self.type
+	self.shape.tag = self.tag
+	self.shape.ref = self
 	self.shape:setLinearVelocity( self.xVel, self.yVel )
 
 	self.shape:addEventListener("collision", self)
@@ -44,7 +46,8 @@ end
 
 function _M:collision(event)
 	if event.phase == "ended" then
-	-- print("Collision of obstruction")
+		-- print("Collision of obstruction")
+		self:destroy()
 	end
 
 end
@@ -58,9 +61,10 @@ end
 
 function _M:destroy()
 	print("Destroying obstruction")
-	if (self ~= nil) then
+	if (self ~= nil and self.shape ~= nil) then
 		transition.to(self, {time=100, alpha=0})
-		self:removeSelf( )
+		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
+		sounds.play('powerup_destroy')
 	end
 end
 

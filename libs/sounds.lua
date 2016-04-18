@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:42:51
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-09 23:38:38
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-17 23:38:51
 
 -- Sounds library
 -- Manager for the sound and music files.
@@ -15,7 +15,47 @@ _M.isMusicOn = true
 
 local sounds = {
 	win = 'sounds/win.wav',
-	lose = 'sounds/lose.wav'
+	lose = 'sounds/lose.wav',
+
+    -- Menu item sounds
+    play = 'sounds/select-settings.wav',
+    pause = 'sounds/click-off.wav',  
+    menu_item = 'sounds/click-on.wav',
+    back = 'sounds/click-off.wav',
+
+    -- Setting item sounds
+    setting_item = 'sounds/select-settings.wav',
+    music_toggle_on = 'sounds/select-menu.wav',
+    music_toggle_off = 'sounds/select-menu.wav',
+    sound_toggle_on = 'sounds/select-menu.wav',
+    sound_toggle_off = 'sounds/select-menu.wav',
+
+    -- Player sounds
+    player_spawn = 'sounds/fire-player.wav',
+    player_fire = 'sounds/fire-player.wav',
+    player_destroy = 'sounds/fire-player.wav',
+    player_collide = 'sounds/fire-player.wav',
+    player_collect_powerups = 'sounds/fire-player.wav',
+    player_collect_refills = 'sounds/fire-player.wav',
+    player_hit = 'sounds/fire-player.wav',
+
+    -- Enemy aircraft sounds
+    aircraft_fire = 'sounds/fire-enemy.wav',
+    aircraft_destroy = 'sounds/fire-player.wav',
+    aircraft_hit = 'sounds/fire-player.wav',
+    aircraft_collide = 'sounds/fire-enemy.wav',
+
+    -- Enemy bird sounds
+    bird_destroy = 'sounds/fire-player.wav',
+    bird_hit = 'sounds/fire-player.wav',
+    bird_collide = 'sounds/fire-enemy.wav',
+
+    -- Store sounds
+    purchase_coin = 'sounds/coins.wav',
+    purchase_ammo = 'sounds/select-menu.wav',
+    purchase_fuel = 'sounds/select-menu.wav',
+    purchase_health = 'sounds/select-menu.wav',
+    insufficient_fund = 'sounds/alert.wav',
 	--- other sounds
 }
 
