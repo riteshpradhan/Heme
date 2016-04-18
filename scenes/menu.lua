@@ -1,14 +1,14 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:05:55
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-17 23:07:37
+-- @Last Modified by:   Ritesh Pradhan
+-- @Last Modified time: 2016-04-18 01:16:30
 
 -- load required library files
 local widget = require("widget")
 local composer = require( "composer" )
 local background = require('classes.background')
 
-local sounds = require( "libs.sounds" ); 
+local sounds = require( "libs.sounds" );
 local scene = composer.newScene();
 
 local runtime = 0
@@ -27,13 +27,13 @@ function enterFrame()
 
 end
 
-function scene:create( event ) 
+function scene:create( event )
     local sceneGroup = self.view
     -- bg.addScrollableBg()
     local bgImage = { type="image", filename="images/scenes/bg.jpg" }
     bg = background:newBackground()
     bg:addScrollableBg(bgImage)
-    Runtime:addEventListener("enterFrame", enterFrame)
+
 
     sceneGroup:insert(bg.bg1);
     sceneGroup:insert(bg.bg2);
@@ -85,7 +85,7 @@ function scene:create( event )
         onRelease = btnSettingsHandler
     })
     button_settings.x = 100
-	button_settings.y = display.contentHeight - 100	
+	button_settings.y = display.contentHeight - 100
     sceneGroup:insert(button_settings)
 
 	local button_help = widget.newButton({
@@ -93,23 +93,23 @@ function scene:create( event )
         onRelease = btnHelpHandler
     })
     button_help.x = 250
-	button_help.y = display.contentHeight - 100	
+	button_help.y = display.contentHeight - 100
     sceneGroup:insert(button_help)
 
     local button_credits = widget.newButton({
         defaultFile = "images/menu/information.png",
         onRelease = btnCreditsHandler
-    })	
+    })
     button_credits.x = 400
-	button_credits.y = display.contentHeight - 100	
+	button_credits.y = display.contentHeight - 100
     sceneGroup:insert(button_credits)
 
     local button_cart = widget.newButton({
         defaultFile = "images/menu/cart.png",
         onRelease = btnCartHandler
     })
-    button_cart.x = display.contentWidth - 100	
-	button_cart.y = display.contentHeight - 100	
+    button_cart.x = display.contentWidth - 100
+	button_cart.y = display.contentHeight - 100
     sceneGroup:insert(button_cart)
 
     local button_play = widget.newButton({
@@ -120,21 +120,29 @@ function scene:create( event )
 	button_play.y = display.contentCenterY
     sceneGroup:insert(button_play)
 
-	
+
 end
 
 function scene:show( event )
-    local sceneGroup = self.view 
+    local sceneGroup = self.view
     local phase = event.phase
     local params = event.params
     if ( phase == "did" ) then
         -- bg = background:newBackground()
+        Runtime:addEventListener("enterFrame", enterFrame)
     end
-
-
 end
 
+function scene:hide ( event )
+    local sceneGroup = self.view
+    local phase = event.phase
+    local params = event.params
+    if(phase == "will") then
+        Runtime:removeEventListener("enterFrame", enterFrame)
+    end
+end
 -- Added event listener for scene
 scene:addEventListener( "create", scene );
 scene:addEventListener( "show", scene );
+scene:addEventListener( "hide", scene );
 return scene;
