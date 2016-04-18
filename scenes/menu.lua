@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:05:55
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-16 22:41:52
+-- @Last Modified time: 2016-04-17 20:18:47
 
 -- load required library files
 local widget = require("widget")
@@ -12,12 +12,12 @@ function scene:create( event )
     local sceneGroup = self.view
 
     local function btnCreditsHandler(event)
-		local sceneOpt = {effect = "flipFadeOutIn", time = 200}
+		local sceneOpt = {effect = "crossFade", time = 600}
         composer.gotoScene("scenes.credits", sceneOpt)
 	end
 
 	local function btnHelpHandler(event)
-		local sceneOpt = {effect = "flipFadeOutIn", time = 200}
+		local sceneOpt = {effect = "crossFade", time = 600}
         composer.gotoScene("scenes.help", sceneOpt)
 	end
 
@@ -39,11 +39,6 @@ function scene:create( event )
             params = {is_playing = false}
         }
         composer.showOverlay( "scenes.settings", options )
-	end
-
-	local function btnHelpHandler(event)
-		local sceneOpt = {effect = "flipFadeOutIn", time = 200}
-        composer.gotoScene("scenes.help", sceneOpt)
 	end
 
     -- Load Background image

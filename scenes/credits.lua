@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:45:03
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-16 22:31:51
+-- @Last Modified time: 2016-04-17 20:17:15
 
 -- load required library files
 local widget = require("widget")
@@ -12,7 +12,7 @@ function scene:create( event )
     local sceneGroup = self.view
 
     local function btnBackHandler(event)
-		local sceneOpt = {effect = "slideRight", time = 800}
+		local sceneOpt = {effect = "crossFade", time = 600}
         composer.gotoScene("scenes.menu", sceneOpt)
 	end
 

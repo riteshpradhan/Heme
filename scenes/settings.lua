@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-16 01:05:55
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-17 18:02:10
+-- @Last Modified time: 2016-04-17 20:14:57
 
 -- load required library files
 local widget = require("widget");
@@ -33,8 +33,12 @@ function scene:show( event )
         end
 
         local function btnMenuHandler(event)
-            local sceneOpt = {effect = "fade", time = 400}
-            composer.gotoScene("scenes.menu", sceneOpt)
+            if(is_playing) then
+                local sceneOpt = {effect = "fade", time = 400}
+                composer.gotoScene("scenes.menu", sceneOpt)
+            else
+                composer.hideOverlay( "fade", 400 )
+            end
         end
 
         local button_music, button_sound, button_back, button_play
