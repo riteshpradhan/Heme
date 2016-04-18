@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-15 20:53:04
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 18:39:37
+-- @Last Modified time: 2016-04-17 23:45:27
 
 -- Ground To start launching: player
 
@@ -44,6 +44,7 @@ end
 function _M:collision(event)
 	if event.phase == "began" then
 		print("Collision of ground")
+		self:destroy()
 	end
 
 end
@@ -57,9 +58,9 @@ end
 
 function _M:destroy()
 	print("Destroying ground")
-	if (self ~= nil) then
+	if (self ~= nil and self.shape ~= nil) then
 		transition.to(self, {time=100, alpha=0})
-		self:removeSelf( )
+		timer.performWithDelay( 10, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 	end
 end
 

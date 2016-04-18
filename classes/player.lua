@@ -1,12 +1,14 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 20:32:47
+-- @Last Modified time: 2016-04-17 22:48:41
 
 -- Heme Player
 -- There is just one player
 
 local physics = require('physics')
+physics.start()
+
 local toast = require('plugin.toast')
 
 local sounds = require('libs.sounds')

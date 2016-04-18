@@ -1,13 +1,14 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 19:32:35
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 20:09:01
+-- @Last Modified time: 2016-04-17 23:50:09
 
 
 -- Enemy: bird, aircraft
 -- Enemy can be either can be of bird or aircraft
 
 local physics = require("physics")
+physics.start()
 
 local sounds = require('libs.sounds')
 local hemeGlobals = require('libs.globals')
@@ -91,8 +92,9 @@ end
 function _M:destroy()
 	print("Destroying enemy")
 	if (self ~= nil and self.shape ~= nil) then
-		transition.to(self, {time=100, alpha=0})
-		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
+		transition.to(self, {time=100, alpha=0.1})
+		print(self)
+		timer.performWithDelay( 10, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 		sounds.play('refill_destroy')
 	end
 end

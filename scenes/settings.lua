@@ -1,34 +1,34 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-16 01:05:55
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-17 20:14:57
+-- @Last Modified by:   Ritesh Pradhan
+-- @Last Modified time: 2016-04-18 00:49:01
 
 -- load required library files
 local widget = require("widget");
-local composer = require("composer"); 
+local composer = require("composer");
 local hemeDatabox = require('libs.databox')
 local utils = require("libs.utils");
 local scene = composer.newScene();
 
-function scene:create( event ) 
+function scene:create( event )
 end
-function scene:show( event ) 
+function scene:show( event )
     local sceneGroup = self.view
 
     if(event.phase == "will") then
         local parent = event.parent
-        
+
         local sceneGroup = self.view
         -- Load Background image
-        local obox = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight); 
+        local obox = display.newRect(display.contentCenterX, display.contentCenterY, display.contentWidth, display.contentHeight);
         obox:setFillColor(0,0,0,0.8);
         sceneGroup:insert(obox)
-        
+
         local is_playing = event.params.is_playing
         local x_offset, y_offset = 0, 0
-        
+
         if(is_playing) then
-            x_offset = 400  
+            x_offset = 400
             y_offset = 230
         end
 
@@ -95,7 +95,7 @@ function scene:show( event )
         local function btnRestartHandler(event)
             print("restarts here")
         end
-        
+
         if(is_playing) then
             local button_menu = widget.newButton({
                 defaultFile = "images/menu/menu.png",
@@ -131,8 +131,8 @@ function scene:show( event )
                 onRelease = btnMenuHandler
             })
         end
-        button_back.x = 100 
-        button_back.y = display.contentHeight - 100 
+        button_back.x = 100
+        button_back.y = display.contentHeight - 100
         sceneGroup:insert(button_back)
 
         if(hemeDatabox.isMusicOn == true) then
@@ -146,7 +146,7 @@ function scene:show( event )
                 onRelease = btnMusicHandler
             })
         end
-    	
+
         button_music.x = display.contentCenterX - 100 + x_offset
     	button_music.y = display.contentCenterY + y_offset
         sceneGroup:insert(button_music)
@@ -166,16 +166,16 @@ function scene:show( event )
         button_sound.y = display.contentCenterY + y_offset
         sceneGroup:insert(button_sound)
 
-        
+
     end
 end
 
 -- function scene:show( event )
---     local sceneGroup = self.view 
+--     local sceneGroup = self.view
 --     local phase = event.phase
 --     local params = event.params
 --     if ( phase == "did" ) then
-        
+
 --     end
 -- end
 

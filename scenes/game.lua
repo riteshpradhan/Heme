@@ -1,10 +1,10 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:30:58
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 18:57:48
+-- @Last Modified time: 2016-04-18 01:00:23
 
 local physics = require("physics")
-physics.start()
+-- physics.start()
 
 local widget = require("widget")
 local composer = require( "composer" )
@@ -25,6 +25,8 @@ local ground = require( 'classes.ground')
 
 -- Local forward references should go here
 -- -------------------------------------------------------------------------------
+local physicsBodies = {}
+local displayBodies = {}
 
 local scoreBoardG = display.newGroup( )
 local scoreBoardRect
@@ -45,7 +47,7 @@ local currentDistance = 0
 
 
 local runtime = 0
-local scrollSpeed = 5
+local scrollSpeed = hemeGlobals.scrollSpeed
 local heme
 local ground1
 
@@ -55,6 +57,10 @@ local enterFrame = {}
 local touchHandler = {}
 local tapHandler = {}
 local onGameOver = {}
+local destroyBodies = {}
+
+
+
 
 function getDeltaTime()
    local temp = system.getTimer()
@@ -122,12 +128,38 @@ function enterFrame()
 
 end
 
+
+function destroyBodies()
+    -- destroy physics bodies
+    print(#physicsBodies)
+    for i, obj in ipairs( physicsBodies ) do
+        print( "Start destruction .... ", obj.shape.bodyType)
+        print(i, obj)
+        print("...")
+        if (obj.bodyType ~= nil) then
+           physics.removeBody( obj )
+        elseif (obj.shape ~= nil and obj.shape.bodyType ~= nil) then
+           physics.removeBody( obj.shape )
+        end
+        utils.print_table(obj.shape)
+        print("End destruction .... ")
+    end
+    physicsBodies = {} -- clear
+
+    -- destroy display bodies
+    displayBodies = {}
+end
+
+
 function onGameOver()
     print ("Game is over: dispatched")
-    transition.cancel()
-    physics.stop( )
     Runtime:removeEventListener("enterFrame", enterFrame)
+    transition.cancel()
+    destroyBodies()
+    physics.stop( )
 end
+
+
 
 function scene:enterFrame(event)
     local dt = getDeltaTime()
@@ -149,7 +181,6 @@ function scene:create( event )
         onRelease = btnPauseHandler,
     })
     button_pause.alpha=0.5
-
     button_pause.x = display.contentCenterX
     button_pause.y = display.contentHeight - 100
     sceneGroup:insert(button_pause)
@@ -158,8 +189,6 @@ function scene:create( event )
     -- Example: add display objects to "sceneGroup", add touch listeners, etc.
     bg.addScrollableBg()
 
-    ground1 = ground:newGround()
-    ground1:spawn()
 
     scoreBoardRect = display.newRect(display.contentCenterX, 50, display.contentWidth, 100 )
     scoreBoardRect:setFillColor( 1, 0, 0, 0.5 )
@@ -186,8 +215,9 @@ function scene:create( event )
     currentDistanceText = display.newText( scoreBoardG, currentDistance, 5.65 * eachBoxWidth, 50, native.systemFont, 40 )
 
     sceneGroup:insert(scoreBoardG)
-    sceneGroup:insert( ground1.shape )
 
+    print("Table")
+    print(bg.bg1)
     utils.print_table(bg)
     -- sceneGroup:insert( bg.bg1 )
     -- sceneGroup:insert( bg.bg2 )
@@ -206,14 +236,21 @@ function scene:show( event )
 
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen)
+        physicsBodies = {}
         hemeGlobals.isGameOver = false
         local params = {g=nil, type='bomb', ammo=55}
 		heme = player:newPlayer(params)
 		heme:launch()
         -- heme.shape:addEventListener("onGameOver", onGameOver)
+        -- table.insert(physicsBodies, heme)
 
 		local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[2], xVel=-scrollSpeed*30, ritesh=9999})
 		bird:spawn()
+        table.insert(physicsBodies, bird)
+
+        ground1 = ground:newGround()
+        ground1:spawn()
+        -- table.insert(physicsBodies, ground1)
 
 		currentMedalText.text = currentMedal
 		currentCoinText.text = currentCoin
@@ -226,6 +263,7 @@ function scene:show( event )
         sceneGroup:insert( scoreBoardG )
         sceneGroup:insert( heme.shape )
         sceneGroup:insert( scoreBoardG )
+        sceneGroup:insert( ground1.shape )
 
     elseif ( phase == "did" ) then
         -- Called when the scene is now on screen
