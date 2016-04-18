@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 15:56:28
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-17 23:31:21
 
 -- Heme Player
 -- There is just one player
@@ -39,6 +39,8 @@ function _M:launch()
 	self.shape.tag = self.tag;
 	self.shape.x, self.shape.y = self.xPos, self.yPos	--start position
 	self.shape:setFillColor(1,0,0,0.9)
+
+	sounds.play('player_spawn')
 	physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5, filter=collisionFilters.player}) -- While the player rests near the cannon, it's kinematic
 	-- physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5}) -- While the player rests near the cannon, it's kinematic
 	print(self.shape, self.shape.ref, self, self.shape.bodyType)
@@ -69,16 +71,20 @@ function _M:collision(event)
 
 
 		if (event.other.tag == "ground") then
+			sounds.play('player_destroy')
 			print ("player collided with groound")
 			--destroy
 			self:destroy()
 		else
 			if (event.other.tag == "enemy") then
+				sounds.play('player_collide')
 				self.health = self.health - event.other.hp
 				print("collides enemy here and now health is : ", self.health)
 			elseif (event.other.tag == "bullet") then
+				sounds.play('player_hit')
 				self.health = self.health - event.other.hp
 			elseif (event.other.tag == "powerup") then
+				sounds.play('player_collect_powerups')
 				-- use powerup
 				if (event.other.type == "hyperdrivePowerup") then
 					-- do something
@@ -91,6 +97,7 @@ function _M:collision(event)
 					print("hyperdrivePowerup")
 				end
 			elseif (event.other.tag == "refill") then
+				sounds.play('player_collect_refills')
 				-- do refill
 				if (event.other.type == "ammoRefill") then
 					self.ammo = self.ammo + event.other.value
@@ -101,6 +108,7 @@ function _M:collision(event)
 				end
 			elseif (event.other.tag == "obstruction") then
 				-- -- instant death; game over; destroy event
+				sounds.play('player_destroy')
 				self.health = 0
 			end
 
@@ -130,7 +138,7 @@ function _M:fire()
 	-- sound.play('player_fire')
 	-- create a self destructible bullet
 	local bullet = newPlayerBullet({x = self.shape.x, y = self.shape.y, isExplosion = self.type == 'playerBullet', hp=3})
-
+	sounds.play('player_fire')
 end
 
 function _M:explode()
@@ -140,6 +148,7 @@ function _M:explode()
 end
 
 function _M:die()
+	sounds.play('player_destroy')
 	self.shape:applyLinearImpulse(5, 25, self.shape.x, self.shape.y)
 	-- transition.to( self.shape, {time=2000, y=display.contentHeight-60, x=self.shape.x+ 100, rotation=270, transition=easing.outQuart} )
 end

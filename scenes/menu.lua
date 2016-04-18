@@ -1,37 +1,43 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:05:55
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-17 20:18:47
+-- @Last Modified time: 2016-04-17 23:07:37
 
 -- load required library files
 local widget = require("widget")
 local composer = require( "composer" ); 
+local sounds = require( "libs.sounds" ); 
 local scene = composer.newScene();
 
 function scene:create( event ) 
     local sceneGroup = self.view
 
     local function btnCreditsHandler(event)
+        sounds.play('menu_item')
 		local sceneOpt = {effect = "crossFade", time = 600}
         composer.gotoScene("scenes.credits", sceneOpt)
 	end
 
 	local function btnHelpHandler(event)
+        sounds.play('menu_item')
 		local sceneOpt = {effect = "crossFade", time = 600}
         composer.gotoScene("scenes.help", sceneOpt)
 	end
 
     local function btnPlayHandler(event)
+        sounds.play('play')
         local sceneOpt = {effect = "fade", time = 800}
         composer.gotoScene("scenes.game", sceneOpt)
     end
 
     local function btnCartHandler(event)
+        sounds.play('menu_item')
         local sceneOpt = {effect = "slideLeft", time = 800}
         composer.gotoScene("scenes.store", sceneOpt)
     end
 
     local function btnSettingsHandler(event)
+        sounds.play('menu_item')
         local options = {
             isModal = true,
             effect = "fade",

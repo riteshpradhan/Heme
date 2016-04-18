@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:30:58
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 17:23:53
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-17 22:42:09
 
 
 local widget = require("widget")
@@ -11,6 +11,7 @@ local scene = composer.newScene()
 local bg = require('classes.background')
 local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
+local sounds = require( "libs.sounds" ); 
 local hemeDatabox = require('libs.databox')
 
 ---------- classes -------------
@@ -105,6 +106,7 @@ end
 
 
 function btnPauseHandler(event)
+    sounds.play('pause')
     local options = {
         isModal = true,
         effect = "fade",
