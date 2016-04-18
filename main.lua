@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-08 13:51:34
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-16 22:25:26
+-- @Last Modified time: 2016-04-17 23:19:22
 local physics = require( "widget" )
 local physics = require( "physics" )
 physics.start( )
@@ -13,6 +13,7 @@ physics.setDrawMode( 'hybrid' )
 -- local hemeGlobals = require( "libs.globals")
 -- local utils = require( 'libs.utils')
 local hemeDatabox = require('libs.databox') -- This library automatically loads and saves it's storage into databox.json inside Documents directory
+local sounds = require( "libs.sounds" );
 
 -- ---------- classes -------------
 -- local player = require ('classes.player')
@@ -30,6 +31,8 @@ local composer = require( "composer" )
 -- ----------------------------------------------------
 -- -------------- Initialization -----------
 hemeDatabox()
+sounds.isSoundOn = hemeDatabox.isSoundOn
+sounds.isMusicOn = hemeDatabox.isMusicOn
 
 -- ------------------------------------------
 
