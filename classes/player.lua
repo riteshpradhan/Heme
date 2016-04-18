@@ -34,11 +34,20 @@ end
 function _M:launch()
 	print("Printng self: ")
 		-- self.shape = display.newImageRect(params.g, 'images/player/' .. params.type .. '.png', 48, 48)
-	self.shape = display.newImageRect('images/player/' .. self.type .. '.png', self.width, self.height)
+
+	self.sheetIdleData = { width=194, height=76, numFrames=2, sheetContentWidth=388, sheetContentHeight=76 }
+	self.sheetIdle = graphics.newImageSheet( 'images/player/hemeIdleSheet.png', self.sheetIdleData )
+	self.idleSequenceData = { name="idle", start=1, count=2, time=200 }
+	self.idleAnimation = display.newSprite( self.sheetIdle, self.idleSequenceData )
+	self.idleAnimation.x, self.idleAnimation.y = self.xPos, self.yPos
+	self.idleAnimation:play()
+
+	-- self.shape = display.newImageRect('images/player/' .. self.type .. '.png', self.width, self.height)
+	self.shape = display.newRect(0,0,194,76)
 	self.shape.ref = self;
 	self.shape.tag = self.tag;
 	self.shape.x, self.shape.y = self.xPos, self.yPos	--start position
-	self.shape:setFillColor(1,0,0,0.9)
+	self.shape:setFillColor(1,0,0,0)
 	physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5, filter=collisionFilters.player}) -- While the player rests near the cannon, it's kinematic
 	-- physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5}) -- While the player rests near the cannon, it's kinematic
 	print(self.shape, self.shape.ref, self, self.shape.bodyType)
@@ -118,7 +127,8 @@ end
 
 function _M:destroy()
 	if self ~= nil and self.shape ~= nil then
-		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
+		timer.performWithDelay(1, function() self.idleAnimation:removeSelf() end)
+		timer.performWithDelay( 2, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 		sounds.play('player_destroy')
 		-- dispatch game over event
 	end
@@ -140,8 +150,9 @@ function _M:explode()
 end
 
 function _M:die()
-	self.shape:applyLinearImpulse(5, 25, self.shape.x, self.shape.y)
-	-- transition.to( self.shape, {time=2000, y=display.contentHeight-60, x=self.shape.x+ 100, rotation=270, transition=easing.outQuart} )
+	-- self.shape:applyLinearImpulse(5, 25, self.shape.x, self.shape.y)
+	transition.to( self.shape, {time=5000, y=display.contentHeight-60, x=self.shape.x+ 100, rotation=720, transition=easing.outQuart} )
+	transition.to( self.idleAnimation, {time=5000, y=display.contentHeight-60, x=self.idleAnimation.x+ 100, rotation=720, xScale=0.2, yScale=0.2, transition=easing.outQuart} )
 end
 
 

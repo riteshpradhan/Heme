@@ -8,7 +8,7 @@ local widget = require("widget")
 local composer = require( "composer" )
 local scene = composer.newScene()
 
-local bg = require('classes.background')
+local background = require('classes.background')
 local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
 local hemeDatabox = require('libs.databox')
@@ -62,7 +62,7 @@ end
 
 function enterFrame()
     local dt = getDeltaTime()
-    bg.moveBg(dt, scrollSpeed)
+    bg:moveBg(dt, scrollSpeed)
 end
 
 function scene:resumeGame()
@@ -82,14 +82,18 @@ function touchHandler(event)
         if (event.yStart > event.y and swipeLength > 50 ) then
             if (heme.shape.y == hemeGlobals.yLevel[1]) then
                 transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[2] } )
+                transition.to( heme.idleAnimation, { time=50, y=hemeGlobals.yLevel[2] } )
             elseif (heme.shape.y == hemeGlobals.yLevel[2]) then
                 transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[3] } )
+                transition.to( heme.idleAnimation, { time=50, y=hemeGlobals.yLevel[3] } )
             end
         elseif event.yStart < event.y and swipeLength > 50 then
             if (heme.shape.y == hemeGlobals.yLevel[3]) then
                 transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[2] } )
+                transition.to( heme.idleAnimation, { time=50, y=hemeGlobals.yLevel[2] } )                
             elseif (heme.shape.y == hemeGlobals.yLevel[2]) then
                 transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[1] } )
+                transition.to( heme.idleAnimation, { time=50, y=hemeGlobals.yLevel[1] } )
             end
         end
     elseif "ended" == phase or "cancelled" == phase then
@@ -138,7 +142,9 @@ function scene:create( event )
 
     -- Initialize the scene here
     -- Example: add display objects to "sceneGroup", add touch listeners, etc.
-    bg.addScrollableBg()
+    local bgImage = { type="image", filename="images/scenes/bg.jpg" }
+    bg = background:newBackground()
+    bg:addScrollableBg(bgImage)
 
     ground1 = ground:newGround()
     ground1:spawn()
@@ -171,8 +177,8 @@ function scene:create( event )
     sceneGroup:insert( ground1.shape )
 
     utils.print_table(bg)
-    -- sceneGroup:insert( bg.bg1 )
-    -- sceneGroup:insert( bg.bg2 )
+    sceneGroup:insert( bg.bg1 )
+    sceneGroup:insert( bg.bg2 )
 
     Runtime:addEventListener("touch", touchHandler)
     Runtime:addEventListener( "tap", tapHandler )
@@ -204,6 +210,7 @@ function scene:show( event )
 
         sceneGroup:insert( scoreBoardG )
         sceneGroup:insert( heme.shape )
+        sceneGroup:insert(heme.idleAnimation)
         sceneGroup:insert( scoreBoardG )
 
     elseif ( phase == "did" ) then

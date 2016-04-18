@@ -6,10 +6,37 @@
 -- load required library files
 local widget = require("widget")
 local composer = require( "composer" ); 
+local background = require('classes.background')
+
 local scene = composer.newScene();
+
+local runtime = 0
+local scrollSpeed = 1
+
+function getDeltaTime()
+   local temp = system.getTimer()
+   local dt = (temp-runtime) / (1000/60)
+   runtime = temp
+   return dt
+end
+
+function enterFrame()
+    local dt = getDeltaTime()
+    bg:moveBg(dt, scrollSpeed)
+
+end
 
 function scene:create( event ) 
     local sceneGroup = self.view
+    -- bg.addScrollableBg()
+    local bgImage = { type="image", filename="images/scenes/bg.jpg" }
+    bg = background:newBackground()
+    bg:addScrollableBg(bgImage)
+    Runtime:addEventListener("enterFrame", enterFrame)
+
+    sceneGroup:insert(bg.bg1);
+    sceneGroup:insert(bg.bg2);
+
 
     local function btnCreditsHandler(event)
 		local sceneOpt = {effect = "flipFadeOutIn", time = 200}
@@ -47,10 +74,10 @@ function scene:create( event )
 	end
 
     -- Load Background image
-    local bgImage = display.newImage("images/menu/bg.png")
-    bgImage.x = display.contentCenterX
-	bgImage.y = display.contentCenterY
-    sceneGroup:insert(bgImage)
+    local titleImage = display.newImage("images/menu/titleImage.png")
+    titleImage.x = display.contentCenterX
+	titleImage.y = display.contentCenterY - 200
+    sceneGroup:insert(titleImage)
 
     local button_settings = widget.newButton({
         defaultFile = "images/menu/setting.png",
@@ -100,8 +127,10 @@ function scene:show( event )
     local phase = event.phase
     local params = event.params
     if ( phase == "did" ) then
-        
+        -- bg = background:newBackground()
     end
+
+
 end
 
 -- Added event listener for scene
