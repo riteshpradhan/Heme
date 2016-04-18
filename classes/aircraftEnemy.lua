@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 21:09:56
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-12 00:38:22
+-- @Last Modified time: 2016-04-17 19:59:12
 
 -- Enemy: aircraft
 -- This enemy can be fire back enemybullet
@@ -36,20 +36,12 @@ end
 function _M:collision(event)
 	if event.phase == "ended" then
 		print("Collision of aircraftEnemy")
+		self:destroy()
 	end
 end
 
 function _M:tap(event)
 	print("Tap of aircraftEnemy")
-end
-
-
-function _M:destroy()
-	print("Destroying aircraftEnemy")
-	if (self ~= nil) then
-		transition.to(self, {time=100, alpha=0})
-		self:removeSelf( )
-	end
 end
 
 return _M

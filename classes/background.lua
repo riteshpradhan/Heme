@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:28:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 00:18:47
+-- @Last Modified time: 2016-04-17 20:12:26
 
 local background = {}
 
@@ -44,9 +44,17 @@ local function moveBg(dt, scrollSpeed)
     end
 end
 
+local function destroy()
+    if (bg1 ~= nil and bg2 ~= nil) then
+        transition.to(bg1, {time=100, alpha=0})
+        timer.performWithDelay( 1, function() bg1:removeSelf( ); bg2:removeSelf( ) end , 1 )
+    end
+end
+
 background.addScrollableBg = addScrollableBg
 background.moveBg = moveBg
 background.bg1 = bg1
 background.bg2 = bg2
+background.destroy = destroy
 
 return background
