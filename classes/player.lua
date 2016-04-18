@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-17 23:52:02
+-- @Last Modified time: 2016-04-18 00:02:48
 
 -- Heme Player
 -- There is just one player
@@ -121,12 +121,14 @@ function _M:collision(event)
 						self.health = self.health + event.other.value
 					end
 				elseif (event.other.tag == "collectible") then
+					sounds.play('player_collect_collectible')
 					if (event.other.type == "coinCollectible") then
 						self.coin = self.coin + event.other.value
 					elseif (event.other.type == "medalCollectible") then
 						self.medal = self.medal + event.other.value
 					end
 				elseif (event.other.tag == "obstruction") then
+					sounds.play('player_collide')
 					-- -- instant death; game over; destroy event
 					self.health = 0
 				end
