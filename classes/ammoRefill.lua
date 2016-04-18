@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:25:32
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-13 23:25:52
+-- @Last Modified time: 2016-04-17 19:31:44
 
 -- Refill: ammo
 -- Instant Bonus
@@ -20,31 +20,16 @@ function _M:spawn()
 	-- self:move()
 end
 
-
-_M.superMove = _M.move
-function _M:move()
-	-- new movement if any required.
-	self:superMove()
-end
-
-
 function _M:collision(event)
 	if event.phase == "ended" then
 		print("Collision of ammoRefill")
+		self:destroy()
 	end
 end
 
 function _M:tap(event)
 	print("Tap of ammoRefill")
 	print (event.target)
-end
-
-function _M:destroy()
-	print("Destroying ammoRefill")
-	if (self.shape ~= nil) then
-		transition.to(self.shape, {time=100, alpha=0})
-		self.shape:removeSelf( )
-	end
 end
 
 

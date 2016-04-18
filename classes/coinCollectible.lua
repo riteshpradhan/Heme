@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:36:56
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-14 00:58:40
+-- @Last Modified time: 2016-04-17 20:10:06
 
 -- Collectible: coin
 -- Long term  Bonus
@@ -33,6 +33,7 @@ function _M:collision(event)
 	if event.phase == "ended" then
 		print("Collision of coinCollectible")
 		-- collectible coin to certain extent
+		self:destroy()
 	end
 end
 
@@ -41,12 +42,5 @@ function _M:tap(event)
 	print (event.target)
 end
 
-function _M:destroy()
-	print("Destroying coinCollectible")
-	if (self.shape ~= nil) then
-		transition.to(self.shape, {time=100, alpha=0})
-		self.shape:removeSelf( )
-	end
-end
 
 return _M

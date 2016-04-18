@@ -1,8 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 20:45:50
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-17 23:40:27
-
+-- @Last Modified time: 2016-04-17 23:46:53
 
 -- Enemy: bird
 -- This enemy doesn't fire back
@@ -13,7 +12,7 @@ local enemy = require("classes.enemy")
 local utils = require('libs.utils')
 local sounds = require( "libs.sounds" ); 
 
-local _M = enemy:newEnemy({hp=150, health=10, type='birdEnemy', test_param=88})
+local _M = enemy:newEnemy({hp=10, health=10, type='birdEnemy', test_param=88})
 
 _M.superSpawn = _M.spawn
 function _M:spawn()
@@ -66,6 +65,5 @@ end
 
 function _M:myBird()
 end
-
 
 return _M

@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-15 20:53:04
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 15:41:03
+-- @Last Modified time: 2016-04-17 18:39:37
 
 -- Ground To start launching: player
 
@@ -34,6 +34,7 @@ function _M:spawn()
 	-- physics.addBody(self.shape, 'static', {density = 2, friction = 0.5, bounce = 0.5})
 	self.shape.type = self.type
 	self.shape.tag = self.tag
+	self.shape.ref = self
 	self.shape:addEventListener("collision", self)
 	self.shape:addEventListener("tap", self)
 

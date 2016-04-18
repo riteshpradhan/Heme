@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:19:41
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-13 23:30:04
+-- @Last Modified time: 2016-04-17 19:32:22
 
 -- Refill: health
 -- Instant Bonus
@@ -20,32 +20,17 @@ function _M:spawn()
 	-- self:move()
 end
 
-
-_M.superMove = _M.move
-function _M:move()
-	-- new movement if any required.
-	self:superMove()
-end
-
-
 function _M:collision(event)
 	if event.phase == "ended" then
 		print("Collision of healthRefill")
 		-- refill health to certain extent
+		self:destroy()
 	end
 end
 
 function _M:tap(event)
 	print("Tap of healthRefill")
 	print (event.target)
-end
-
-function _M:destroy()
-	print("Destroying healthRefill")
-	if (self.shape ~= nil) then
-		transition.to(self.shape, {time=100, alpha=0})
-		self.shape:removeSelf( )
-	end
 end
 
 

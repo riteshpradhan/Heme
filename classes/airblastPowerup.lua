@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-14 00:55:25
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-14 00:59:47
+-- @Last Modified time: 2016-04-17 20:13:20
 
 
 -- Powerup: airblast
@@ -19,7 +19,7 @@ local _M = powerup:newPowerup({damage=10, type='airblastPowerup'})
 _M.superSpawn = _M.spawn
 function _M:spawn()
 	self:superSpawn()
-	-- self:move()
+	self.shape.damage = self.damage
 end
 
 
@@ -34,20 +34,13 @@ function _M:collision(event)
 	if event.phase == "ended" then
 		print("Collision of airblastPowerup")
 		-- collectible coin to certain extent
+		self:destroy()
 	end
 end
 
 function _M:tap(event)
 	print("Tap of airblastPowerup")
 	print (event.target)
-end
-
-function _M:destroy()
-	print("Destroying airblastPowerup")
-	if (self.shape ~= nil) then
-		transition.to(self.shape, {time=100, alpha=0})
-		self.shape:removeSelf( )
-	end
 end
 
 return _M

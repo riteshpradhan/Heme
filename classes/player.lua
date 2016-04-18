@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-17 23:31:21
+-- @Last Modified time: 2016-04-17 23:52:02
 
 -- Heme Player
 -- There is just one player
@@ -17,7 +17,12 @@ local collisionFilters = require( 'libs.collisionFilters')
 local newPlayerBullet = require('classes.playerBullet').newPlayerBullet
 -- local newPlayerBullet = require('classes.playerBullet').new
 
-local _M = {tag="player", xPos=display.contentWidth*.20, yPos=hemeGlobals.yLevel[2], ammo=0, health=100, fuel=0, width=48, height=48, type='default'}
+local _M = {
+				tag="player", xPos=display.contentWidth*.20, yPos=hemeGlobals.yLevel[2],
+				ammo=100, health=100, fuel=100,
+				coin=0, medal=0,
+				width=48, height=48, type='default'
+			}
 
 
 function _M:newPlayer (o)
@@ -27,8 +32,6 @@ function _M:newPlayer (o)
 	utils.print_table(self)
 	return o
 end
-
-
 
 -- launch player once game starts
 function _M:launch()
@@ -42,8 +45,10 @@ function _M:launch()
 
 	sounds.play('player_spawn')
 	physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5, filter=collisionFilters.player}) -- While the player rests near the cannon, it's kinematic
-	-- physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5}) -- While the player rests near the cannon, it's kinematic
+	self.shape.isPlasmaShielded = false
 	print(self.shape, self.shape.ref, self, self.shape.bodyType)
+
+
 
 	print("Self.shape.ref:", self.health, self.ammo)
 	utils.print_table(self.shape.ref)
@@ -53,12 +58,10 @@ function _M:launch()
 	-- transition.to( self.shape, { time=4000, x=240, y=hemeGlobals.yLevel[2], rotation=90, transition=easing.inQuart } )
 	-- self.shape.bodyType = 'dynamic' -- Change to dynamic so it can move with force and for collision
 	self.isLaunched = true;
-	-- start with Impulse
-	-- self.shape:applyLinearImpulse(5, 0, self.shape.x, self.shape.y)
+
 	self.shape:addEventListener('collision', self)
 	self.shape:addEventListener('tap', self)
 end
-
 
 
 
@@ -66,61 +69,79 @@ function _M:collision(event)
 	if event.phase == "began" then
 		print("Collision with player here")
 
-		utils.print_table(event.other)
-		print(event.other.test_param)
-
-
-		if (event.other.tag == "ground") then
-			sounds.play('player_destroy')
-			print ("player collided with groound")
-			--destroy
-			self:destroy()
+		if self.isHyperDriveActive then
+			print("hyperdrivePowerup is active; No collision effect in player; move fast")
+			hemeGlobals.scrollSpeed = hemeGlobals.scrollSpeed * 3
+		elseif self.isPlasmaShieldActive then
+			print("plasmashieldPowerup is active; No collision effect in player")
 		else
-			if (event.other.tag == "enemy") then
-				sounds.play('player_collide')
-				self.health = self.health - event.other.hp
-				print("collides enemy here and now health is : ", self.health)
-			elseif (event.other.tag == "bullet") then
-				sounds.play('player_hit')
-				self.health = self.health - event.other.hp
-			elseif (event.other.tag == "powerup") then
-				sounds.play('player_collect_powerups')
-				-- use powerup
-				if (event.other.type == "hyperdrivePowerup") then
-					-- do something
-					print("hyperdrivePowerup")
-				elseif (event.other.type == "plasmashieldPowerup") then
-					-- do something
-					print("hyperdrivePowerup")
-				elseif (event.other.type == "airblastPowerup") then
-					-- do something
-					print("hyperdrivePowerup")
-				end
-			elseif (event.other.tag == "refill") then
-				sounds.play('player_collect_refills')
-				-- do refill
-				if (event.other.type == "ammoRefill") then
-					self.ammo = self.ammo + event.other.value
-				elseif (event.other.type == "fuelRefill") then
-					self.fuel = self.fuel + event.other.value
-				elseif (event.other.type == "healthRefill") then
-					self.health = self.health + event.other.value
-				end
-			elseif (event.other.tag == "obstruction") then
-				-- -- instant death; game over; destroy event
-				sounds.play('player_destroy')
-				self.health = 0
-			end
+			utils.print_table(event.other)
+			print(event.other.test_param)
 
-			if (self.health > 0) then
-				-- sound
-				self.shape:setFillColor(1,0,0);
+			if (event.other.tag == "ground") then
+				sounds.play('player_destroy')
+				print ("player collided with groound")
+				--destroy
+				self:destroy()
 			else
-				-- sound
-				-- die ; falls to ground
-				self:die()
+				if (event.other.tag == "enemy") then
+					sounds.play('player_collide')
+					self.health = self.health - event.other.hp
+					print("collides enemy here and now health is : ", self.health)
+				elseif (event.other.tag == "bullet") then
+					sounds.play('player_hit')
+					self.health = self.health - event.other.hp
+				elseif (event.other.tag == "powerup") then
+					-- use powerup
+					sounds.play('player_collect_powerups')
+					if (event.other.type == "hyperdrivePowerup") then
+						-- do something
+						print("hyperdrivePowerup")
+						self.isHyperDriveActive = false
+						self.hyperTimer = timer.performWithDelay( 5000, function() self.isHyperDriveActive = false end , 1 )
+
+					elseif (event.other.type == "plasmashieldPowerup") then
+						-- do something
+						print("plasmashieldPowerup")
+						self.isPlasmaShieldActive = true
+						self.plasmaTimer = timer.performWithDelay( 5000, function() self.isPlasmaShieldActive = false end , 1 )
+					elseif (event.other.type == "airblastPowerup") then
+						-- do something
+						print("airblastPowerup")
+						-- destroy nearby enemies.
+					end
+				elseif (event.other.tag == "refill") then
+					-- do refill
+					sounds.play('player_collect_refills')
+					if (event.other.type == "ammoRefill") then
+						self.ammo = self.ammo + event.other.value
+					elseif (event.other.type == "fuelRefill") then
+						self.fuel = self.fuel + event.other.value
+					elseif (event.other.type == "healthRefill") then
+						self.health = self.health + event.other.value
+					end
+				elseif (event.other.tag == "collectible") then
+					if (event.other.type == "coinCollectible") then
+						self.coin = self.coin + event.other.value
+					elseif (event.other.type == "medalCollectible") then
+						self.medal = self.medal + event.other.value
+					end
+				elseif (event.other.tag == "obstruction") then
+					-- -- instant death; game over; destroy event
+					self.health = 0
+				end
+
+				if (self.health > 0) then
+					-- sound
+					self.shape:setFillColor(1,0,0);
+				else
+					-- sound
+					-- die ; falls to ground
+					self:die()
+				end
 			end
 		end
+
 	end
 end
 
@@ -128,7 +149,8 @@ function _M:destroy()
 	if self ~= nil and self.shape ~= nil then
 		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 		sounds.play('player_destroy')
-		-- dispatch game over event
+		-- game Over
+		hemeGlobals.isGameOver = true
 	end
 end
 

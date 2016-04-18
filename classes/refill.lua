@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 22:58:39
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 13:15:19
+-- @Last Modified time: 2016-04-17 19:29:58
 
 
 -- This refill is used for instant bonus items during game play
@@ -14,7 +14,7 @@ local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
 local collisionFilters = require( 'libs.collisionFilters')
 
-local _M = {tag='refill', type='default', w=50, h=50, x=1030, y=hemeGlobals.yLevel[1], value=10, xVel=-10, yVel=0}
+local _M = {tag='refill', type='default', w=50, h=50, x=1030, y=hemeGlobals.yLevel[1], value=10, xVel=-10, yVel=0, value=10}
 
 function _M:newRefill(params)
 	local o = params or {}
@@ -36,7 +36,8 @@ function _M:spawn()
 	self.shape.isSensor = true
 	self.shape.type = self.type
 	self.shape.value = self.value
-	-- self.shape:applyLinearImpulse(-5, 0, self.shape.x, self.shape.y)
+	self.shape.tag = self.tag
+	self.shape.ref = self
 	self.shape:setLinearVelocity( self.xVel, self.yVel )
 
 	self.shape:addEventListener("collision", self)
@@ -66,28 +67,23 @@ end
 
 function _M:collision(event)
 	if event.phase == "ended" then
-	-- print("Collision of Refill")
+		print("Collision of Refill")
+		self:destroy()
 	end
-
 end
-
 
 function _M:tap(event)
 	print("Tapped of Refill")
 	print (event.target)
 end
 
-
 function _M:destroy()
 	print("Destroying Refill")
-	if (self ~= nil) then
+	if (self ~= nil and self.shape ~= nil) then
 		transition.to(self, {time=100, alpha=0})
-		self:removeSelf( )
+		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
+		sounds.play('refill_destroy')
 	end
 end
-
-
--- _M.shape:addEventListener("collision")
--- _M.shape:addEventListener("tap")
 
 return _M

@@ -1,13 +1,15 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 19:32:35
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 15:22:24
+-- @Last Modified time: 2016-04-17 20:09:01
 
 
 -- Enemy: bird, aircraft
 -- Enemy can be either can be of bird or aircraft
 
 local physics = require("physics")
+
+local sounds = require('libs.sounds')
 local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
 local collisionFilters = require('libs.collisionFilters')
@@ -74,9 +76,9 @@ end
 
 function _M:collision(event)
 	if event.phase == "ended" then
-	-- print("Collision of enemy")
+		print("Collision of enemy")
+		self:destroy()
 	end
-
 end
 
 
@@ -88,14 +90,12 @@ end
 
 function _M:destroy()
 	print("Destroying enemy")
-	if (self ~= nil) then
+	if (self ~= nil and self.shape ~= nil) then
 		transition.to(self, {time=100, alpha=0})
-		self:removeSelf( )
+		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
+		sounds.play('refill_destroy')
 	end
 end
 
-
--- _M.shape:addEventListener("collision")
--- _M.shape:addEventListener("tap")
 
 return _M

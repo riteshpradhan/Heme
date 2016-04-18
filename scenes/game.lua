@@ -1,8 +1,10 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:30:58
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-17 22:42:09
+-- @Last Modified time: 2016-04-17 23:52:57
 
+local physics = require("physics")
+physics.start()
 
 local widget = require("widget")
 local composer = require( "composer" )
@@ -53,23 +55,13 @@ local getDeltaTime = {}
 local enterFrame = {}
 local touchHandler = {}
 local tapHandler = {}
+local onGameOver = {}
 
 function getDeltaTime()
    local temp = system.getTimer()
    local dt = (temp-runtime) / (1000/60)
    runtime = temp
    return dt
-end
-
-function enterFrame()
-    local dt = getDeltaTime()
-    bg.moveBg(dt, scrollSpeed)
-end
-
-function scene:resumeGame()
-    physics.start();
-    transition.resume();
-    Runtime:addEventListener("enterFrame", enterFrame)
 end
 
 function touchHandler(event)
@@ -79,7 +71,6 @@ function touchHandler(event)
     if "began" == phase then
         return true
     elseif "moved" == phase then
-
         if (event.yStart > event.y and swipeLength > 50 ) then
             if (heme.shape.y == hemeGlobals.yLevel[1]) then
                 transition.to( heme.shape, { time=50, y=hemeGlobals.yLevel[2] } )
@@ -123,6 +114,33 @@ function btnPauseHandler(event)
         -- composer.hideOverlay( "scenes.settings")
 end
 
+
+function enterFrame()
+    if hemeGlobals.isGameOver then
+        onGameOver()
+    end
+    local dt = getDeltaTime()
+    bg.moveBg(dt, scrollSpeed)
+
+end
+
+function onGameOver()
+    print ("Game is over: dispatched")
+    transition.cancel()
+    physics.stop( )
+    Runtime:removeEventListener("enterFrame", enterFrame)
+end
+
+function scene:enterFrame(event)
+    local dt = getDeltaTime()
+    bg.moveBg(dt, scrollSpeed)
+end
+
+function scene:resumeGame()
+    physics.start();
+    transition.resume();
+    Runtime:addEventListener("enterFrame", enterFrame)
+end
 
 -- "scene:create()"
 function scene:create( event )
@@ -178,6 +196,7 @@ function scene:create( event )
 
     Runtime:addEventListener("touch", touchHandler)
     Runtime:addEventListener( "tap", tapHandler )
+    -- Runtime:addEventListener( "onGameOver", listener )
 end
 
 
@@ -189,9 +208,11 @@ function scene:show( event )
 
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen)
+        hemeGlobals.isGameOver = false
         local params = {g=nil, type='bomb', ammo=55}
 		heme = player:newPlayer(params)
 		heme:launch()
+        -- heme.shape:addEventListener("onGameOver", onGameOver)
 
 		local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[2], xVel=-scrollSpeed*30, ritesh=9999})
 		bird:spawn()
@@ -257,7 +278,7 @@ scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
 scene:addEventListener( "hide", scene )
 scene:addEventListener( "destroy", scene )
-
+-- scene:addEventListener( "enterFrame", scene )
 -- -------------------------------------------------------------------------------
 
 return scene
