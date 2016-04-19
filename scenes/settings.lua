@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-16 01:05:55
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-19 00:27:55
+-- @Last Modified time: 2016-04-19 01:29:48
 
 
 -- load required library files
@@ -115,17 +115,17 @@ function scene:show( event )
             composer.hideOverlay( "fade", 400 )
         end
 
-        local function btnRestartHandler(event)
-            sounds.play('back')
-            print("restarts here")
-        end
+        -- local function btnRestartHandler(event)
+        --     sounds.play('back')
+        --     print("restarts here")
+        -- end
 
         if(is_playing) then
             local button_menu = widget.newButton({
                 defaultFile = "images/menu/menu.png",
                 onRelease = btnMenuHandler
             })
-            button_menu.x = display.contentCenterX - 200
+            button_menu.x = display.contentCenterX + 100
         	button_menu.y = display.contentCenterY
             sceneGroup:insert(button_menu)
 
@@ -133,31 +133,31 @@ function scene:show( event )
                 defaultFile = "images/menu/play.png",
                 onRelease = btnPlayHandler
             })
-            button_play.x = display.contentCenterX
+            button_play.x = display.contentCenterX - 100
             button_play.y = display.contentCenterY
             sceneGroup:insert(button_play)
 
-            local button_restart = widget.newButton({
-                defaultFile = "images/menu/restart.png",
-                onRelease = btnRestartHandler
-            })
-            button_restart.x = display.contentCenterX + 200
-            button_restart.y = display.contentCenterY
-            sceneGroup:insert(button_restart)
+            -- local button_restart = widget.newButton({
+            --     defaultFile = "images/menu/restart.png",
+            --     onRelease = btnRestartHandler
+            -- })
+            -- button_restart.x = display.contentCenterX + 200
+            -- button_restart.y = display.contentCenterY
+            -- sceneGroup:insert(button_restart)
 
-            button_back = widget.newButton({
-                defaultFile = "images/menu/back.png",
-                onRelease = btnPlayHandler
-            })
+            -- button_back = widget.newButton({
+            --     defaultFile = "images/menu/back.png",
+            --     onRelease = btnPlayHandler
+            -- })
         else
             button_back = widget.newButton({
                 defaultFile = "images/menu/back.png",
                 onRelease = btnMenuHandler
             })
+            button_back.x = 100
+            button_back.y = display.contentHeight - 100
+            sceneGroup:insert(button_back)
         end
-        button_back.x = 100
-        button_back.y = display.contentHeight - 100
-        sceneGroup:insert(button_back)
 
         if(hemeDatabox.isMusicOn == true) then
             button_music = widget.newButton({

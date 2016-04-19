@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:42:51
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-18 23:23:11
+-- @Last Modified time: 2016-04-19 01:33:18
 
 -- Sounds library
 -- Manager for the sound and music files.
@@ -33,7 +33,7 @@ local sounds = {
     -- Player sounds
     player_spawn = 'sounds/start.wav',
     player_fire = 'sounds/fire_silencer.wav',
-    player_destroy = 'sounds/game_over.wav',
+    player_destroy = 'sounds/buzzer.wav',
     player_collide = 'sounds/hit_1.wav',
     player_collect_powerups = 'sounds/power_up_3.wav',
     player_health_refill = 'sounds/health_refill.wav',
