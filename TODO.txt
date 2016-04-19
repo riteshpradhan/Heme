@@ -3,7 +3,10 @@
 3. leftShiva on collision (destroy all objects)  	==> done
 4. player select scene
 5. mistral regular font.  							==> done
-6. stop enemy bullet timer
-7. insert player and enemy bullet to physicsBodies
+6. stop enemy bullet timer 							==> done
+7. insert player and enemy bullet to physicsBodies	==> done
+8. gameOver
+9. store finalize
+10. Updates (all distance, coins, fuels ..)
 
 

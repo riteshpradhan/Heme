@@ -47,6 +47,7 @@ local displayBodies = {}
 
 local scoreBoardG = display.newGroup( )
 -- local scoreBoardRect
+local allBodiesG = display.newGroup( )
 
 local currentMedalText
 local currentCoinText
@@ -89,7 +90,6 @@ local createObjects = {}
 
 
 
-
 function createObjects()
 
     local function createEnemy()
@@ -98,10 +98,12 @@ function createObjects()
             local aircraft = aircraftEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[yPos], xVel=-scrollSpeed*20})
             aircraft:spawn()
             table.insert(hemeGlobals.physicsBodies, aircraft)
+            allBodiesG:insert(aircraft.shape)
         else
             local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[yPos], xVel=-scrollSpeed*30, ritesh=9999})
             bird:spawn()
             table.insert(hemeGlobals.physicsBodies, bird)
+            allBodiesG:insert(bird.shape)
         end
     end
 
@@ -110,6 +112,7 @@ function createObjects()
         local obs = obstruction:newObstruction({g=nil, x=display.contentWidth, xVel=-scrollSpeed*10, type=obstructionType[math.random(2)], w=obsW, h=obsH})
         obs:spawn()
         table.insert(hemeGlobals.physicsBodies, obs)
+        allBodiesG:insert(obs.shape)
     end
 
     local function createRefill()
@@ -119,14 +122,17 @@ function createObjects()
             local ammor = ammoRefill:newRefill({xVel=-scrollSpeed*10, y=hemeGlobals.yLevel[yPos]})
             ammor:spawn()
             table.insert(hemeGlobals.physicsBodies, ammor)
+            allBodiesG:insert(ammor.shape)
         elseif r == 2 then
             local fuelr = fuelRefill:newRefill({xVel=-scrollSpeed*15, y=hemeGlobals.yLevel[yPos]})
             fuelr:spawn()
             table.insert(hemeGlobals.physicsBodies, fuelr)
+            allBodiesG:insert(fuelr.shape)
         else
             local healthr = healthRefill:newRefill({xVel=-scrollSpeed*20, y=hemeGlobals.yLevel[yPos]})
             healthr:spawn()
             table.insert(hemeGlobals.physicsBodies, healthr)
+            allBodiesG:insert(healthr.shape)
         end
     end
 
@@ -137,14 +143,17 @@ function createObjects()
             local a = airblastPowerup:newPowerup({xVel=-scrollSpeed*12, y=hemeGlobals.yLevel[yPos]})
             a:spawn()
             table.insert(hemeGlobals.physicsBodies, a)
+            allBodiesG:insert(a.shape)
         elseif r == 2 then
             local b = hyperdrivePowerup:newPowerup({xVel=-scrollSpeed*17, y=hemeGlobals.yLevel[yPos]})
             b:spawn()
             table.insert(hemeGlobals.physicsBodies, b)
+            allBodiesG:insert(b.shape)
         else
             local c = plasmashieldPowerup:newPowerup({xVel=-scrollSpeed*22, y=hemeGlobals.yLevel[yPos]})
             c:spawn()
             table.insert(hemeGlobals.physicsBodies, c)
+            allBodiesG:insert(c.shape)
         end
     end
 
@@ -154,10 +163,12 @@ function createObjects()
             local m = medalCollectible:newCollectible({xVel=-scrollSpeed*30, y=hemeGlobals.yLevel[yPos]})
             m:spawn()
             table.insert(hemeGlobals.physicsBodies, m)
+            allBodiesG:insert(m.shape)
         else
             local c = coinCollectible:newCollectible({xVel=-scrollSpeed*25, y=hemeGlobals.yLevel[yPos]})
             c:spawn()
             table.insert(hemeGlobals.physicsBodies, c)
+            allBodiesG:insert(c.shape)
         end
     end
 
@@ -301,10 +312,10 @@ end
 
 
 
-function scene:enterFrame(event)
-    local dt = getDeltaTime()
-    bg:moveBg(dt, scrollSpeed)
-end
+-- function scene:enterFrame(event)
+--     local dt = getDeltaTime()
+--     bg:moveBg(dt, scrollSpeed)
+-- end
 
 
 function scene:resumeGame()
@@ -449,6 +460,7 @@ function scene:show( event )
         sceneGroup:insert( scoreBoardG )
         sceneGroup:insert( ground1.shape )
         sceneGroup:insert( lordShiva )
+        sceneGroup:insert( allBodiesG )
 
     elseif ( phase == "did" ) then
         -- Called when the scene is now on screen

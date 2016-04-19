@@ -11,6 +11,7 @@ local scene = composer.newScene()
 local toast = require('plugin.toast')
 local widget = require("widget")
 local sounds = require( "libs.sounds" ); 
+local images = require("libs.images")
 
 local hemeDatabox = require('libs.databox')
 
@@ -130,6 +131,8 @@ function scene:create( event )
     button_back.x = 100
     button_back.y = display.contentHeight - 100 
     sceneGroup:insert(button_back)
+
+
     -- Initialize the scene here
     -- Example: add display objects to "sceneGroup", add touch listeners, etc.
 
@@ -141,44 +144,104 @@ function scene:create( event )
     topBarG:insert( topCurrentCoinT )
     storeG:insert( topBarG )
 
-    local coinR = display.newRect( coinStoreG, 180, 300, 240, 400 ); coinR:setFillColor( 1, 0, 0 )
-    local coinB = display.newRect( coinStoreG, 180, 570, 240, 100 ); coinB:setFillColor( .8,.8,.8 )
-    local coinRT = display.newText( coinStoreG, "+"..hemeDatabox.coinAdd, 180, 230, native.systemFont,	40)
+    -- local coinR = display.newRect( coinStoreG, 180, 300, 240, 400 ); coinR:setFillColor( 1, 0, 0, 0 )
+    -- local coinB = display.newRect( coinStoreG, 180, 570, 240, 100 ); coinB:setFillColor( .8,.8,.8, 0 )
+    local coinRT = display.newText( coinStoreG, "+"..hemeDatabox.coinAdd, 155, 180, native.systemFont,	40)
     coinCurrentT = display.newText( coinStoreG, currentCoin, 180, 470, native.systemFont,	40)
     local coinBT = display.newText( coinStoreG, hemeDatabox.medalBuyCoin, 180, 570, native.systemFont, 40)
-    coinBT:setFillColor( 0,0,0 )
+    -- coinBT:setFillColor( 0,0,0 )
 
-    local ammoR = display.newRect( ammoG, 480, 300, 240, 400 ); ammoR:setFillColor( 1, 0, 0 )
-    local ammoB = display.newRect( ammoG, 480, 570, 240, 100 )
+    -- local ammoR = display.newRect( ammoG, 480, 300, 240, 400 ); ammoR:setFillColor( 1, 0, 0,0 )
+    -- local ammoB = display.newRect( ammoG, 480, 570, 240, 100 )
+    -- local ammoRT = display.newText( ammoG, "Level: ".. currentAmmo, 485, 180, native.systemFont, 40)
     local ammoRT = display.newText( ammoG, "+"..hemeDatabox.ammoAdd, 480, 230, native.systemFont,	40)
     ammoCurrentT = display.newText( ammoG, currentAmmo, 480, 470, native.systemFont,	40)
     local ammoBT = display.newText( ammoG, hemeDatabox.coinBuyAmmo, 480, 570, native.systemFont,	40 )
-    ammoBT:setFillColor( 0,0,0 )
+    -- ammoBT:setFillColor( 0,0,0 )
 
-    local fuelR = display.newRect( fuelG, 780, 300, 240, 400 ); fuelR:setFillColor( 1, 0, 0 )
-    local fuelB = display.newRect( fuelG, 780, 570, 240, 100 )
+    -- local fuelR = display.newRect( fuelG, 780, 300, 240, 400 ); fuelR:setFillColor( 1, 0, 0,0 )
+    -- local fuelB = display.newRect( fuelG, 780, 570, 240, 100 )
     local fuelRT = display.newText( fuelG, "+"..hemeDatabox.fuelAdd, 780, 230, native.systemFont,	40 )
     fuelCurrentT = display.newText( fuelG, currentFuel, 780, 470, native.systemFont,	40)
     local fuelBT = display.newText( fuelG, hemeDatabox.coinBuyFuel, 780, 570, native.systemFont,	40 )
-    fuelBT:setFillColor( 0,0,0 )
+    -- fuelBT:setFillColor( 0,0,0 )
 
-    local healthR = display.newRect( healthG, 1080, 300, 240, 400 ); healthR:setFillColor( 1, 0, 0 )
-    local healthB = display.newRect( healthG, 1080, 570, 240, 100 )
+    -- local healthR = display.newRect( healthG, 1080, 300, 240, 400 ); healthR:setFillColor( 1, 0, 0,0 )
+    -- local healthB = display.newRect( healthG, 1080, 570, 240, 100 )
     local healthRT = display.newText( healthG, "+"..hemeDatabox.healthAdd, 1080, 230, native.systemFont,	40 )
     healthCurrentT = display.newText( healthG, currentHealth, 1080, 470, native.systemFont,	40)
     local healthBT = display.newText( healthG, hemeDatabox.coinBuyHealth, 1080, 570, native.systemFont,	40 )
-    healthBT:setFillColor( 0,0,0 )
+    -- healthBT:setFillColor( 0,0,0 )
+
+    local storeBG = display.newImage('images/scenes/store.jpg')
+    storeBG.x = display.contentCenterX;
+    storeBG.y = display.contentCenterY;
+
+    local medalButton = widget.newButton(
+        {
+            x = 165,
+            y = 600,
+            sheet = images.storeButtonSheet,
+            defaultFrame = 1,
+            overFrame = 2,
+            label = hemeDatabox.medalBuyCoin,
+            onRelease = buyCoin
+        }
+    )
+
+    local ammoButton = widget.newButton(
+        {
+            x = 485,
+            y = 600,
+            sheet = images.storeButtonSheet,
+            defaultFrame = 1,
+            overFrame = 2,
+            label = hemeDatabox.coinBuyAmmo,
+            onRelease = buyAmmo
+        }
+    )
+
+    local fuelButton = widget.newButton(
+        {
+            x = 805,
+            y = 600,
+            sheet = images.storeButtonSheet,
+            defaultFrame = 1,
+            overFrame = 2,
+            label = hemeDatabox.coinBuyFuel,
+            onRelease = buyFuel
+        }
+    )
+
+    local healthButton = widget.newButton(
+        {
+            x = 1125,
+            y = 600,
+            sheet = images.storeButtonSheet,
+            defaultFrame = 1,
+            overFrame = 2,
+            label = hemeDatabox.coinBuyHealth,
+            onRelease = buyHealth
+        }
+    )
 
 
-    coinB:addEventListener( "tap", buyCoin )
-    ammoB:addEventListener( "tap", buyAmmo )
-    fuelB:addEventListener( "tap", buyFuel )
-    healthB:addEventListener( "tap", buyHealth )
+    -- coinB:addEventListener( "tap", buyCoin )
+    -- ammoB:addEventListener( "tap", buyAmmo )
+    -- fuelB:addEventListener( "tap", buyFuel )
+    -- healthB:addEventListener( "tap", buyHealth )
 
+    storeG:insert( storeBG )
     storeG:insert( coinStoreG )
     storeG:insert( ammoG )
     storeG:insert( fuelG )
     storeG:insert( healthG )
+    storeG:insert( medalButton )
+    storeG:insert( ammoButton )
+    storeG:insert( fuelButton )
+    storeG:insert( healthButton )
+
+    
     -- storeG.y = storeG.y + 50
 
     sceneGroup:insert( storeG )

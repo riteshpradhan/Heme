@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 17:50:18
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 20:05:37
+-- @Last Modified time: 2016-04-19 18:26:31
 
 local physics = require("physics")
 local sounds = require("libs.sounds")
@@ -16,10 +16,11 @@ local _M = {tag='bullet'}
 function _M.newPlayerBullet(params)
 -- function _M.new(params)
 	params.type = params.type or'playerBullet'
-	params.w, params.h = 100, 30
+	params.w, params.h = 15, 5
 	local playerBullet = newBullet(params)
 	playerBullet.hp = params.hp or 10
 	playerBullet.tag = 'bullet'
+	playerBullet:setFillColor( 0, 0, 1  )
 
 	physics.addBody(playerBullet, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5, filter=collisionFilters.playerBullet})
 	-- playerBullet:applyLinearImpulse(30, 0, playerBullet.x, playerBullet.y)

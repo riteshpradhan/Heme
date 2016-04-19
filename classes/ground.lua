@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-15 20:53:04
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 14:10:58
+-- @Last Modified time: 2016-04-19 17:34:02
 
 -- Ground To start launching: player
 
@@ -31,6 +31,7 @@ function _M:spawn()
 	self.shape = display.newRect( self.x, self.y, self.w, self.h )
 	self.shape.x, self.shape.y = self.x, self.y
 	physics.addBody(self.shape, 'static', {density = 2, friction = 0.5, bounce = 0.5, filter = collisionFilters.ground})
+	self.shape:setFillColor( 1,1,1,0 )
 	-- physics.addBody(self.shape, 'static', {density = 2, friction = 0.5, bounce = 0.5})
 	self.shape.type = self.type
 	self.shape.tag = self.tag
