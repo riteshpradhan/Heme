@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 01:08:22
+-- @Last Modified time: 2016-04-19 15:33:38
 
 
 -- Heme Player
@@ -109,13 +109,16 @@ function _M:collision(event)
 						-- do something
 						print("hyperdrivePowerup")
 						self.isHyperDriveActive = true
-						self.hyperTimer = timer.performWithDelay( 5000, function() self.isHyperDriveActive = false end , 1 )
-
+						self.shape.isSensor = true
+						self.hyperTimer = timer.performWithDelay( 5000, function() self.isHyperDriveActive = false; self.shape.isSensor = false; end , 1 )
+						table.insert(hemeGlobals.gameTimers, self.hyperTimer)
 					elseif (event.other.type == "plasmashieldPowerup") then
 						-- do something
 						print("plasmashieldPowerup")
 						self.isPlasmaShieldActive = true
-						self.plasmaTimer = timer.performWithDelay( 5000, function() self.isPlasmaShieldActive = false end , 1 )
+						self.shape.isSensor = true
+						self.plasmaTimer = timer.performWithDelay( 5000, function() self.isPlasmaShieldActive = false; self.shape.isSensor = false; end , 1 )
+						table.insert(hemeGlobals.gameTimers, self.hyperTimer)
 					elseif (event.other.type == "airblastPowerup") then
 						-- do something
 						print("airblastPowerup")
@@ -166,7 +169,7 @@ function _M:destroy()
 		if(self.playerSprite ~= nil ) then
 			self.playerSprite:removeSelf()
 		end
-		timer.performWithDelay( 2, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
+		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 		sounds.play('player_destroy')
 		-- game Over
 		hemeGlobals.isGameOver = true
@@ -179,6 +182,7 @@ function _M:fire()
 	-- sound.play('player_fire')
 	-- create a self destructible bullet
 	local bullet = newPlayerBullet({x = self.shape.x, y = self.shape.y, isExplosion = self.type == 'playerBullet', hp=3})
+	table.insert( hemeGlobals.physicsBodies, bullet )
 	sounds.play('player_fire')
 end
 
