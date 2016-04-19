@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-16 01:05:55
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-18 23:26:04
+-- @Last Modified time: 2016-04-19 00:27:55
 
 
 -- load required library files
@@ -61,7 +61,7 @@ function scene:show( event )
             else
                 hemeDatabox.isMusicOn = true
                 if(audio.isChannelPlaying( 25 ) == false) then
-                    sounds.play('bg_music', {loops = -1})
+                    sounds.play('bg_music', {loops = -1, channel = 25})
                 end
                 sounds.isMusicOn = hemeDatabox.isMusicOn
                 sounds.play('music_toggle_on')
