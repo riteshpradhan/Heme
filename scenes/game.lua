@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:30:58
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 16:59:53
+-- @Last Modified time: 2016-04-18 20:56:21
 
 
 local physics = require("physics")
@@ -18,9 +18,24 @@ local sounds = require( "libs.sounds" );
 local hemeDatabox = require('libs.databox')
 
 ---------- classes -------------
-local player = require ('classes.player')
-local birdEnemy = require ('classes.birdEnemy')
-local ground = require( 'classes.ground')
+local player                = require ('classes.player')
+local ground                = require( 'classes.ground')
+local newShiva              = require( 'classes.shiva').newShiva
+
+local birdEnemy             = require ('classes.birdEnemy')
+local aircraftEnemy         = require ('classes.aircraftEnemy')
+local generalObstruction    = require ('classes.generalObstruction')
+local ammoRefill            = require ('classes.ammoRefill')
+local fuelRefill            = require ('classes.fuelRefill')
+local healthRefill          = require ('classes.healthRefill')
+local airblastPowerup       = require ('classes.airblastPowerup')
+local hyperdrivePowerup     = require ('classes.hyperdrivePowerup')
+local plasmashieldPowerup   = require ('classes.plasmashieldPowerup')
+local coinCollectible       = require ('classes.coinCollectible')
+local medalCollectible      = require ('classes.medalCollectible')
+
+
+
 
 -- -----------------------------------------------------------------------------------------------------------------
 -- -----------------------------------------------------------------------------------------------------------------
@@ -52,7 +67,7 @@ local runtime = 0
 local scrollSpeed = hemeGlobals.scrollSpeed
 local heme
 local ground1
-local leftOffScreen
+local lordShiva
 local counter = 0
 
 -------- functions  -----------
@@ -269,10 +284,7 @@ function scene:show( event )
         ground1:spawn()
 
         -- Single left off screen instance
-        leftOffScreen = display.newRect( 5, display.contentHeight/2, 10, display.contentHeight - 100)
-        physics.addBody( leftOffScreen, 'dynamic', {isSensor = true} )
-        leftOffScreen.tag = "leftOffScreen"
-
+        lordShiva = newShiva()
 
         -- Randomly generate many enemies; powerups; refills; collectible
         -- insert all into physicsBodies
@@ -296,7 +308,7 @@ function scene:show( event )
         sceneGroup:insert( heme.playerSprite )
         sceneGroup:insert( scoreBoardG )
         sceneGroup:insert( ground1.shape )
-        sceneGroup:insert( leftOffScreen )
+        sceneGroup:insert( lordShiva )
 
     elseif ( phase == "did" ) then
         -- Called when the scene is now on screen
@@ -330,10 +342,8 @@ function scene:hide( event )
         if(ground1 ~= nil) then
             ground1:destroy()
         end
-        if(leftOffScreen ~= nil) then
-            physics.removeBody( leftOffScreen )
-            leftOffScreen:removeSelf( )
-            leftOffScreen = nil
+        if(lordShiva ~= nil) then
+            lordShiva:destroy()
         end
         -- destroy all other bodies
         destroyBodies()
