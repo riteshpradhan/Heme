@@ -1,11 +1,13 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-19 00:45:09
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 01:10:11
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-19 02:09:42
 
 local widget = require('widget')
 local composer = require( "composer" )
 local scene = composer.newScene()
+local hemeDatabox = require('libs.databox')
+local utils = require("libs.utils");
 local sounds = require( "libs.sounds" );
 
 local awesomeG = display.newGroup( )
@@ -15,11 +17,23 @@ function scene:create( event )
     local sceneGroup = self.view
     local params = event.params
 
-    local function btnBackHandler(event)
+ --    local function btnBackHandler(event)
+ --        sounds.play('back')
+ --     	local sceneOpt = {effect = "crossFade", time = 600}
+ --        composer.gotoScene("scenes.menu", sceneOpt)
+	-- end
+
+    local function btnRestartHandler(event)
         sounds.play('back')
-		local sceneOpt = {effect = "crossFade", time = 600}
+        local sceneOpt = {effect = "crossFade", time = 600}
+        composer.gotoScene("scenes.game", sceneOpt)
+    end
+
+    local function btnMenuHandler(event)
+        sounds.play('back')
+        local sceneOpt = {effect = "crossFade", time = 600}
         composer.gotoScene("scenes.menu", sceneOpt)
-	end
+    end
 
     -- Load Background image
     local bgImage = display.newImage("images/scenes/help.png")
@@ -27,13 +41,21 @@ function scene:create( event )
 	bgImage.y = display.contentCenterY
     sceneGroup:insert(bgImage)
 
-    local button_back = widget.newButton({
-        defaultFile = "images/menu/back.png",
-        onRelease = btnBackHandler
+    local button_menu = widget.newButton({
+        defaultFile = "images/menu/menu.png",
+        onRelease = btnMenuHandler
     })
-    button_back.x = 100
-	button_back.y = display.contentHeight - 100
-    sceneGroup:insert(button_back)
+    button_menu.x = display.contentCenterX - 100
+    button_menu.y = display.contentCenterY + 200
+    sceneGroup:insert(button_menu)
+
+    local button_restart = widget.newButton({
+        defaultFile = "images/menu/restart.png",
+        onRelease = btnRestartHandler
+    })
+    button_restart.x = display.contentCenterX + 100
+    button_restart.y = display.contentCenterY + 200
+    sceneGroup:insert(button_restart)
 
     local rect = display.newRect( awesomeG, display.contentCenterX, display.contentCenterY, 400, 200 )
     rect:setFillColor( 1,1,0,0.4 )
