@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:05:55
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-18 23:26:11
+-- @Last Modified by:   Ritesh Pradhan
+-- @Last Modified time: 2016-04-19 17:53:31
 
 -- load required library files
 local widget = require("widget")
@@ -14,6 +14,10 @@ local scene = composer.newScene();
 
 local runtime = 0
 local scrollSpeed = 1
+local bg
+
+local getDeltaTime = {}
+local enterFrame = {}
 
 function getDeltaTime()
    local temp = system.getTimer()
@@ -120,8 +124,6 @@ function scene:create( event )
     button_play.x = display.contentCenterX
 	button_play.y = display.contentCenterY
     sceneGroup:insert(button_play)
-
-
 end
 
 function scene:show( event )
@@ -135,6 +137,8 @@ function scene:show( event )
     local params = event.params
     if ( phase == "did" ) then
         -- bg = background:newBackground()
+        print("Scroll speed is : ", scrollSpeed)
+        print("HEre")
         Runtime:addEventListener("enterFrame", enterFrame)
     end
 end
