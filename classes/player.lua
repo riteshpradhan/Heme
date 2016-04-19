@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 16:30:03
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-18 22:19:49
 
 
 -- Heme Player
@@ -122,12 +122,14 @@ function _M:collision(event)
 					end
 				elseif (event.other.tag == "refill") then
 					-- do refill
-					sounds.play('player_collect_refills')
 					if (event.other.type == "ammoRefill") then
+						sounds.play('player_ammo_refill')
 						self.ammo = self.ammo + event.other.value
 					elseif (event.other.type == "fuelRefill") then
+						sounds.play('player_fuel_refill')
 						self.fuel = self.fuel + event.other.value
 					elseif (event.other.type == "healthRefill") then
+						sounds.play('player_health_refill')
 						self.health = self.health + event.other.value
 					end
 				elseif (event.other.tag == "collectible") then

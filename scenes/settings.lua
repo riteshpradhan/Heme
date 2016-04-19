@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-16 01:05:55
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 01:03:55
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-18 23:26:04
 
 
 -- load required library files
@@ -49,6 +49,9 @@ function scene:show( event )
             button_music:removeSelf()
             if(hemeDatabox.isMusicOn == true) then
                 hemeDatabox.isMusicOn = false
+                if(audio.isChannelPlaying( 25 )) then
+                    sounds.stop(25)
+                end
                 sounds.isMusicOn = hemeDatabox.isMusicOn
                 sounds.play('music_toggle_off')
                 button_music = widget.newButton({
@@ -57,6 +60,9 @@ function scene:show( event )
                 })
             else
                 hemeDatabox.isMusicOn = true
+                if(audio.isChannelPlaying( 25 ) == false) then
+                    sounds.play('bg_music', {loops = -1})
+                end
                 sounds.isMusicOn = hemeDatabox.isMusicOn
                 sounds.play('music_toggle_on')
                 button_music = widget.newButton({
