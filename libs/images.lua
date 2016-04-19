@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:43:04
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 16:10:40
+-- @Last Modified time: 2016-04-18 20:53:54
 
 
 -- all sprite loads here
@@ -32,7 +32,7 @@ local kush = {}
 ------------------------------------------------------
 ------------- HEME -----------------------------------
 local hemeOption = { width=194, height=76, numFrames=2, sheetContentWidth=388, sheetContentHeight=76 }
-local hemeSheet = graphics.newImageSheet( 'images/player/hemeIdleSheet.png', hemeOption )
+local hemeSheet = graphics.newImageSheet( 'images/player/hemeSheet.png', hemeOption )
 local hemeSequenceData = { name="heme", start=1, count=2, time=200 }
 heme.sheet = hemeSheet
 heme.sequenceData = hemeSequenceData
