@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-14 21:52:06
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 00:42:05
+-- @Last Modified time: 2016-04-19 15:48:22
 
 -- This is also enemy but industrible one
 -- static type; infinite mass
@@ -47,7 +47,9 @@ end
 
 
 function _M:collision(event)
-	if event.phase == "ended" then
+	if event.phase == "began" then
+		print("in obstruction. Player is Sensor ", event.other.isSensor)
+	elseif event.phase == "ended" then
 		-- print("Collision of obstruction")
 		-- self:destroy()
 	end

@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 18:23:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 22:55:53
+-- @Last Modified time: 2016-04-19 15:41:53
 
 local physics = require("physics")
 local newBullet = require("classes.bullet").newBullet
@@ -11,7 +11,7 @@ local _M = {}
 
 function _M.newEnemyBullet(params)
 	params.type = params.type or 'enemyBullet'
-	params.w, params.h = 100, 50
+	params.w, params.h = 15, 5
 
 	local enemyBullet = newBullet(params)
 	enemyBullet.hp = params.hp or 5

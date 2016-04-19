@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 17:50:18
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 20:05:37
+-- @Last Modified time: 2016-04-19 15:41:26
 
 local physics = require("physics")
 local sounds = require("libs.sounds")
@@ -16,7 +16,7 @@ local _M = {tag='bullet'}
 function _M.newPlayerBullet(params)
 -- function _M.new(params)
 	params.type = params.type or'playerBullet'
-	params.w, params.h = 100, 30
+	params.w, params.h = 10, 3
 	local playerBullet = newBullet(params)
 	playerBullet.hp = params.hp or 10
 	playerBullet.tag = 'bullet'

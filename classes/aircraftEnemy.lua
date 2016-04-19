@@ -20,7 +20,6 @@ function _M:spawn()
 	self.shape:setFillColor( 0,1,1,0.8 )
 
 	self.firingTimer = timer.performWithDelay( 3000, function() self:fire() end, 5)
-
 	table.insert( hemeGlobals.gameTimers, self.firingTimer)
 
 end
