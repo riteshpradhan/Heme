@@ -78,11 +78,42 @@ local buttonOption = {
 };
 local buttonSheet = graphics.newImageSheet( "button.png", buttonOption );
 
+
+-- local storeButtonOption = {
+-- 	frames = {
+-- 		{}
+-- 	}
+
+-- }
+
+
+-- btnGo = widget.newButton( {
+-- 			x = 200,
+-- 			y = 20,
+-- 			id = "btnGo",
+-- 			label = "Go!",
+-- 			labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0 } }, sheet = buttonSheet,
+-- 			defaultFrame = 1,
+-- 			overFrame = 2,
+-- 			onPress = go,
+-- 		} );
+
+local storeButtonOptions = {
+    width = 236,
+    height = 81,
+    numFrames = 2,
+    sheetContentWidth = 472,
+    sheetContentHeight = 81
+}
+
+local storeButtonSheet = graphics.newImageSheet( "/images/scenes/storeButton.png", storeButtonOptions )
+
 ----------------------------------------------------
 -------- Insert eveything in libs.images table --------
 _M.heme = heme
 _M.kush = kush
 _M.buttonSheet = buttonSheet
+_M.storeButtonSheet = storeButtonSheet
 
 return _M
 
