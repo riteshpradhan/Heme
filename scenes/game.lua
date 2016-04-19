@@ -249,7 +249,7 @@ function scene:create( event )
     currentMedalText:setFillColor(1,1,0)
 
     local coinImageRect = display.newImageRect( scoreBoardG, "images/coin.png", eachImageRectWidth, 60 )
-    currentCoinText = display.newText( scoreBoardG, currentCoin, 1.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    currentCoinText = display.newText( scoreBoardG, currentCoin, 1.55 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
     currentCoinText:setFillColor(1,1,0)
 
     local ammoImageRect = display.newImageRect( scoreBoardG, "images/ammo.png", eachImageRectWidth, 60 )
