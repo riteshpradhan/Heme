@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-15 20:53:04
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 01:25:28
+-- @Last Modified time: 2016-04-19 14:10:58
 
 -- Ground To start launching: player
 
@@ -60,7 +60,7 @@ function _M:destroy()
 	print("Destroying ground")
 	if (self ~= nil and self.shape ~= nil) then
 		transition.to(self, {time=100, alpha=0})
-		timer.performWithDelay( 10,
+		timer.performWithDelay( 1,
 				function()
 					if(self.shape.bodyType ~= nil) then
 						physics.removeBody( self.shape );

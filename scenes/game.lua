@@ -70,6 +70,13 @@ local ground1
 local lordShiva
 local counter = 0
 local button_pause
+local obstructionType = {"castle", "tree"}
+
+local enemyTimer
+local obstructionTimer
+local refillTimer
+local powerupTimer
+local collectibleTimer
 
 -------- functions  -----------
 local getDeltaTime = {}
@@ -78,9 +85,89 @@ local touchHandler = {}
 local tapHandler = {}
 local onGameOver = {}
 local destroyBodies = {}
+local createObjects = {}
 
 
 
+
+function createObjects()
+
+    local function createEnemy()
+        local yPos = math.random(3)
+        if (math.random( 5 ) % 5 ) == 0 then --generates aircraft 1 out of 5 enemies
+            local aircraft = aircraftEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[yPos], xVel=-scrollSpeed*20})
+            aircraft:spawn()
+            table.insert(physicsBodies, aircraft)
+        else
+            local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[yPos], xVel=-scrollSpeed*30, ritesh=9999})
+            bird:spawn()
+            table.insert(physicsBodies, bird)
+        end
+    end
+
+    local function createObstruction()
+        local obsW, obsH = math.random(75, 250), math.random( 250, 400 )
+        local obs = obstruction:newObstruction({g=nil, x=display.contentWidth, xVel=-scrollSpeed*10, type=obstructionType[math.random(2)], w=obsW, h=obsH})
+        obs:spawn()
+        table.insert(physicsBodies, obs)
+    end
+
+    local function createRefill()
+        local r = math.random(3)
+        local yPos = math.random(3)
+        if r == 1 then
+            local ammor = ammoRefill:newRefill({xVel=-scrollSpeed*10, y=hemeGlobals.yLevel[yPos]})
+            ammor:spawn()
+            table.insert(physicsBodies, ammor)
+        elseif r == 2 then
+            local fuelr = fuelRefill:newRefill({xVel=-scrollSpeed*15, y=hemeGlobals.yLevel[yPos]})
+            fuelr:spawn()
+            table.insert(physicsBodies, fuelr)
+        else
+            local healthr = healthRefill:newRefill({xVel=-scrollSpeed*20, y=hemeGlobals.yLevel[yPos]})
+            healthr:spawn()
+            table.insert(physicsBodies, healthr)
+        end
+    end
+
+    local function createPowerup()
+        local r = math.random(3)
+        local yPos = math.random(3)
+        if r == 1 then
+            local a = airblastPowerup:newPowerup({xVel=-scrollSpeed*12, y=hemeGlobals.yLevel[yPos]})
+            a:spawn()
+            table.insert(physicsBodies, a)
+        elseif r == 2 then
+            local b = hyperdrivePowerup:newPowerup({xVel=-scrollSpeed*17, y=hemeGlobals.yLevel[yPos]})
+            b:spawn()
+            table.insert(physicsBodies, b)
+        else
+            local c = plasmashieldPowerup:newPowerup({xVel=-scrollSpeed*22, y=hemeGlobals.yLevel[yPos]})
+            c:spawn()
+            table.insert(physicsBodies, c)
+        end
+    end
+
+    local function createCollectible()
+        local yPos = math.random(3)
+        if (math.random(25) % 25 == 0) then
+            local m = medalCollectible:newCollectible({xVel=-scrollSpeed*30, y=hemeGlobals.yLevel[yPos]})
+            m:spawn()
+            table.insert(physicsBodies, m)
+        else
+            local c = coinCollectible:newCollectible({xVel=-scrollSpeed*25, y=hemeGlobals.yLevel[yPos]})
+            c:spawn()
+            table.insert(physicsBodies, c)
+        end
+    end
+
+    enemyTimer = timer.performWithDelay( 2000, function() createEnemy() end, -1 )
+    obstructionTimer = timer.performWithDelay( 5000, function() createObstruction() end, -1 )
+    refillTimer = timer.performWithDelay( 6000, function() createRefill() end, -1 )
+    powerupTimer = timer.performWithDelay( 10000, function() createPowerup() end, -1 )
+    collectibleTimer = timer.performWithDelay( 8000, function() createCollectible() end, -1 )
+
+end
 
 function getDeltaTime()
    local temp = system.getTimer()
@@ -134,8 +221,15 @@ function btnPauseHandler(event)
         time = 400,
         params = {is_playing = true}
     }
-    physics.pause();
-    transition.pause();
+    physics.pause()
+    transition.pause()
+
+    timer.pause(enemyTimer)
+    timer.pause(obstructionTimer)
+    timer.pause(refillTimer)
+    timer.pause(powerupTimer)
+    timer.pause(collectibleTimer)
+
     Runtime:removeEventListener("enterFrame", enterFrame)
     composer.showOverlay( "scenes.settings", options )
     -- physics.start();
@@ -190,11 +284,12 @@ end
 function onGameOver()
     print ("Game is over: dispatched")
     Runtime:removeEventListener("enterFrame", enterFrame)
-    transition.cancel()
-    destroyBodies()
-    local sceneOpt = {effect = "crossFade", time = 600, params={distance=currentDistance}}
+    -- transition.cancel()
+    -- destroyBodies()
+    local sceneOpt = {effect = "crossFade", time = 1000, params={distance=currentDistance}}
     composer.gotoScene("scenes.gameover", sceneOpt)
 end
+
 
 
 function scene:enterFrame(event)
@@ -206,6 +301,11 @@ end
 function scene:resumeGame()
     physics.start();
     transition.resume();
+    timer.resume(enemyTimer)
+    timer.resume(obstructionTimer)
+    timer.resume(refillTimer)
+    timer.resume(powerupTimer)
+    timer.resume(collectibleTimer)
     Runtime:addEventListener("enterFrame", enterFrame)
 end
 
@@ -319,51 +419,7 @@ function scene:show( event )
         -- Randomly generate many enemies; powerups; refills; collectible
         -- insert all into physicsBodies
         print("Scroll speed is : ", scrollSpeed)
-		-- local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[2], xVel=-scrollSpeed*30, ritesh=9999})
-		-- bird:spawn()
-  --       table.insert(physicsBodies, bird)
-
-  --       local aircraft = aircraftEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[1], xVel=-scrollSpeed*20})
-  --       aircraft:spawn()
-  --       table.insert(physicsBodies, aircraft)
-
-        local obs = obstruction:newObstruction({g=nil, x=display.contentWidth, xVel=-scrollSpeed*10, type="castle", w=200, h=400})
-        obs:spawn()
-        table.insert(physicsBodies, obs)
-
-        -- local ammor = ammoRefill:newRefill({xVel=-scrollSpeed*10})
-        -- ammor:spawn()
-        -- table.insert(physicsBodies, ammor)
-
-        -- local fuelr = fuelRefill:newRefill({xVel=-scrollSpeed*15})
-        -- fuelr:spawn()
-        -- table.insert(physicsBodies, fuelr)
-
-        -- local healthr = healthRefill:newRefill({xVel=-scrollSpeed*20})
-        -- healthr:spawn()
-        -- table.insert(physicsBodies, healthr)
-
-
-        -- local a = airblastPowerup:newPowerup({xVel=-scrollSpeed*12})
-        -- a:spawn()
-        -- table.insert(physicsBodies, a)
-
-        -- local b = hyperdrivePowerup:newPowerup({xVel=-scrollSpeed*17})
-        -- b:spawn()
-        -- table.insert(physicsBodies, b)
-
-        -- local c = plasmashieldPowerup:newPowerup({xVel=-scrollSpeed*22})
-        -- c:spawn()
-        -- table.insert(physicsBodies, c)
-
-        -- local d = coinCollectible:newCollectible({xVel=-scrollSpeed*25})
-        -- d:spawn()
-        -- table.insert(physicsBodies, d)
-
-        -- local e = medalCollectible:newCollectible({xVel=-scrollSpeed*30})
-        -- e:spawn()
-        -- table.insert(physicsBodies, e)
-
+        createObjects()
 
 
 
@@ -406,6 +462,16 @@ function scene:hide( event )
         Runtime:removeEventListener( "enterFrame", enterFrame )
         Runtime:removeEventListener("touch", touchHandler)
         Runtime:removeEventListener("tap", tapHandler)
+
+        --cancel timer
+        timer.cancel(enemyTimer)
+        timer.cancel(obstructionTimer)
+        timer.cancel(refillTimer)
+        timer.cancel(powerupTimer)
+        timer.cancel(collectibleTimer)
+
+        --stop Animation
+        transition.cancel( )
 
         -- destroy physical objects
         if(heme ~= nil) then

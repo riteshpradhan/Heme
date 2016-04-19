@@ -18,7 +18,7 @@ function _M:spawn()
 	self:superSpawn()
 	self.shape:setFillColor( 0,1,1,0.8 )
 
-	self.firingTimer = timer.performWithDelay( 1000, function() self:fire() end, 5)
+	self.firingTimer = timer.performWithDelay( 3000, function() self:fire() end, 5)
 
 
 end
