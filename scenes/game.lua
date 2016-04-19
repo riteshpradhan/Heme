@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:30:58
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 16:59:53
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-18 21:06:50
 
 
 local physics = require("physics")
@@ -54,6 +54,7 @@ local heme
 local ground1
 local leftOffScreen
 local counter = 0
+local button_pause
 
 -------- functions  -----------
 local getDeltaTime = {}
@@ -196,7 +197,7 @@ end
 function scene:create( event )
     local sceneGroup = self.view
 
-    local button_pause = widget.newButton({
+    button_pause = widget.newButton({
         defaultFile = "images/menu/pause.png",
         onRelease = btnPauseHandler,
     })
@@ -210,7 +211,6 @@ function scene:create( event )
     local bgImage = { type="image", filename="images/scenes/bg.jpg" }
     bg = background:newBackground()
     bg:addScrollableBg(bgImage)
-
 
     scoreBoardRect = display.newRect(display.contentCenterX, 50, display.contentWidth, 100 )
     scoreBoardRect:setFillColor( 1, 0, 0, 0.5 )
@@ -259,6 +259,7 @@ function scene:show( event )
         physicsBodies = {}
         hemeGlobals.isGameOver = false
 
+        button_pause:toFront();
         -- Single player Instance
         local params = {g=nil, type='heme', ammo=55}
 		heme = player:newPlayer(params)
