@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:42:51
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-19 17:28:52
+-- @Last Modified time: 2016-04-19 18:43:26
 
 -- Sounds library
 -- Manager for the sound and music files.
@@ -31,40 +31,40 @@ local sounds = {
     sound_toggle_off = 'sounds/select-menu.wav',
 
     -- Player sounds
-    player_spawn = 'sounds/start.wav',
-    player_fire = 'sounds/fire_silencer.wav',
+    player_spawn = 'sounds/launch.wav',
+    player_fire = 'sounds/Laser_Shoot3.wav',
     player_destroy = 'sounds/buzzer.wav',
-    player_collide = 'sounds/hit_1.wav',
+    player_collide = 'sounds/Explosion12.wav',
     player_collect_powerups = 'sounds/power_up_3.wav',
-    player_health_refill = 'sounds/health_refill.wav',
+    player_health_refill = 'sounds/Powerup4.wav',
     player_ammo_refill = 'sounds/ammo_refill.wav',
-    player_fuel_refill = 'sounds/fuel_refill.wav',
-    player_collect_collectible = 'sounds/power_up_2.wav',
-    player_hit = 'sounds/hit_1.wav',
+    player_fuel_refill = 'sounds/Powerup7.wav',
+    player_collect_collectible = 'sounds/Pickup_Coin8.wav',
+    player_hit = 'sounds/Explosion12.wav',
 
     -- Enemy aircraft sounds
-    aircraft_fire = 'sounds/shotgun_fire.wav',
-    aircraft_destroy = 'sounds/aircraft_destroy.wav',
-    aircraft_hit = 'sounds/hit_3.wav',
-    aircraft_collide = 'sounds/hit_3.wav',
+    aircraft_fire = 'sounds/Laser_Shoot4.wav',
+    aircraft_destroy = 'sounds/Explosion9.wav',
+    aircraft_hit = 'sounds/Explosion6.wav',
+    aircraft_collide = 'sounds/Explosion6.wav',
 
     -- Enemy bird sounds
-    bird_destroy = 'sounds/bird_destroy.wav',
+    bird_destroy = 'sounds/Randomize.wav',
     bird_hit = 'sounds/bird_hit.wav',
     bird_collide = 'sounds/bird_hit.wav',
 
     -- Store sounds
-    purchase_coin = 'sounds/coin_1.wav',
+    purchase_coin = 'sounds/Powerup.wav',
     purchase_ammo = 'sounds/ammo_refill.wav',
-    purchase_fuel = 'sounds/fuel_refill.wav',
-    purchase_health = 'sounds/health_refill.wav',
+    purchase_fuel = 'sounds/Powerup7.wav',
+    purchase_health = 'sounds/Powerup4.wav',
     insufficient_fund = 'sounds/alert.wav',
 
     -- Bullet sounds
-	bullet_collide = 'sounds/bullet_collide_obstruction.wav',
+	bullet_collide = 'sounds/Explosion7.wav',
     bullet_collide_ammo = 'sounds/ammo_refill.wav',
-    bullet_collide_fuel = 'sounds/fuel_refill.wav',
-    bullet_collide_health = 'sounds/health_refill.wav',
+    bullet_collide_fuel = 'sounds/Powerup7.wav',
+    bullet_collide_health = 'sounds/Powerup4.wav',
 
     --- other sounds
     bg_music = 'sounds/ERH-BlueBeat-01-_loop_.wav',
