@@ -299,6 +299,7 @@ function scene:show( event )
         -- Called when the scene is still off screen (but is about to come on screen)
 
         physics.start()
+        -- physics.setGravity( 0, 0 )
         physicsBodies = {}
         hemeGlobals.isGameOver = false
 
@@ -421,7 +422,7 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen
-        physics.stop( )
+        physics.pause( )
     end
 end
 
