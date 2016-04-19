@@ -42,7 +42,7 @@ local medalCollectible      = require ('classes.medalCollectible')
 
 -- Local forward references should go here
 -- -------------------------------------------------------------------------------
-local physicsBodies = {}
+-- local physicsBodies = {}
 local displayBodies = {}
 
 local scoreBoardG = display.newGroup( )
@@ -72,11 +72,11 @@ local counter = 0
 local button_pause
 local obstructionType = {"castle", "tree"}
 
-local enemyTimer
-local obstructionTimer
-local refillTimer
-local powerupTimer
-local collectibleTimer
+-- local enemyTimer
+-- local obstructionTimer
+-- local refillTimer
+-- local powerupTimer
+-- local collectibleTimer
 
 -------- functions  -----------
 local getDeltaTime = {}
@@ -97,11 +97,11 @@ function createObjects()
         if (math.random( 5 ) % 5 ) == 0 then --generates aircraft 1 out of 5 enemies
             local aircraft = aircraftEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[yPos], xVel=-scrollSpeed*20})
             aircraft:spawn()
-            table.insert(physicsBodies, aircraft)
+            table.insert(hemeGlobals.physicsBodies, aircraft)
         else
             local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[yPos], xVel=-scrollSpeed*30, ritesh=9999})
             bird:spawn()
-            table.insert(physicsBodies, bird)
+            table.insert(hemeGlobals.physicsBodies, bird)
         end
     end
 
@@ -109,7 +109,7 @@ function createObjects()
         local obsW, obsH = math.random(75, 250), math.random( 250, 400 )
         local obs = obstruction:newObstruction({g=nil, x=display.contentWidth, xVel=-scrollSpeed*10, type=obstructionType[math.random(2)], w=obsW, h=obsH})
         obs:spawn()
-        table.insert(physicsBodies, obs)
+        table.insert(hemeGlobals.physicsBodies, obs)
     end
 
     local function createRefill()
@@ -118,15 +118,15 @@ function createObjects()
         if r == 1 then
             local ammor = ammoRefill:newRefill({xVel=-scrollSpeed*10, y=hemeGlobals.yLevel[yPos]})
             ammor:spawn()
-            table.insert(physicsBodies, ammor)
+            table.insert(hemeGlobals.physicsBodies, ammor)
         elseif r == 2 then
             local fuelr = fuelRefill:newRefill({xVel=-scrollSpeed*15, y=hemeGlobals.yLevel[yPos]})
             fuelr:spawn()
-            table.insert(physicsBodies, fuelr)
+            table.insert(hemeGlobals.physicsBodies, fuelr)
         else
             local healthr = healthRefill:newRefill({xVel=-scrollSpeed*20, y=hemeGlobals.yLevel[yPos]})
             healthr:spawn()
-            table.insert(physicsBodies, healthr)
+            table.insert(hemeGlobals.physicsBodies, healthr)
         end
     end
 
@@ -136,15 +136,15 @@ function createObjects()
         if r == 1 then
             local a = airblastPowerup:newPowerup({xVel=-scrollSpeed*12, y=hemeGlobals.yLevel[yPos]})
             a:spawn()
-            table.insert(physicsBodies, a)
+            table.insert(hemeGlobals.physicsBodies, a)
         elseif r == 2 then
             local b = hyperdrivePowerup:newPowerup({xVel=-scrollSpeed*17, y=hemeGlobals.yLevel[yPos]})
             b:spawn()
-            table.insert(physicsBodies, b)
+            table.insert(hemeGlobals.physicsBodies, b)
         else
             local c = plasmashieldPowerup:newPowerup({xVel=-scrollSpeed*22, y=hemeGlobals.yLevel[yPos]})
             c:spawn()
-            table.insert(physicsBodies, c)
+            table.insert(hemeGlobals.physicsBodies, c)
         end
     end
 
@@ -153,20 +153,26 @@ function createObjects()
         if (math.random(25) % 25 == 0) then
             local m = medalCollectible:newCollectible({xVel=-scrollSpeed*30, y=hemeGlobals.yLevel[yPos]})
             m:spawn()
-            table.insert(physicsBodies, m)
+            table.insert(hemeGlobals.physicsBodies, m)
         else
             local c = coinCollectible:newCollectible({xVel=-scrollSpeed*25, y=hemeGlobals.yLevel[yPos]})
             c:spawn()
-            table.insert(physicsBodies, c)
+            table.insert(hemeGlobals.physicsBodies, c)
         end
     end
 
-    enemyTimer = timer.performWithDelay( 2000, function() createEnemy() end, -1 )
-    obstructionTimer = timer.performWithDelay( 5000, function() createObstruction() end, -1 )
-    refillTimer = timer.performWithDelay( 6000, function() createRefill() end, -1 )
-    powerupTimer = timer.performWithDelay( 10000, function() createPowerup() end, -1 )
-    collectibleTimer = timer.performWithDelay( 8000, function() createCollectible() end, -1 )
+    local enemyTimer = timer.performWithDelay( 2000, function() createEnemy() end, -1 )
+    local obstructionTimer = timer.performWithDelay( 5000, function() createObstruction() end, -1 )
+    local refillTimer = timer.performWithDelay( 6000, function() createRefill() end, -1 )
+    local powerupTimer = timer.performWithDelay( 10000, function() createPowerup() end, -1 )
+    local collectibleTimer = timer.performWithDelay( 8000, function() createCollectible() end, -1 )
 
+    table.insert( hemeGlobals.gameTimers, enemyTimer )
+    table.insert( hemeGlobals.gameTimers, obstructionTimer )
+    table.insert( hemeGlobals.gameTimers, refillTimer )
+    table.insert( hemeGlobals.gameTimers, powerupTimer )
+    table.insert( hemeGlobals.gameTimers, collectibleTimer )
+    print ("**********************************************************************************", #hemeGlobals.gameTimers)
 end
 
 function getDeltaTime()
@@ -224,11 +230,13 @@ function btnPauseHandler(event)
     physics.pause()
     transition.pause()
 
-    timer.pause(enemyTimer)
-    timer.pause(obstructionTimer)
-    timer.pause(refillTimer)
-    timer.pause(powerupTimer)
-    timer.pause(collectibleTimer)
+    print ("**********************************************************************************", #hemeGlobals.gameTimers)
+    utils.pauseGameTimers(hemeGlobals.gameTimers)
+    -- timer.pause(enemyTimer)
+    -- timer.pause(obstructionTimer)
+    -- timer.pause(refillTimer)
+    -- timer.pause(powerupTimer)
+    -- timer.pause(collectibleTimer)
 
     Runtime:removeEventListener("enterFrame", enterFrame)
     composer.showOverlay( "scenes.settings", options )
@@ -259,22 +267,23 @@ end
 
 function destroyBodies()
     -- destroy physics bodies
-    print(#physicsBodies)
-    for i, obj in ipairs( physicsBodies ) do
-        print( "Start destruction .... ", obj.shape.bodyType)
+    print(#hemeGlobals.physicsBodies)
+    for i, obj in ipairs( hemeGlobals.physicsBodies ) do
+        print( "Start destruction .... ")
         print(i, obj)
-        print("...")
         if (obj.bodyType ~= nil) then
+            print("...", obj.tag)
            -- physics.removeBody( obj )
            obj:destroy()
         elseif (obj.shape ~= nil and obj.shape.bodyType ~= nil) then
+            print("... ...", obj.shape.type)
            -- physics.removeBody( obj.shape )
            obj:destroy()
         end
         utils.print_table(obj.shape)
         print("End destruction .... ")
     end
-    physicsBodies = {} -- clear
+    hemeGlobals.physicsBodies = {} -- clear
 
     -- destroy display bodies
     displayBodies = {}
@@ -301,11 +310,14 @@ end
 function scene:resumeGame()
     physics.start();
     transition.resume();
-    timer.resume(enemyTimer)
-    timer.resume(obstructionTimer)
-    timer.resume(refillTimer)
-    timer.resume(powerupTimer)
-    timer.resume(collectibleTimer)
+
+    -- timer.resume(enemyTimer)
+    -- timer.resume(obstructionTimer)
+    -- timer.resume(refillTimer)
+    -- timer.resume(powerupTimer)
+    -- timer.resume(collectibleTimer)
+
+    utils.resumeGameTimers(hemeGlobals.gameTimers)
     Runtime:addEventListener("enterFrame", enterFrame)
 end
 
@@ -400,7 +412,7 @@ function scene:show( event )
 
         physics.start()
         -- physics.setGravity( 0, 0 )
-        physicsBodies = {}
+        hemeGlobals.physicsBodies = {}
         hemeGlobals.isGameOver = false
 
         button_pause:toFront();
@@ -464,11 +476,13 @@ function scene:hide( event )
         Runtime:removeEventListener("tap", tapHandler)
 
         --cancel timer
-        timer.cancel(enemyTimer)
-        timer.cancel(obstructionTimer)
-        timer.cancel(refillTimer)
-        timer.cancel(powerupTimer)
-        timer.cancel(collectibleTimer)
+        -- timer.cancel(enemyTimer)
+        -- timer.cancel(obstructionTimer)
+        -- timer.cancel(refillTimer)
+        -- timer.cancel(powerupTimer)
+        -- timer.cancel(collectibleTimer)
+
+        utils.cancelGameTimers(hemeGlobals.gameTimers)
 
         --stop Animation
         transition.cancel( )
