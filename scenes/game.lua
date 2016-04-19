@@ -320,7 +320,7 @@ function scene:show( event )
 
         -- table.insert(physicsBodies, ground1)
 
-		currentMedalText.text = '1'
+		currentMedalText.text = currentMedal
 		currentCoinText.text = currentCoin
 		currentAmmoText.text = currentAmmo
 		currentFuelText.text = currentFuel
