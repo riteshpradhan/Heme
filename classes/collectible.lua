@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:28:21
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 20:09:54
+-- @Last Modified time: 2016-04-18 23:33:41
 
 
 -- This collectible is used for long term bonus items during game play; power up levels and get more health, ammo and fuel
@@ -11,6 +11,7 @@
 local physics = require("physics")
 local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
+local sounds = require('libs.sounds')
 
 local _M = {tag='collectible', type='default', w=50, h=50, x=1030, y=hemeGlobals.yLevel[1], xVel=-10, yVel=0, value=1}
 
