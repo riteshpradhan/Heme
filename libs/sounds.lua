@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:42:51
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-18 00:09:01
+-- @Last Modified time: 2016-04-18 21:34:21
 
 -- Sounds library
 -- Manager for the sound and music files.
@@ -58,6 +58,11 @@ local sounds = {
     purchase_health = 'sounds/select-menu.wav',
     insufficient_fund = 'sounds/alert.wav',
 	--- other sounds
+
+    bullet_collide = 'sounds/select-menu.wav',
+    bullet_collide_ammo = 'sounds/select-menu.wav',
+    bullet_collide_fuel = 'sounds/select-menu.wav',
+    bullet_collide_health = 'sounds/select-menu.wav',
 }
 
 -- Reserve two channels for streams and switch between them with a nice fade out / fade in transition

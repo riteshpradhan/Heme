@@ -1,7 +1,6 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:30:58
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-18 21:09:45
+
 
 
 local physics = require("physics")
@@ -290,6 +289,8 @@ function scene:show( event )
 
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen)
+
+        physics.start()
         physicsBodies = {}
         hemeGlobals.isGameOver = false
 
@@ -308,10 +309,14 @@ function scene:show( event )
 
         -- Randomly generate many enemies; powerups; refills; collectible
         -- insert all into physicsBodies
+        print("Scroll speed is : ", scrollSpeed)
 		local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[2], xVel=-scrollSpeed*30, ritesh=9999})
 		bird:spawn()
         table.insert(physicsBodies, bird)
 
+        local aircraft = aircraftEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[1], xVel=-scrollSpeed*20})
+        aircraft:spawn()
+        table.insert(physicsBodies, aircraft)
 
         -- table.insert(physicsBodies, ground1)
 

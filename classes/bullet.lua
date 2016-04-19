@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 17:06:15
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 19:58:40
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-18 21:34:12
 
 -- Bullet visual effect
 -- Bullet can be either can be of Player or Enemy, or it can act as an explosion visualisation.
@@ -22,7 +22,20 @@ function _M.newBullet(params)
 	-- local selfDestroyTimer = timer.performWithDelay( 4000, function() bullet:selfDestroy() end, 1 )
 
 	function bullet:collision(event)
-		print("Collision of bullet")
+		if event.phase == "ended" then
+			print("Collision of bullet with powerups")
+			if (event.other.tag == "shiva") then
+				-- No sound
+			elseif (event.other.tag == "ammoRefill") then
+				sounds.play('bullet_collide_ammo')
+			elseif (event.other.tag == "fuelRefill") then
+				sounds.play('bullet_collide_fuel')
+			elseif (event.other.tag == "healthRefill") then
+				sounds.play('bullet_collide_health')
+			else
+				sounds.play('bullet_collide')
+			end
+		end
 	end
 
 	function bullet:enterFrame(event)
@@ -52,7 +65,7 @@ function _M.newBullet(params)
 		if (self ~= nil ) then
 			transition.to(self, {time=100, alpha=0})
 			timer.performWithDelay( 1, function() physics.removeBody( self ); self:removeSelf( ); self = nil end , 1 )
-			sounds.play('refill_destroy')
+			-- sounds.play('refill_destroy')
 		end
 	end
 
