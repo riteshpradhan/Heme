@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 17:06:15
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-18 21:34:12
+-- @Last Modified by:   Ritesh Pradhan
+-- @Last Modified time: 2016-04-19 18:24:57
 
 -- Bullet visual effect
 -- Bullet can be either can be of Player or Enemy, or it can act as an explosion visualisation.
@@ -14,7 +14,8 @@ local _M = {}
 function _M.newBullet(params)
 -- function _M.new(params)
 	-- local bullet = display.newImageRect(params.g, 'images/bullets/' .. params.type .. '.png', params.w, params.h)
-	local bullet = display.newImageRect('images/bullets/' .. params.type .. '.png', params.w, params.h)
+	-- local bullet = display.newImageRect('images/bullets/' .. params.type .. '.png', params.w, params.h)
+	local bullet = display.newRoundedRect( params.x, params.y, params.w, params.h, 1 )
 	bullet.x, bullet.y = params.x, params.y
 	bullet.type = params.type
 	-- physics.addBody(bullet, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5})
@@ -64,7 +65,14 @@ function _M.newBullet(params)
 		print("FIred!!!!!!!!!!!!!!!!!1")
 		if (self ~= nil ) then
 			transition.to(self, {time=100, alpha=0})
-			timer.performWithDelay( 1, function() physics.removeBody( self ); self:removeSelf( ); self = nil end , 1 )
+			timer.performWithDelay( 1,
+				function()
+					physics.removeBody( self );
+					-- self:removeSelf( );
+					display.remove( self )
+					self = nil;
+					end,
+				 1 )
 			-- sounds.play('refill_destroy')
 		end
 	end
