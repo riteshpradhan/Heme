@@ -1,7 +1,6 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 21:09:56
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 21:54:45
+
 
 -- Enemy: aircraft
 -- This enemy can be fire back enemybullet
@@ -43,7 +42,10 @@ function _M:collision(event)
 	if event.phase == "ended" then
 		print("Collision of aircraftEnemy")
 		utils.print_table(event.other)
-		if (event.other.tag == "player") then
+		if (event.other.tag == "shiva") then
+			-- no sound, just destroying the object
+			self:destroy()
+		elseif (event.other.tag == "player") then
 			sounds.play('aircraft_collide')
 			self:destroy()
 		else
@@ -74,58 +76,3 @@ function _M:destroy()
 end
 
 return _M
-
-
-
-
-
-
-
-
-
-
--- function _M.newAircraftEnemy(params)
--- 	params.type = params.type or 'aircraftEnemy'
--- 	local aircraftEnemy = newEnemy(params)
-
--- 	aircraftEnemy.superMove = aircraftEnemy.move()
-
--- 	function aircraftEnemy:move()
--- 		-- new movement if any required.
--- 		self:superMove()
--- 	end
-
--- 	-- fires bullet
--- 	function aircraft:fire()
--- 		print("Firing bullet from player")
--- 		-- sound.play('enemy_fire')
--- 		-- create a self destructible bullet
--- 		local bullet = newPlayerBullet({x = self.x, y = self.y, isExplosion = self.type == 'enemyBullet'})
-
--- 	end
-
--- 	function aircraftEnemy:collision(event)
--- 		print("Collision of aircraftEnemy")
--- 	end
-
-
--- 	function aircraftEnemy:tap(event)
--- 		print("Tap of aircraftEnemy")
--- 	end
-
-
--- 	function aircraftEnemy:destroy()
--- 		print("Destroying aircraftEnemy")
--- 		if (aircraftEnemy ~= nil) then
--- 			transition.to(aircraftEnemy, {time=100, alpha=0})
--- 			aircraftEnemy:removeSelf( )
--- 		end
--- 	end
-
--- 	aircraftEnemy:addEventListener("collision")
--- 	aircraftEnemy:addEventListener("tap")
-
--- 	return aircraftEnemy
--- end
-
--- return _M

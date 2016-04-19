@@ -1,7 +1,6 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:30:58
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 22:07:02
+
 
 
 local physics = require("physics")

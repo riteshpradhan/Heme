@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 22:58:39
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 19:29:58
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-18 21:18:10
 
 
 -- This refill is used for instant bonus items during game play
@@ -82,7 +82,7 @@ function _M:destroy()
 	if (self ~= nil and self.shape ~= nil) then
 		transition.to(self, {time=100, alpha=0})
 		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
-		sounds.play('refill_destroy')
+		-- sounds.play('refill_destroy')
 	end
 end
 
