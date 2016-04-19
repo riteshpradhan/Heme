@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 21:09:56
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-18 00:09:36
+-- @Last Modified time: 2016-04-18 21:24:52
 
 -- Enemy: aircraft
 -- This enemy can be fire back enemybullet
@@ -38,7 +38,10 @@ function _M:collision(event)
 	if event.phase == "ended" then
 		print("Collision of aircraftEnemy")
 		utils.print_table(event.other)
-		if (event.other.tag == "player") then
+		if (event.other.tag == "shiva") then
+			-- no sound, just destroying the object
+			self:destroy()
+		elseif (event.other.tag == "player") then
 			sounds.play('aircraft_collide')
 			self:destroy()
 		else
