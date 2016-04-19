@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:42:51
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-18 21:34:21
+-- @Last Modified time: 2016-04-18 23:23:11
 
 -- Sounds library
 -- Manager for the sound and music files.
@@ -14,8 +14,8 @@ _M.isSoundOn = true
 _M.isMusicOn = true
 
 local sounds = {
-	win = 'sounds/win.wav',
-	lose = 'sounds/lose.wav',
+	-- win = 'sounds/win.wav',
+	-- lose = 'sounds/lose.wav',
 
     -- Menu item sounds
     play = 'sounds/select-settings.wav',
@@ -31,38 +31,43 @@ local sounds = {
     sound_toggle_off = 'sounds/select-menu.wav',
 
     -- Player sounds
-    player_spawn = 'sounds/fire-player.wav',
-    player_fire = 'sounds/fire-player.wav',
-    player_destroy = 'sounds/fire-player.wav',
-    player_collide = 'sounds/fire-player.wav',
-    player_collect_powerups = 'sounds/fire-player.wav',
-    player_collect_refills = 'sounds/fire-player.wav',
-    player_collect_collectible = 'sounds/fire-player.wav',
-    player_hit = 'sounds/fire-player.wav',
+    player_spawn = 'sounds/start.wav',
+    player_fire = 'sounds/fire_silencer.wav',
+    player_destroy = 'sounds/game_over.wav',
+    player_collide = 'sounds/hit_1.wav',
+    player_collect_powerups = 'sounds/power_up_3.wav',
+    player_health_refill = 'sounds/health_refill.wav',
+    player_ammo_refill = 'sounds/ammo_refill.wav',
+    player_fuel_refill = 'sounds/fuel_refill.wav',
+    player_collect_collectible = 'sounds/power_up_2.wav',
+    player_hit = 'sounds/hit_1.wav',
 
     -- Enemy aircraft sounds
-    aircraft_fire = 'sounds/fire-enemy.wav',
-    aircraft_destroy = 'sounds/fire-player.wav',
-    aircraft_hit = 'sounds/fire-player.wav',
-    aircraft_collide = 'sounds/fire-enemy.wav',
+    aircraft_fire = 'sounds/shotgun_fire.wav',
+    aircraft_destroy = 'sounds/aircraft_destroy.wav',
+    aircraft_hit = 'sounds/hit_3.wav',
+    aircraft_collide = 'sounds/hit_3.wav',
 
     -- Enemy bird sounds
-    bird_destroy = 'sounds/fire-player.wav',
-    bird_hit = 'sounds/fire-player.wav',
-    bird_collide = 'sounds/fire-enemy.wav',
+    bird_destroy = 'sounds/bird_destroy.wav',
+    bird_hit = 'sounds/bird_hit.wav',
+    bird_collide = 'sounds/bird_hit.wav',
 
     -- Store sounds
-    purchase_coin = 'sounds/coins.wav',
-    purchase_ammo = 'sounds/select-menu.wav',
-    purchase_fuel = 'sounds/select-menu.wav',
-    purchase_health = 'sounds/select-menu.wav',
+    purchase_coin = 'sounds/coin_1.wav',
+    purchase_ammo = 'sounds/ammo_refill.wav',
+    purchase_fuel = 'sounds/fuel_refill.wav',
+    purchase_health = 'sounds/health_refill.wav',
     insufficient_fund = 'sounds/alert.wav',
-	--- other sounds
 
-    bullet_collide = 'sounds/select-menu.wav',
-    bullet_collide_ammo = 'sounds/select-menu.wav',
-    bullet_collide_fuel = 'sounds/select-menu.wav',
-    bullet_collide_health = 'sounds/select-menu.wav',
+    -- Bullet sounds
+	bullet_collide = 'sounds/bullet_collide_obstruction.wav',
+    bullet_collide_ammo = 'sounds/ammo_refill.wav',
+    bullet_collide_fuel = 'sounds/fuel_refill.wav',
+    bullet_collide_health = 'sounds/health_refill.wav',
+
+    --- other sounds
+    bg_music = 'sounds/bg_music.wav',
 }
 
 -- Reserve two channels for streams and switch between them with a nice fade out / fade in transition
@@ -92,6 +97,15 @@ local function loadSound(sound)
     return loadedSounds[sound]
 end
 
+function _M.stop(channel)
+    currentStreamSound = nil
+    if(channel) then
+        audio.stop(channel)
+    else
+        audio.stop()
+    end
+end
+
 function _M.play(sound, params)
     if not _M.isSoundOn then return end
     if not sounds[sound] then
@@ -99,11 +113,6 @@ function _M.play(sound, params)
         return
     end
     return audio.play(loadSound(sound), params)
-end
-
-function _M.stop()
-    currentStreamSound = nil
-    audio.stop()
 end
 
 return _M
