@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 18:23:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 21:57:51
+-- @Last Modified time: 2016-04-18 22:55:53
 
 local physics = require("physics")
 local newBullet = require("classes.bullet").newBullet
@@ -18,6 +18,7 @@ function _M.newEnemyBullet(params)
 	enemyBullet.tag = 'bullet'
 
 	physics.addBody(enemyBullet, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5, filter=collisionFilters.enemyBullet})
+	enemyBullet.isSensor = true
 	-- enemyBullet:applyLinearImpulse(-30, 0, enemyBullet.x, enemyBullet.y)
 	enemyBullet:setLinearVelocity( -300, 0 )
 

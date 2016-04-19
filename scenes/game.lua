@@ -24,6 +24,7 @@ local newShiva              = require( 'classes.shiva').newShiva
 local birdEnemy             = require ('classes.birdEnemy')
 local aircraftEnemy         = require ('classes.aircraftEnemy')
 local generalObstruction    = require ('classes.generalObstruction')
+local obstruction           = require ('classes.obstruction')
 local ammoRefill            = require ('classes.ammoRefill')
 local fuelRefill            = require ('classes.fuelRefill')
 local healthRefill          = require ('classes.healthRefill')
@@ -299,7 +300,12 @@ function scene:show( event )
         aircraft:spawn()
         table.insert(physicsBodies, aircraft)
 
-        -- table.insert(physicsBodies, ground1)
+        local obs = obstruction:newObstruction({g=nil, x=display.contentWidth, xVel=-scrollSpeed*10, type="castle"})
+        obs:spawn()
+        table.insert(physicsBodies, obs)
+
+
+
 
 		currentMedalText.text = currentMedal
 		currentCoinText.text = currentCoin
