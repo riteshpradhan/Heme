@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 15:33:38
+-- @Last Modified time: 2016-04-19 15:47:19
 
 
 -- Heme Player
@@ -54,10 +54,10 @@ function _M:launch()
 	self.shape:setFillColor(1,0,0,0)
 	sounds.play('player_spawn')
 	physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5, filter=collisionFilters.player}) -- While the player rests near the cannon, it's kinematic
-	self.shape.isHyperDriveActive = false
-	self.shape.isPlasmaShieldActive = false
+	self.isHyperDriveActive = false
+	self.isPlasmaShieldActive = false
 	print(self.shape, self.shape.ref, self, self.shape.bodyType)
-
+	self.shape.isSensor = false
 
 
 	print("Self.shape.ref:", self.health, self.ammo)
