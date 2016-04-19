@@ -1,7 +1,6 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:30:58
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-18 21:09:45
+
 
 
 local physics = require("physics")
@@ -25,6 +24,7 @@ local newShiva              = require( 'classes.shiva').newShiva
 local birdEnemy             = require ('classes.birdEnemy')
 local aircraftEnemy         = require ('classes.aircraftEnemy')
 local generalObstruction    = require ('classes.generalObstruction')
+local obstruction           = require ('classes.obstruction')
 local ammoRefill            = require ('classes.ammoRefill')
 local fuelRefill            = require ('classes.fuelRefill')
 local healthRefill          = require ('classes.healthRefill')
@@ -46,7 +46,7 @@ local physicsBodies = {}
 local displayBodies = {}
 
 local scoreBoardG = display.newGroup( )
-local scoreBoardRect
+-- local scoreBoardRect
 
 local currentMedalText
 local currentCoinText
@@ -227,29 +227,47 @@ function scene:create( event )
     bg = background:newBackground()
     bg:addScrollableBg(bgImage)
 
-    scoreBoardRect = display.newRect(display.contentCenterX, 50, display.contentWidth, 100 )
-    scoreBoardRect:setFillColor( 1, 0, 0, 0.5 )
+
+
+
+
+    -- scoreBoardRect = display.newRect(display.contentCenterX, 50, display.contentWidth, 100 )
+    -- scoreBoardRect:setFillColor( 1, 0, 0, 0.5 )
+
+    local scoreBoardImage = display.newImage("images/scenes/scoreBoardIcons.png")
+    scoreBoardImage.x = display.contentCenterX;
+    scoreBoardImage.y = 36;
+    scoreBoardImage:toFront();
+
+
     local eachBoxWidth = display.contentWidth/6
     local eachImageRectWidth = 0.2 * eachBoxWidth
     local eachTextRectWidth = 0.5 * eachBoxWidth
 
+
     local medalImageRect = display.newImageRect( scoreBoardG, "images/medal.png", eachImageRectWidth, 60 )
-    currentMedalText = display.newText( scoreBoardG, currentMedal, 0.65 * eachBoxWidth, 50, native.systemFont, 40 )
+    currentMedalText = display.newText( scoreBoardG, currentMedal, 0.6 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    currentMedalText:setFillColor(1,1,0)
 
     local coinImageRect = display.newImageRect( scoreBoardG, "images/coin.png", eachImageRectWidth, 60 )
-    currentCoinText = display.newText( scoreBoardG, currentCoin, 1.65 * eachBoxWidth, 50, native.systemFont, 40 )
+    currentCoinText = display.newText( scoreBoardG, currentCoin, 1.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    currentCoinText:setFillColor(1,1,0)
 
     local ammoImageRect = display.newImageRect( scoreBoardG, "images/ammo.png", eachImageRectWidth, 60 )
-    currentAmmoText = display.newText( scoreBoardG, currentAmmo, 2.65 * eachBoxWidth, 50, native.systemFont, 40 )
+    currentAmmoText = display.newText( scoreBoardG, currentAmmo, 2.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    currentAmmoText:setFillColor(1,1,0)
 
     local fuelImageRect = display.newImageRect( scoreBoardG, "images/fuel.png", eachImageRectWidth, 60 )
-    currentFuelText = display.newText( scoreBoardG, currentFuel, 3.65 * eachBoxWidth, 50, native.systemFont, 40 )
+    currentFuelText = display.newText( scoreBoardG, currentFuel, 3.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    currentFuelText:setFillColor(1,1,0)
 
     local healthImageRect = display.newImageRect( scoreBoardG, "images/health.png", eachImageRectWidth, 60 )
-    currentHealthText = display.newText( scoreBoardG, currentHealth, 4.65 * eachBoxWidth, 50, native.systemFont, 40 )
+    currentHealthText = display.newText( scoreBoardG, currentHealth, 4.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    currentHealthText:setFillColor(1,1,0)
 
     local distanceImageRect = display.newImageRect( scoreBoardG, "images/distance.png", eachImageRectWidth, 60 )
-    currentDistanceText = display.newText( scoreBoardG, currentDistance, 5.65 * eachBoxWidth, 50, native.systemFont, 40 )
+    currentDistanceText = display.newText( scoreBoardG, currentDistance, 5.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    currentDistanceText:setFillColor(1,1,0)
 
     sceneGroup:insert(scoreBoardG)
 
@@ -258,6 +276,7 @@ function scene:create( event )
     utils.print_table(bg)
     sceneGroup:insert( bg.bg1 )
     sceneGroup:insert( bg.bg2 )
+    sceneGroup:insert(scoreBoardImage);
 
     -- Runtime:addEventListener( "onGameOver", listener )
 end
@@ -271,6 +290,8 @@ function scene:show( event )
 
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen)
+
+        physics.start()
         physicsBodies = {}
         hemeGlobals.isGameOver = false
 
@@ -289,12 +310,21 @@ function scene:show( event )
 
         -- Randomly generate many enemies; powerups; refills; collectible
         -- insert all into physicsBodies
+        print("Scroll speed is : ", scrollSpeed)
 		local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[2], xVel=-scrollSpeed*30, ritesh=9999})
 		bird:spawn()
         table.insert(physicsBodies, bird)
 
+        local aircraft = aircraftEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[1], xVel=-scrollSpeed*20})
+        aircraft:spawn()
+        table.insert(physicsBodies, aircraft)
 
-        -- table.insert(physicsBodies, ground1)
+        local obs = obstruction:newObstruction({g=nil, x=display.contentWidth, xVel=-scrollSpeed*10, type="castle"})
+        obs:spawn()
+        table.insert(physicsBodies, obs)
+
+
+
 
 		currentMedalText.text = currentMedal
 		currentCoinText.text = currentCoin

@@ -2,3 +2,6 @@
 - images
 - leftShiva on collision (destroy all objects)
 - player select scene
+- mistral regular font.
+
+
