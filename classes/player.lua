@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-18 22:19:49
+-- @Last Modified by:   Ritesh Pradhan
+-- @Last Modified time: 2016-04-19 01:08:22
 
 
 -- Heme Player
@@ -92,7 +92,8 @@ function _M:collision(event)
 				sounds.play('player_destroy')
 				print ("player collided with groound")
 				--destroy
-				self:destroy()
+				hemeGlobals.isGameOver = true
+				-- self:destroy()
 			else
 				if (event.other.tag == "enemy") then
 					sounds.play('player_collide')
@@ -103,11 +104,11 @@ function _M:collision(event)
 					self.health = self.health - event.other.hp
 				elseif (event.other.tag == "powerup") then
 					-- use powerup
-					sounds.play('player_collect_powerups')
+					sounds.play('player_collect_collectible')
 					if (event.other.type == "hyperdrivePowerup") then
 						-- do something
 						print("hyperdrivePowerup")
-						self.isHyperDriveActive = false
+						self.isHyperDriveActive = true
 						self.hyperTimer = timer.performWithDelay( 5000, function() self.isHyperDriveActive = false end , 1 )
 
 					elseif (event.other.type == "plasmashieldPowerup") then
@@ -161,7 +162,10 @@ end
 
 function _M:destroy()
 	if self ~= nil and self.shape ~= nil then
-		timer.performWithDelay(1, function() self.playerSprite:removeSelf() end)
+		physics.start()
+		if(self.playerSprite ~= nil ) then
+			self.playerSprite:removeSelf()
+		end
 		timer.performWithDelay( 2, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 		sounds.play('player_destroy')
 		-- game Over

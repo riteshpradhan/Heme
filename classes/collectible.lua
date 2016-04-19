@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:28:21
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 23:33:41
+-- @Last Modified time: 2016-04-18 23:48:12
 
 
 -- This collectible is used for long term bonus items during game play; power up levels and get more health, ammo and fuel
@@ -12,6 +12,7 @@ local physics = require("physics")
 local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
 local sounds = require('libs.sounds')
+local collisionFilters = require( 'libs.collisionFilters')
 
 local _M = {tag='collectible', type='default', w=50, h=50, x=1030, y=hemeGlobals.yLevel[1], xVel=-10, yVel=0, value=1}
 
@@ -31,7 +32,7 @@ function _M:spawn()
 
 	self.shape = display.newImageRect('images/collectible/' .. self.type .. '.png', self.w, self.h)
 	self.shape.x, self.shape.y = self.x, self.y
-	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5})
+	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5, filter =collisionFilters.collectible})
 	self.shape.isSensor = true
 	self.shape.type = self.type
 	self.shape.tag = self.tag
