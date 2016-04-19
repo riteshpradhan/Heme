@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:42:51
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-19 01:33:18
+-- @Last Modified time: 2016-04-19 17:28:52
 
 -- Sounds library
 -- Manager for the sound and music files.
@@ -67,7 +67,7 @@ local sounds = {
     bullet_collide_health = 'sounds/health_refill.wav',
 
     --- other sounds
-    bg_music = 'sounds/bg_music.wav',
+    bg_music = 'sounds/ERH-BlueBeat-01-_loop_.wav',
 }
 
 -- Reserve two channels for streams and switch between them with a nice fade out / fade in transition
