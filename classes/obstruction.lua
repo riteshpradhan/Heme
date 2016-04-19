@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-14 21:52:06
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 20:07:50
+-- @Last Modified time: 2016-04-19 00:42:05
 
 -- This is also enemy but industrible one
 -- static type; infinite mass
@@ -12,10 +12,12 @@
 
 local physics = require("physics")
 local hemeGlobals = require('libs.globals')
+local sounds = require( 'libs.sounds')
 local utils = require('libs.utils')
 local collisionFilters = require( 'libs.collisionFilters')
 
-local _M = {tag='obstruction', type='default', w=30, h=80, x=830, y=hemeGlobals.yLevel[1], xVel=-100, yVel=0}
+
+local _M = {tag='obstruction', type='default', w=50, h=280, x=930, y=display.contentHeight-40, xVel=-100, yVel=0}
 
 function _M:newObstruction(params)
 	local o = params or {}
@@ -47,7 +49,7 @@ end
 function _M:collision(event)
 	if event.phase == "ended" then
 		-- print("Collision of obstruction")
-		self:destroy()
+		-- self:destroy()
 	end
 
 end

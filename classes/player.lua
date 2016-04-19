@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 16:30:03
+-- @Last Modified time: 2016-04-19 15:33:38
 
 
 -- Heme Player
@@ -92,7 +92,8 @@ function _M:collision(event)
 				sounds.play('player_destroy')
 				print ("player collided with groound")
 				--destroy
-				self:destroy()
+				hemeGlobals.isGameOver = true
+				-- self:destroy()
 			else
 				if (event.other.tag == "enemy") then
 					sounds.play('player_collide')
@@ -103,18 +104,21 @@ function _M:collision(event)
 					self.health = self.health - event.other.hp
 				elseif (event.other.tag == "powerup") then
 					-- use powerup
-					sounds.play('player_collect_powerups')
+					sounds.play('player_collect_collectible')
 					if (event.other.type == "hyperdrivePowerup") then
 						-- do something
 						print("hyperdrivePowerup")
-						self.isHyperDriveActive = false
-						self.hyperTimer = timer.performWithDelay( 5000, function() self.isHyperDriveActive = false end , 1 )
-
+						self.isHyperDriveActive = true
+						self.shape.isSensor = true
+						self.hyperTimer = timer.performWithDelay( 5000, function() self.isHyperDriveActive = false; self.shape.isSensor = false; end , 1 )
+						table.insert(hemeGlobals.gameTimers, self.hyperTimer)
 					elseif (event.other.type == "plasmashieldPowerup") then
 						-- do something
 						print("plasmashieldPowerup")
 						self.isPlasmaShieldActive = true
-						self.plasmaTimer = timer.performWithDelay( 5000, function() self.isPlasmaShieldActive = false end , 1 )
+						self.shape.isSensor = true
+						self.plasmaTimer = timer.performWithDelay( 5000, function() self.isPlasmaShieldActive = false; self.shape.isSensor = false; end , 1 )
+						table.insert(hemeGlobals.gameTimers, self.hyperTimer)
 					elseif (event.other.type == "airblastPowerup") then
 						-- do something
 						print("airblastPowerup")
@@ -122,12 +126,14 @@ function _M:collision(event)
 					end
 				elseif (event.other.tag == "refill") then
 					-- do refill
-					sounds.play('player_collect_refills')
 					if (event.other.type == "ammoRefill") then
+						sounds.play('player_ammo_refill')
 						self.ammo = self.ammo + event.other.value
 					elseif (event.other.type == "fuelRefill") then
+						sounds.play('player_fuel_refill')
 						self.fuel = self.fuel + event.other.value
 					elseif (event.other.type == "healthRefill") then
+						sounds.play('player_health_refill')
 						self.health = self.health + event.other.value
 					end
 				elseif (event.other.tag == "collectible") then
@@ -159,8 +165,11 @@ end
 
 function _M:destroy()
 	if self ~= nil and self.shape ~= nil then
-		timer.performWithDelay(1, function() self.playerSprite:removeSelf() end)
-		timer.performWithDelay( 2, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
+		physics.start()
+		if(self.playerSprite ~= nil ) then
+			self.playerSprite:removeSelf()
+		end
+		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 		sounds.play('player_destroy')
 		-- game Over
 		hemeGlobals.isGameOver = true
@@ -173,6 +182,7 @@ function _M:fire()
 	-- sound.play('player_fire')
 	-- create a self destructible bullet
 	local bullet = newPlayerBullet({x = self.shape.x, y = self.shape.y, isExplosion = self.type == 'playerBullet', hp=3})
+	table.insert( hemeGlobals.physicsBodies, bullet )
 	sounds.play('player_fire')
 end
 

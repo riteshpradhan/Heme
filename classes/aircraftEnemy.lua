@@ -10,6 +10,7 @@ local enemy = require("classes.enemy")
 local newEnemyBullet = require("classes.enemyBullet").newEnemyBullet
 local utils = require("libs.utils")
 local sounds = require("libs.sounds")
+local hemeGlobals = require('libs.globals')
 
 local _M = enemy:newEnemy({hp=10, health=20, type="aircraftEnemy", w=80, h=80})
 
@@ -18,8 +19,9 @@ function _M:spawn()
 	self:superSpawn()
 	self.shape:setFillColor( 0,1,1,0.8 )
 
-	self.firingTimer = timer.performWithDelay( 1000, function() self:fire() end, 5)
+	self.firingTimer = timer.performWithDelay( 3000, function() self:fire() end, 5)
 
+	table.insert( hemeGlobals.gameTimers, self.firingTimer)
 
 end
 
@@ -36,6 +38,7 @@ function _M:fire()
 	-- sound.play('enemy_fire')
 	-- create a self destructible bullet
 	local bullet = newEnemyBullet({x = self.shape.x, y = self.shape.y, isExplosion = self.type == 'enemyBullet', hp=5})
+	table.insert( hemeGlobals.physicsBodies, bullet )
 end
 
 function _M:collision(event)

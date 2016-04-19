@@ -1,12 +1,13 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:05:55
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 01:16:30
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-18 23:26:11
 
 -- load required library files
 local widget = require("widget")
 local composer = require( "composer" )
 local background = require('classes.background')
+local hemeDatabox = require('libs.databox')
 
 local sounds = require( "libs.sounds" );
 local scene = composer.newScene();
@@ -124,6 +125,11 @@ function scene:create( event )
 end
 
 function scene:show( event )
+    if(hemeDatabox.isMusicOn) then
+        if(audio.isChannelPlaying( 25 ) == false) then
+            sounds.play('bg_music', {loops = -1, channel = 25})
+        end
+    end
     local sceneGroup = self.view
     local phase = event.phase
     local params = event.params

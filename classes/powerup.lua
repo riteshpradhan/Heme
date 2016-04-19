@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:42:01
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 19:34:24
+-- @Last Modified time: 2016-04-18 23:35:07
 
 -- This powerup is used at the instant of consumption. Amazing powerups
 -- airblast
@@ -12,6 +12,7 @@ local physics = require("physics")
 local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
 local collisionFilters = require( 'libs.collisionFilters')
+local sounds = require('libs.sounds')
 
 local _M = {tag='powerup', type='default', w=50, h=50, x=1030, y=hemeGlobals.yLevel[1], xVel=-10, yVel=0}
 

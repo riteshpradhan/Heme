@@ -24,6 +24,7 @@ local newShiva              = require( 'classes.shiva').newShiva
 local birdEnemy             = require ('classes.birdEnemy')
 local aircraftEnemy         = require ('classes.aircraftEnemy')
 local generalObstruction    = require ('classes.generalObstruction')
+local obstruction           = require ('classes.obstruction')
 local ammoRefill            = require ('classes.ammoRefill')
 local fuelRefill            = require ('classes.fuelRefill')
 local healthRefill          = require ('classes.healthRefill')
@@ -41,7 +42,7 @@ local medalCollectible      = require ('classes.medalCollectible')
 
 -- Local forward references should go here
 -- -------------------------------------------------------------------------------
-local physicsBodies = {}
+-- local physicsBodies = {}
 local displayBodies = {}
 
 local scoreBoardG = display.newGroup( )
@@ -69,6 +70,13 @@ local ground1
 local lordShiva
 local counter = 0
 local button_pause
+local obstructionType = {"castle", "tree"}
+
+-- local enemyTimer
+-- local obstructionTimer
+-- local refillTimer
+-- local powerupTimer
+-- local collectibleTimer
 
 -------- functions  -----------
 local getDeltaTime = {}
@@ -77,9 +85,95 @@ local touchHandler = {}
 local tapHandler = {}
 local onGameOver = {}
 local destroyBodies = {}
+local createObjects = {}
 
 
 
+
+function createObjects()
+
+    local function createEnemy()
+        local yPos = math.random(3)
+        if (math.random( 5 ) % 5 ) == 0 then --generates aircraft 1 out of 5 enemies
+            local aircraft = aircraftEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[yPos], xVel=-scrollSpeed*20})
+            aircraft:spawn()
+            table.insert(hemeGlobals.physicsBodies, aircraft)
+        else
+            local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[yPos], xVel=-scrollSpeed*30, ritesh=9999})
+            bird:spawn()
+            table.insert(hemeGlobals.physicsBodies, bird)
+        end
+    end
+
+    local function createObstruction()
+        local obsW, obsH = math.random(75, 250), math.random( 250, 400 )
+        local obs = obstruction:newObstruction({g=nil, x=display.contentWidth, xVel=-scrollSpeed*10, type=obstructionType[math.random(2)], w=obsW, h=obsH})
+        obs:spawn()
+        table.insert(hemeGlobals.physicsBodies, obs)
+    end
+
+    local function createRefill()
+        local r = math.random(3)
+        local yPos = math.random(3)
+        if r == 1 then
+            local ammor = ammoRefill:newRefill({xVel=-scrollSpeed*10, y=hemeGlobals.yLevel[yPos]})
+            ammor:spawn()
+            table.insert(hemeGlobals.physicsBodies, ammor)
+        elseif r == 2 then
+            local fuelr = fuelRefill:newRefill({xVel=-scrollSpeed*15, y=hemeGlobals.yLevel[yPos]})
+            fuelr:spawn()
+            table.insert(hemeGlobals.physicsBodies, fuelr)
+        else
+            local healthr = healthRefill:newRefill({xVel=-scrollSpeed*20, y=hemeGlobals.yLevel[yPos]})
+            healthr:spawn()
+            table.insert(hemeGlobals.physicsBodies, healthr)
+        end
+    end
+
+    local function createPowerup()
+        local r = math.random(3)
+        local yPos = math.random(3)
+        if r == 1 then
+            local a = airblastPowerup:newPowerup({xVel=-scrollSpeed*12, y=hemeGlobals.yLevel[yPos]})
+            a:spawn()
+            table.insert(hemeGlobals.physicsBodies, a)
+        elseif r == 2 then
+            local b = hyperdrivePowerup:newPowerup({xVel=-scrollSpeed*17, y=hemeGlobals.yLevel[yPos]})
+            b:spawn()
+            table.insert(hemeGlobals.physicsBodies, b)
+        else
+            local c = plasmashieldPowerup:newPowerup({xVel=-scrollSpeed*22, y=hemeGlobals.yLevel[yPos]})
+            c:spawn()
+            table.insert(hemeGlobals.physicsBodies, c)
+        end
+    end
+
+    local function createCollectible()
+        local yPos = math.random(3)
+        if (math.random(25) % 25 == 0) then
+            local m = medalCollectible:newCollectible({xVel=-scrollSpeed*30, y=hemeGlobals.yLevel[yPos]})
+            m:spawn()
+            table.insert(hemeGlobals.physicsBodies, m)
+        else
+            local c = coinCollectible:newCollectible({xVel=-scrollSpeed*25, y=hemeGlobals.yLevel[yPos]})
+            c:spawn()
+            table.insert(hemeGlobals.physicsBodies, c)
+        end
+    end
+
+    local enemyTimer = timer.performWithDelay( 2000, function() createEnemy() end, -1 )
+    local obstructionTimer = timer.performWithDelay( 5000, function() createObstruction() end, -1 )
+    local refillTimer = timer.performWithDelay( 6000, function() createRefill() end, -1 )
+    local powerupTimer = timer.performWithDelay( 10000, function() createPowerup() end, -1 )
+    local collectibleTimer = timer.performWithDelay( 8000, function() createCollectible() end, -1 )
+
+    table.insert( hemeGlobals.gameTimers, enemyTimer )
+    table.insert( hemeGlobals.gameTimers, obstructionTimer )
+    table.insert( hemeGlobals.gameTimers, refillTimer )
+    table.insert( hemeGlobals.gameTimers, powerupTimer )
+    table.insert( hemeGlobals.gameTimers, collectibleTimer )
+    print ("**********************************************************************************", #hemeGlobals.gameTimers)
+end
 
 function getDeltaTime()
    local temp = system.getTimer()
@@ -133,8 +227,17 @@ function btnPauseHandler(event)
         time = 400,
         params = {is_playing = true}
     }
-    physics.pause();
-    transition.pause();
+    physics.pause()
+    transition.pause()
+
+    print ("**********************************************************************************", #hemeGlobals.gameTimers)
+    utils.pauseGameTimers(hemeGlobals.gameTimers)
+    -- timer.pause(enemyTimer)
+    -- timer.pause(obstructionTimer)
+    -- timer.pause(refillTimer)
+    -- timer.pause(powerupTimer)
+    -- timer.pause(collectibleTimer)
+
     Runtime:removeEventListener("enterFrame", enterFrame)
     composer.showOverlay( "scenes.settings", options )
     -- physics.start();
@@ -164,22 +267,23 @@ end
 
 function destroyBodies()
     -- destroy physics bodies
-    print(#physicsBodies)
-    for i, obj in ipairs( physicsBodies ) do
-        print( "Start destruction .... ", obj.shape.bodyType)
+    print(#hemeGlobals.physicsBodies)
+    for i, obj in ipairs( hemeGlobals.physicsBodies ) do
+        print( "Start destruction .... ")
         print(i, obj)
-        print("...")
         if (obj.bodyType ~= nil) then
+            print("...", obj.tag)
            -- physics.removeBody( obj )
            obj:destroy()
         elseif (obj.shape ~= nil and obj.shape.bodyType ~= nil) then
+            print("... ...", obj.shape.type)
            -- physics.removeBody( obj.shape )
            obj:destroy()
         end
         utils.print_table(obj.shape)
         print("End destruction .... ")
     end
-    physicsBodies = {} -- clear
+    hemeGlobals.physicsBodies = {} -- clear
 
     -- destroy display bodies
     displayBodies = {}
@@ -189,10 +293,12 @@ end
 function onGameOver()
     print ("Game is over: dispatched")
     Runtime:removeEventListener("enterFrame", enterFrame)
-    transition.cancel()
-    destroyBodies()
-    physics.stop( )
+    -- transition.cancel()
+    -- destroyBodies()
+    local sceneOpt = {effect = "crossFade", time = 1000, params={distance=currentDistance}}
+    composer.gotoScene("scenes.gameover", sceneOpt)
 end
+
 
 
 function scene:enterFrame(event)
@@ -204,6 +310,14 @@ end
 function scene:resumeGame()
     physics.start();
     transition.resume();
+
+    -- timer.resume(enemyTimer)
+    -- timer.resume(obstructionTimer)
+    -- timer.resume(refillTimer)
+    -- timer.resume(powerupTimer)
+    -- timer.resume(collectibleTimer)
+
+    utils.resumeGameTimers(hemeGlobals.gameTimers)
     Runtime:addEventListener("enterFrame", enterFrame)
 end
 
@@ -244,28 +358,34 @@ function scene:create( event )
     local eachTextRectWidth = 0.5 * eachBoxWidth
 
 
-    local medalImageRect = display.newImageRect( scoreBoardG, "images/medal.png", eachImageRectWidth, 60 )
-    currentMedalText = display.newText( scoreBoardG, currentMedal, 0.6 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    -- local medalImageRect = display.newImageRect( scoreBoardG, "images/medal.png", eachImageRectWidth, 60 )
+    -- currentMedalText = display.newText( scoreBoardG, currentMedal, 0.6 * eachBoxWidth, 40, "fonts/Mistral.ttf", 55 )
+    currentMedalText = display.newText( scoreBoardG, currentMedal, 0.6 * eachBoxWidth, 40, native.systemFont, 55 )
     currentMedalText:setFillColor(1,1,0)
 
-    local coinImageRect = display.newImageRect( scoreBoardG, "images/coin.png", eachImageRectWidth, 60 )
-    currentCoinText = display.newText( scoreBoardG, currentCoin, 1.55 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    -- local coinImageRect = display.newImageRect( scoreBoardG, "images/coin.png", eachImageRectWidth, 60 )
+    -- currentCoinText = display.newText( scoreBoardG, currentCoin, 1.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    currentCoinText = display.newText( scoreBoardG, currentCoin, 1.65 * eachBoxWidth, 40, native.systemFont, 55 )
     currentCoinText:setFillColor(1,1,0)
 
-    local ammoImageRect = display.newImageRect( scoreBoardG, "images/ammo.png", eachImageRectWidth, 60 )
-    currentAmmoText = display.newText( scoreBoardG, currentAmmo, 2.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    -- local ammoImageRect = display.newImageRect( scoreBoardG, "images/ammo.png", eachImageRectWidth, 60 )
+    -- currentAmmoText = display.newText( scoreBoardG, currentAmmo, 2.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    currentAmmoText = display.newText( scoreBoardG, currentAmmo, 2.65 * eachBoxWidth, 40, native.systemFont, 55 )
     currentAmmoText:setFillColor(1,1,0)
 
-    local fuelImageRect = display.newImageRect( scoreBoardG, "images/fuel.png", eachImageRectWidth, 60 )
-    currentFuelText = display.newText( scoreBoardG, currentFuel, 3.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    -- local fuelImageRect = display.newImageRect( scoreBoardG, "images/fuel.png", eachImageRectWidth, 60 )
+    -- currentFuelText = display.newText( scoreBoardG, currentFuel, 3.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    currentFuelText = display.newText( scoreBoardG, currentFuel, 3.65 * eachBoxWidth, 40, native.systemFont, 55 )
     currentFuelText:setFillColor(1,1,0)
 
-    local healthImageRect = display.newImageRect( scoreBoardG, "images/health.png", eachImageRectWidth, 60 )
-    currentHealthText = display.newText( scoreBoardG, currentHealth, 4.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    -- local healthImageRect = display.newImageRect( scoreBoardG, "images/health.png", eachImageRectWidth, 60 )
+    -- currentHealthText = display.newText( scoreBoardG, currentHealth, 4.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    currentHealthText = display.newText( scoreBoardG, currentHealth, 4.65 * eachBoxWidth, 40, native.systemFont, 55 )
     currentHealthText:setFillColor(1,1,0)
 
-    local distanceImageRect = display.newImageRect( scoreBoardG, "images/distance.png", eachImageRectWidth, 60 )
-    currentDistanceText = display.newText( scoreBoardG, currentDistance, 5.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    -- local distanceImageRect = display.newImageRect( scoreBoardG, "images/distance.png", eachImageRectWidth, 60 )
+    -- currentDistanceText = display.newText( scoreBoardG, currentDistance, 5.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
+    currentDistanceText = display.newText( scoreBoardG, currentDistance, 5.65 * eachBoxWidth, 40, native.systemFont, 55 )
     currentDistanceText:setFillColor(1,1,0)
 
     sceneGroup:insert(scoreBoardG)
@@ -291,7 +411,8 @@ function scene:show( event )
         -- Called when the scene is still off screen (but is about to come on screen)
 
         physics.start()
-        physicsBodies = {}
+        -- physics.setGravity( 0, 0 )
+        hemeGlobals.physicsBodies = {}
         hemeGlobals.isGameOver = false
 
         button_pause:toFront();
@@ -310,15 +431,9 @@ function scene:show( event )
         -- Randomly generate many enemies; powerups; refills; collectible
         -- insert all into physicsBodies
         print("Scroll speed is : ", scrollSpeed)
-		local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[2], xVel=-scrollSpeed*30, ritesh=9999})
-		bird:spawn()
-        table.insert(physicsBodies, bird)
+        createObjects()
 
-        local aircraft = aircraftEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[1], xVel=-scrollSpeed*20})
-        aircraft:spawn()
-        table.insert(physicsBodies, aircraft)
 
-        -- table.insert(physicsBodies, ground1)
 
 		currentMedalText.text = currentMedal
 		currentCoinText.text = currentCoin
@@ -360,6 +475,18 @@ function scene:hide( event )
         Runtime:removeEventListener("touch", touchHandler)
         Runtime:removeEventListener("tap", tapHandler)
 
+        --cancel timer
+        -- timer.cancel(enemyTimer)
+        -- timer.cancel(obstructionTimer)
+        -- timer.cancel(refillTimer)
+        -- timer.cancel(powerupTimer)
+        -- timer.cancel(collectibleTimer)
+
+        utils.cancelGameTimers(hemeGlobals.gameTimers)
+
+        --stop Animation
+        transition.cancel( )
+
         -- destroy physical objects
         if(heme ~= nil) then
             heme:destroy()
@@ -375,6 +502,7 @@ function scene:hide( event )
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen
+        physics.pause( )
     end
 end
 

@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-18 20:24:29
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 20:50:13
+-- @Last Modified time: 2016-04-19 00:38:33
 
 -- Shiva the destructor;
 -- whatever get collided to this object get destroyed.
@@ -15,6 +15,7 @@ local _M = {}
 function _M.newShiva()
 	local shiva = display.newRect( 5, display.contentHeight/2, 10, display.contentHeight - 100)
     physics.addBody( shiva, 'dynamic', {isSensor = true} )
+    shiva:setFillColor( 1,1,1,0 )
     shiva.tag = "shiva"
 
     function shiva:collision(event)

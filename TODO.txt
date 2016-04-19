@@ -1,7 +1,9 @@
-- random enemy generation
-- images
-- leftShiva on collision (destroy all objects)
-- player select scene
-- mistral regular font.
+1. random enemy generation  						==> done
+2. images
+3. leftShiva on collision (destroy all objects)  	==> done
+4. player select scene
+5. mistral regular font.  							==> done
+6. stop enemy bullet timer
+7. insert player and enemy bullet to physicsBodies
 
 
