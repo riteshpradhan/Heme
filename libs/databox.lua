@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-15 21:23:06
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-19 19:38:39
+-- @Last Modified by:   Ritesh Pradhan
+-- @Last Modified time: 2016-04-19 22:58:12
 
 
 -- Databox
@@ -18,8 +18,8 @@ local json = require('json')
 
 local data = {}
 local defaultData = {
-                        ammo=100, fuel=100, health=100,
-                        coin=0, medal=0, player="heme", highscore=0, totalMiles=0,
+                        ammo=100, fuel=100, health=100, coin=0, medal=0, player="heme",
+                        highscore=0, totalMiles=0, totalCoin=0, totalMedal=0,
                         isSoundOn = true, isMusicOn = true, isHelpShown = false,
                         medalBuyCoin = 5, coinBuyAmmo = 200, coinBuyFuel = 500, coinBuyHealth = 300,
                         coinAdd = 50, ammoAdd = 10, fuelAdd = 10, healthAdd = 10,

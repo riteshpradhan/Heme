@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 20:28:33
+-- @Last Modified time: 2016-04-19 23:12:21
 
 
 -- Heme Player
@@ -23,7 +23,7 @@ local newPlayerBullet = require('classes.playerBullet').newPlayerBullet
 
 local _M = {
 				tag="player", xPos=display.contentWidth*.20, yPos=hemeGlobals.yLevel[2],
-				ammo=100, health=100, fuel=100,
+				ammo=200, health=100, fuel=100,
 				coin=0, medal=0,
 				width=48, height=48, type='default'
 			}
@@ -198,8 +198,8 @@ end
 
 function _M:die()
 	-- self.shape:applyLinearImpulse(5, 25, self.shape.x, self.shape.y)
-	transition.to( self.shape, {time=5000, y=display.contentHeight-60, x=self.shape.x+ 100, rotation=720, transition=easing.outQuart} )
-	transition.to( self.playerSprite, {time=5000, y=display.contentHeight-60, x=self.playerSprite.x+ 100, rotation=720, xScale=0.2, yScale=0.2, transition=easing.outQuart} )
+	transition.to( self.shape, {time=4000, y=display.contentHeight-60, x=self.shape.x+ 100, rotation=720, transition=easing.outQuart} )
+	transition.to( self.playerSprite, {time=4000, y=display.contentHeight-60, x=self.playerSprite.x+ 100, rotation=720, xScale=0.2, yScale=0.2, transition=easing.outQuart} )
 	sounds.play('player_destroy')
 end
 
