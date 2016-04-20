@@ -26,6 +26,8 @@ local _M = {}
 local heme = {}
 local kush = {}
 local hema = {}
+local bird = {}
+local aircraft = {}
 ------------------------------------------------------
 ------------- HEME -----------------------------------
 local hemeOption = { width=194, height=76, numFrames=2, sheetContentWidth=388, sheetContentHeight=76 }
@@ -34,7 +36,6 @@ local hemeSequenceData = { name="heme", start=1, count=2, time=200 }
 heme.sheet = hemeSheet
 heme.sequenceData = hemeSequenceData
 
-
 -------------------------------------------------------
 ---------------------- HEMA ---------------------------
 local hemaOption = { width=194, height=76, numFrames=2, sheetContentWidth=388, sheetContentHeight=76 }
@@ -42,6 +43,22 @@ local hemaSheet = graphics.newImageSheet( 'images/player/hemaSheet.png', hemaOpt
 local hemaSequenceData = { name="hema", start=1, count=2, time=200 }
 hema.sheet = hemaSheet
 hema.sequenceData = hemaSequenceData
+
+------------------------------------------------------
+------------- BIRD -----------------------------------
+local birdOption = { width=120, height=65, numFrames=2, sheetContentWidth=240, sheetContentHeight=65 }
+local birdSheet = graphics.newImageSheet( 'images/enemy/birdEnemySheet.png', birdOption )
+local birdSequenceData = { name="bird", start=1, count=2, time=400 }
+bird.sheet = birdSheet
+bird.sequenceData = birdSequenceData
+
+------------------------------------------------------
+------------- AIRCRAFT -----------------------------------
+local aircraftOption = { width=120, height=65, numFrames=2, sheetContentWidth=240, sheetContentHeight=65 }
+local aircraftSheet = graphics.newImageSheet( 'images/enemy/aircraftEnemySheet.png', aircraftOption )
+local aircraftSequenceData = { name="aircraft", start=1, count=2, time=400 }
+aircraft.sheet = aircraftSheet
+aircraft.sequenceData = aircraftSequenceData
 
 --------------------------------------------------------
 ---------- KUSH-----------------------------------------
@@ -129,6 +146,8 @@ local backButtonSheet = graphics.newImageSheet("images/scenes/backButton.png", b
 _M.heme = heme
 _M.hema = hema
 _M.kush = kush
+_M.birdEnemy = bird
+_M.aircraftEnemy = aircraft
 _M.buttonSheet = buttonSheet
 _M.storeButtonSheet = storeButtonSheet
 _M.backButtonSheet = backButtonSheet

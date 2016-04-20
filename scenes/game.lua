@@ -88,6 +88,7 @@ local onGameOver = {}
 local destroyBodies = {}
 local createObjects = {}
 local customToast = {}
+local enemyBodies = {}
 
 
 function customToast(toastStr)
@@ -107,11 +108,15 @@ function createObjects()
             aircraft:spawn()
             table.insert(hemeGlobals.physicsBodies, aircraft)
             allBodiesG:insert(aircraft.shape)
+            allBodiesG:insert( aircraft.enemySprite )
+            table.insert(enemyBodies, aircraft)
         else
             local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[yPos], xVel=-scrollSpeed*30, ritesh=9999})
             bird:spawn()
             table.insert(hemeGlobals.physicsBodies, bird)
             allBodiesG:insert(bird.shape)
+            allBodiesG:insert( bird.enemySprite )
+            table.insert(enemyBodies, bird)
         end
     end
 
@@ -320,6 +325,14 @@ function enterFrame()
         currentHealth = heme.health
         hemeGlobals.isHealthUpdate = false
         currentHealthText.text = currentHealth
+    end
+
+    -- update bird enemy sprite
+    for i, v in ipairs(enemyBodies) do
+        if(enemyBodies ~= nil) then
+            v.enemySprite.x = v.shape.x
+            v.enemySprite.y = v.shape.y
+        end
     end
 
 end

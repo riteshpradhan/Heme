@@ -14,6 +14,7 @@ local sounds = require('libs.sounds')
 local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
 local collisionFilters = require('libs.collisionFilters')
+local images = require('libs.images')
 
 local _M = {tag='enemy', hp=5, health=20, type='default', w=40, h=40, x=0, y=0, xVel=0, yVel=0}
 
@@ -32,10 +33,17 @@ end
 
 function _M:spawn()
 
-	print("sefl: " )
+	print("sefl: -----------------------------------------------------------------------" )
+	print(self.type)
 	utils.print_table(self)
 
-	self.shape = display.newImageRect('images/enemy/' .. self.type .. '.png', self.w, self.h)
+	self.enemySprite = display.newSprite( images[self.type].sheet, images[self.type].sequenceData )
+	self.enemySprite.x, self.enemySprite.y = self.xPos, self.yPos
+	self.enemySprite:play()
+	self.shape = display.newRect(0,0,120,65)
+	self.shape:setFillColor(1,0,0,0)
+
+	-- self.shape = display.newImageRect('images/enemy/' .. self.type .. '.png', self.w, self.h)
 	self.shape.x, self.shape.y = self.x, self.y
 	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5, filter = collisionFilters.enemy})
 	self.shape.filter = collisionFilters.enemy
@@ -95,7 +103,11 @@ function _M:destroy()
 		transition.to(self, {time=100, alpha=0.1})
 		print(self)
 		timer.performWithDelay( 10, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
-		sounds.play('refill_destroy')
+
+		if(self.enemySprite ~= nil ) then
+			self.enemySprite:removeSelf()
+		end
+		-- sounds.play('refill_destroy')
 	end
 end
 
