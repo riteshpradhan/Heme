@@ -25,7 +25,7 @@ local _M = {}
 
 local heme = {}
 local kush = {}
-
+local hema = {}
 ------------------------------------------------------
 ------------- HEME -----------------------------------
 local hemeOption = { width=194, height=76, numFrames=2, sheetContentWidth=388, sheetContentHeight=76 }
@@ -33,6 +33,15 @@ local hemeSheet = graphics.newImageSheet( 'images/player/hemeSheet.png', hemeOpt
 local hemeSequenceData = { name="heme", start=1, count=2, time=200 }
 heme.sheet = hemeSheet
 heme.sequenceData = hemeSequenceData
+
+
+-------------------------------------------------------
+---------------------- HEMA ---------------------------
+local hemaOption = { width=194, height=76, numFrames=2, sheetContentWidth=388, sheetContentHeight=76 }
+local hemaSheet = graphics.newImageSheet( 'images/player/hemaSheet.png', hemaOption )
+local hemaSequenceData = { name="hema", start=1, count=2, time=200 }
+hema.sheet = hemaSheet
+hema.sequenceData = hemaSequenceData
 
 --------------------------------------------------------
 ---------- KUSH-----------------------------------------
@@ -108,6 +117,7 @@ local storeButtonSheet = graphics.newImageSheet( "images/scenes/storeButton.png"
 ----------------------------------------------------
 -------- Insert eveything in libs.images table --------
 _M.heme = heme
+_M.hema = hema
 _M.kush = kush
 _M.buttonSheet = buttonSheet
 _M.storeButtonSheet = storeButtonSheet

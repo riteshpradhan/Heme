@@ -9,7 +9,7 @@ local sounds = require( "libs.sounds" );
 local background = require('classes.background')
 local hemeDatabox = require('libs.databox')
 
-local title_text, box_1, box_2, heme, hemi, heme_current, hemi_current, button_back
+local title_text, hemeBox, hemaBox, heme, hema, heme_current, hema_current, button_back
 
 local runtime = 0
 local scrollSpeed = 1
@@ -32,16 +32,17 @@ end
 
 function setDefault(selectedPlayer)
 	if(selectedPlayer ~= nil) then
-    	hemeDatabox.defaultPlayer = selectedPlayer
+    	hemeDatabox.player = selectedPlayer
     	print("current player => " .. hemeDatabox.defaultPlayer)
     	sounds.play('setting_item')
     end
-    if(hemeDatabox.defaultPlayer == 'hemi') then
-    	hemi_current.isVisible = true
+
+    if(hemeDatabox.player == 'hema') then
+    	hema_current.isVisible = true
     	heme_current.isVisible = false
     else
     	heme_current.isVisible = true
-    	hemi_current.isVisible = false
+    	hema_current.isVisible = false
     end
 end
 
@@ -70,20 +71,22 @@ function scene:create( event )
 	button_back.y = display.contentHeight - 100
     sceneGroup:insert(button_back)
 
-    local title_text_options = 
+    local title_text_options =
 	{
 	    text = "SELECT PLAYER",
 	    x = display.contentCenterX,
 	    y = 130,
 	    font = "Comic Sans MS",
-	    fontSize = 40
+	    fontSize = 50,
 	}
     title_text = display.newText(title_text_options)
+    title_text:setFillColor( 0, 0.5, 0 )
     sceneGroup:insert(title_text)
 
-	box_1 = display.newRoundedRect(display.contentCenterX - 250, display.contentCenterY, 300, 350, 20)
-    box_1:setFillColor( 0.5, 0.5, 0.5, 0.5 )
-    sceneGroup:insert(box_1)    
+	hemeBox = display.newRoundedRect(display.contentCenterX - 250, display.contentCenterY, 300, 350, 20)
+    hemeBox:setFillColor( 0.5, 0.5, 0.5, 0.5 )
+    hemeBox:addEventListener( "tap", function() setDefault('heme')  end)
+    sceneGroup:insert(hemeBox)
 
     heme_current = display.newImage("images/menu/OK.png")
     heme_current.x = display.contentCenterX - 250
@@ -91,29 +94,29 @@ function scene:create( event )
     heme_current.isVisible = false
     sceneGroup:insert(heme_current);
 
-    hemi_current = display.newImage("images/menu/OK.png")
-    hemi_current.x = display.contentCenterX + 250
-    hemi_current.y = display.contentCenterY + 210
-    hemi_current.isVisible = false
-    sceneGroup:insert(hemi_current);
+    hema_current = display.newImage("images/menu/OK.png")
+    hema_current.x = display.contentCenterX + 250
+    hema_current.y = display.contentCenterY + 210
+    hema_current.isVisible = false
+    sceneGroup:insert(hema_current);
 
     heme = display.newImage('images/enemy/birdEnemy.png')
     heme.x = display.contentCenterX - 250
     heme.y = display.contentCenterY
-    heme:addEventListener( 'tap', function() setDefault('heme')  end)
-    sceneGroup:insert(heme)    
 
-    box_2 = display.newRoundedRect(display.contentCenterX + 250, display.contentCenterY, 300, 350, 20)
-    box_2:setFillColor( 0.5, 0.5, 0.5, 0.5 )
-    sceneGroup:insert(box_2)    
+    sceneGroup:insert(heme)
 
-    hemi = display.newImage('images/enemy/birdEnemy.png')
-    hemi.x = display.contentCenterX + 250
-    hemi.y = display.contentCenterY
-    hemi:addEventListener( 'tap', function() setDefault('hemi') end)
-    sceneGroup:insert(hemi)    
-	
-    setDefault()
+    hemaBox = display.newRoundedRect(display.contentCenterX + 250, display.contentCenterY, 300, 350, 20)
+    hemaBox:setFillColor( 0.5, 0.5, 0.5, 0.5 )
+    hemaBox:addEventListener( 'tap', function() setDefault('hema') end)
+    sceneGroup:insert(hemaBox)
+
+    hema = display.newImage('images/enemy/birdEnemy.png')
+    hema.x = display.contentCenterX + 250
+    hema.y = display.contentCenterY
+    sceneGroup:insert(hema)
+
+
 end
 
 function scene:show( event )
@@ -121,6 +124,7 @@ function scene:show( event )
     local phase = event.phase
     local params = event.params
     if ( phase == "did" ) then
+        setDefault()
     	Runtime:addEventListener("enterFrame", enterFrame)
     end
 end

@@ -62,7 +62,7 @@ local currentAmmo = hemeDatabox.ammo
 local currentFuel = hemeDatabox.fuel
 local currentHealth = hemeDatabox.health
 local currentDistance = 0
-
+local currentPlayer = hemeDatabox.player
 
 local runtime = 0
 local scrollSpeed = hemeGlobals.scrollSpeed
@@ -448,7 +448,7 @@ function scene:show( event )
 
         button_pause:toFront();
         -- Single player Instance
-        local params = {g=nil, type='heme', ammo=55}
+        local params = {g=nil, type=hemeDatabox.player, ammo=55}
 		heme = player:newPlayer(params)
 		heme:launch()
 
