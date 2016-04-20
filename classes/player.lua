@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 23:12:21
+-- @Last Modified time: 2016-04-20 18:31:16
 
 
 -- Heme Player
@@ -17,6 +17,7 @@ local sounds = require('libs.sounds')
 local utils = require('libs.utils')
 local hemeGlobals = require('libs.globals' )
 local collisionFilters = require( 'libs.collisionFilters')
+local toastMaker = require('libs.toastMaker' )
 
 local newPlayerBullet = require('classes.playerBullet').newPlayerBullet
 -- local newPlayerBullet = require('classes.playerBullet').new
@@ -25,7 +26,8 @@ local _M = {
 				tag="player", xPos=display.contentWidth*.20, yPos=hemeGlobals.yLevel[2],
 				ammo=200, health=100, fuel=100,
 				coin=0, medal=0,
-				width=48, height=48, type='default'
+				width=48, height=48, type='default',
+				g=nil
 			}
 
 
@@ -60,6 +62,7 @@ function _M:launch()
 	self.shape.isSensor = false
 	self.isLaunched = true;
 
+	self.parent = self.g
 	hemeGlobals.isGameOver = false
 	hemeGlobals.isCoinUpdate = false
 	hemeGlobals.isMedalUpdate = false
@@ -77,10 +80,11 @@ function _M:collision(event)
 	if event.phase == "began" then
 		print("Collision with player here")
 
-		if self.isHyperDriveActive then
-			print("hyperdrivePowerup is active; No collision effect in player; move fast")
-			hemeGlobals.scrollSpeed = hemeGlobals.scrollSpeed * 3
-		elseif self.isPlasmaShieldActive then
+		-- if self.isHyperDriveActive then
+		-- 	print("hyperdrivePowerup is active; No collision effect in player; move fast")
+		-- 	hemeGlobals.scrollSpeed = hemeGlobals.scrollSpeed + 10
+		-- elseif self.isPlasmaShieldActive then
+		if self.isPlasmaShieldActive then
 			print("plasmashieldPowerup is active; No collision effect in player")
 		else
 			utils.print_table(event.other)
@@ -110,14 +114,33 @@ function _M:collision(event)
 						print("hyperdrivePowerup")
 						self.isHyperDriveActive = true
 						self.shape.isSensor = true
-						self.hyperTimer = timer.performWithDelay( 5000, function() self.isHyperDriveActive = false; self.shape.isSensor = false; end , 1 )
+						toastMaker.makeToast(self.parent, "Hyperdrive Powerup!!")
+						transition.blink( self.playerSprite, {time=500, tag="blink"} )
+						self.hyperTimer = timer.performWithDelay( 5000,
+																function()
+																	self.isHyperDriveActive = false;
+																	self.shape.isSensor = false;
+																	transition.cancel('blink');
+																	self.playerSprite.alpha = 1;
+																	hemeGlobals.scrollSpeed = hemeGlobals.scrollSpeed - 10
+																end ,
+																1 )
 						table.insert(hemeGlobals.gameTimers, self.hyperTimer)
 					elseif (event.other.type == "plasmashieldPowerup") then
 						-- do something
 						print("plasmashieldPowerup")
 						self.isPlasmaShieldActive = true
 						self.shape.isSensor = true
-						self.plasmaTimer = timer.performWithDelay( 5000, function() self.isPlasmaShieldActive = false; self.shape.isSensor = false; end , 1 )
+						toastMaker.makeToast(self.parent, "PlasmaShield Powerup!!")
+						transition.blink( self.playerSprite, {time=500, tag="blink"} )
+						self.plasmaTimer = timer.performWithDelay( 5000,
+																function()
+																	self.isPlasmaShieldActive = false;
+																	self.shape.isSensor = false;
+																	transition.cancel('blink');
+																	self.playerSprite.alpha = 1;
+																end,
+																1 )
 						table.insert(hemeGlobals.gameTimers, self.hyperTimer)
 					elseif (event.other.type == "airblastPowerup") then
 						-- do something
@@ -128,23 +151,28 @@ function _M:collision(event)
 					-- do refill
 					if (event.other.type == "ammoRefill") then
 						sounds.play('player_ammo_refill')
+						toastMaker.makeToast(self.parent, "Ammo Refill!!")
 						self.ammo = self.ammo + event.other.value
 						hemeGlobals.isAmmoUpdate = true
 					elseif (event.other.type == "fuelRefill") then
 						sounds.play('player_fuel_refill')
+						toastMaker.makeToast(self.parent, "Fuel Refill!!")
 						self.fuel = self.fuel + event.other.value
 						hemeGlobals.isFuelUpdate = true
 					elseif (event.other.type == "healthRefill") then
 						sounds.play('player_health_refill')
+						toastMaker.makeToast(self.parent, "Health Refill!!")
 						self.health = self.health + event.other.value
 						hemeGlobals.isHealthUpdate = true
 					end
 				elseif (event.other.tag == "collectible") then
 					sounds.play('player_collect_collectible')
 					if (event.other.type == "coinCollectible") then
+						toastMaker.makeToast(self.parent, "+1 Coin")
 						self.coin = self.coin + event.other.value
 						hemeGlobals.isCoinUpdate = true
 					elseif (event.other.type == "medalCollectible") then
+						toastMaker.makeToast(self.parent, "+1 Medal")
 						self.medal = self.medal + event.other.value
 						hemeGlobals.isMedalUpdate = true
 					end
@@ -185,9 +213,13 @@ function _M:fire()
 	print("Firing bullet from player")
 	-- sound.play('player_fire')
 	-- create a self destructible bullet
-	local bullet = newPlayerBullet({x = self.shape.x, y = self.shape.y, isExplosion = self.type == 'playerBullet', hp=3})
-	table.insert( hemeGlobals.physicsBodies, bullet )
-	sounds.play('player_fire')
+	if (self.ammo > 0) then
+		local bullet = newPlayerBullet({x = self.shape.x, y = self.shape.y, isExplosion = self.type == 'playerBullet', hp=5})
+		table.insert( hemeGlobals.physicsBodies, bullet )
+		sounds.play('player_fire')
+	else
+		toastMaker.makeToast(self.parent, "Cartridge Empty!!")
+	end
 end
 
 function _M:explode()

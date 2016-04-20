@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 17:06:15
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 23:58:05
+-- @Last Modified time: 2016-04-20 18:21:11
 
 -- Bullet visual effect
 -- Bullet can be either can be of Player or Enemy, or it can act as an explosion visualisation.
@@ -63,11 +63,13 @@ function _M.newBullet(params)
 
 	function bullet:destroy()
 		print("FIred!!!!!!!!!!!!!!!!!1")
-		if (self ~= nil and self.bodyType) then
+		if (self ~= nil and self.bodyType ~=nil) then
 			transition.to(self, {time=100, alpha=0})
 			timer.performWithDelay( 1,
 				function()
-					physics.removeBody( self );
+					if (self ~= nil and self.bodyType ~=nil) then
+						physics.removeBody( self );
+					end
 					-- self:removeSelf( );
 					display.remove( self )
 					self = nil;

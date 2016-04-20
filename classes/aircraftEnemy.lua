@@ -12,14 +12,14 @@ local utils = require("libs.utils")
 local sounds = require("libs.sounds")
 local hemeGlobals = require('libs.globals')
 
-local _M = enemy:newEnemy({hp=10, health=20, type="aircraftEnemy", w=80, h=80})
+local _M = enemy:newEnemy({hp=10, health=9, type="aircraftEnemy", w=80, h=80})
 
 _M.superSpawn = _M.spawn
 function _M:spawn()
 	self:superSpawn()
 	self.shape:setFillColor( 0,1,1,0.8 )
 
-	self.firingTimer = timer.performWithDelay( 3000, function() self:fire() end, 5)
+	self.firingTimer = timer.performWithDelay( 2000, function() self:fire() end, 5)
 	table.insert( hemeGlobals.gameTimers, self.firingTimer)
 
 end
@@ -57,7 +57,7 @@ function _M:collision(event)
 			utils.print_table(self.shape)
 			self.shape.health = self.shape.health - event.other.hp
 			if (self.shape.health <= 0) then
-				sounds.play('aircraft_destroy')	
+				sounds.play('aircraft_destroy')
 				self:destroy()
 			end
 		end
