@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 15:47:19
+-- @Last Modified time: 2016-04-19 20:28:33
 
 
 -- Heme Player
@@ -54,20 +54,18 @@ function _M:launch()
 	self.shape:setFillColor(1,0,0,0)
 	sounds.play('player_spawn')
 	physics.addBody(self.shape, 'dynamic', {density = 2, friction = 0.5, bounce = 0.5, filter=collisionFilters.player}) -- While the player rests near the cannon, it's kinematic
+
 	self.isHyperDriveActive = false
 	self.isPlasmaShieldActive = false
-	print(self.shape, self.shape.ref, self, self.shape.bodyType)
 	self.shape.isSensor = false
-
-
-	print("Self.shape.ref:", self.health, self.ammo)
-	utils.print_table(self.shape.ref)
-	print("Self.shape:")
-	utils.print_table(self.shape)
-	-- rotate by 90 degree and set at  certain height
-	-- transition.to( self.shape, { time=4000, x=240, y=hemeGlobals.yLevel[2], rotation=90, transition=easing.inQuart } )
-	-- self.shape.bodyType = 'dynamic' -- Change to dynamic so it can move with force and for collision
 	self.isLaunched = true;
+
+	hemeGlobals.isGameOver = false
+	hemeGlobals.isCoinUpdate = false
+	hemeGlobals.isMedalUpdate = false
+	hemeGlobals.isAmmoUpdate = false
+	hemeGlobals.isFuelUpdate = false
+	hemeGlobals.isHealthUpdate = false
 
 	self.shape:addEventListener('collision', self)
 	self.shape:addEventListener('tap', self)
@@ -98,10 +96,12 @@ function _M:collision(event)
 				if (event.other.tag == "enemy") then
 					sounds.play('player_collide')
 					self.health = self.health - event.other.hp
+					hemeGlobals.isHealthUpdate = true
 					print("collides enemy here and now health is : ", self.health)
 				elseif (event.other.tag == "bullet") then
 					sounds.play('player_hit')
 					self.health = self.health - event.other.hp
+					hemeGlobals.isHealthUpdate = true
 				elseif (event.other.tag == "powerup") then
 					-- use powerup
 					sounds.play('player_collect_collectible')
@@ -129,19 +129,24 @@ function _M:collision(event)
 					if (event.other.type == "ammoRefill") then
 						sounds.play('player_ammo_refill')
 						self.ammo = self.ammo + event.other.value
+						hemeGlobals.isAmmoUpdate = true
 					elseif (event.other.type == "fuelRefill") then
 						sounds.play('player_fuel_refill')
 						self.fuel = self.fuel + event.other.value
+						hemeGlobals.isFuelUpdate = true
 					elseif (event.other.type == "healthRefill") then
 						sounds.play('player_health_refill')
 						self.health = self.health + event.other.value
+						hemeGlobals.isHealthUpdate = true
 					end
 				elseif (event.other.tag == "collectible") then
 					sounds.play('player_collect_collectible')
 					if (event.other.type == "coinCollectible") then
 						self.coin = self.coin + event.other.value
+						hemeGlobals.isCoinUpdate = true
 					elseif (event.other.type == "medalCollectible") then
 						self.medal = self.medal + event.other.value
+						hemeGlobals.isMedalUpdate = true
 					end
 				elseif (event.other.tag == "obstruction") then
 					sounds.play('player_collide')
@@ -151,7 +156,6 @@ function _M:collision(event)
 
 				if (self.health > 0) then
 					-- sound
-					self.shape:setFillColor(1,0,0);
 				else
 					-- sound
 					-- die ; falls to ground

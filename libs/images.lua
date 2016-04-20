@@ -105,12 +105,23 @@ local storeButtonOptions = {
 
 local storeButtonSheet = graphics.newImageSheet( "images/scenes/storeButton.png", storeButtonOptions )
 
+local backButtonOptions = {
+	width = 128,
+	height = 99,
+	numFrames = 2,
+	sheetContentWidth = 256,
+	sheetContentHeight = 99
+}
+
+local backButtonSheet = graphics.newImageSheet("images/scenes/backButton.png", backButtonOptions)
+
 ----------------------------------------------------
 -------- Insert eveything in libs.images table --------
 _M.heme = heme
 _M.kush = kush
 _M.buttonSheet = buttonSheet
 _M.storeButtonSheet = storeButtonSheet
+_M.backButtonSheet = backButtonSheet
 
 return _M
 
