@@ -8,6 +8,7 @@ local widget = require("widget")
 local composer = require( "composer" ); 
 local scene = composer.newScene();
 local sounds = require( "libs.sounds" ); 
+local images = require("libs.images");
 
 function scene:create( event ) 
     local sceneGroup = self.view
@@ -24,13 +25,17 @@ function scene:create( event )
 	bgImage.y = display.contentCenterY
     sceneGroup:insert(bgImage)
 
-    local button_back = widget.newButton({
-        defaultFile = "images/menu/back.png",
-        onRelease = btnBackHandler
-    })
-    button_back.x = 100
-	button_back.y = display.contentHeight - 100	
-    sceneGroup:insert(button_back)
+    local backButton = widget.newButton(
+        {
+            x = 125,
+            y = 70,
+            sheet = images.backButtonSheet,
+            defaultFrame = 1,
+            overFrame = 2,
+            onRelease = btnBackHandler
+        }
+    )
+    sceneGroup:insert(backButton)
 end
 
 function scene:show( event )

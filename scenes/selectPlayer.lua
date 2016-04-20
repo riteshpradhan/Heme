@@ -8,6 +8,7 @@ local scene = composer.newScene();
 local sounds = require( "libs.sounds" );
 local background = require('classes.background')
 local hemeDatabox = require('libs.databox')
+local images = require("libs.images")
 
 local title_text, hemeBox, hemaBox, heme, hema, heme_current, hema_current, button_back
 
@@ -63,13 +64,17 @@ function scene:create( event )
         composer.gotoScene("scenes.menu", sceneOpt)
 	end
 
-    button_back = widget.newButton({
-        defaultFile = "images/menu/back.png",
-        onRelease = btnBackHandler
-    })
-    button_back.x = 100
-	button_back.y = display.contentHeight - 100
-    sceneGroup:insert(button_back)
+    local backButton = widget.newButton(
+        {
+            x = 125,
+            y = 70,
+            sheet = images.backButtonSheet,
+            defaultFrame = 1,
+            overFrame = 2,
+            onRelease = btnBackHandler
+        }
+    )
+    sceneGroup:insert(backButton)
 
     local title_text_options =
 	{
