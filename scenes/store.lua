@@ -127,15 +127,11 @@ function scene:create( event )
 
     local backButton = widget.newButton(
         {
-            x = 175,
-            y = 60,
-            font = "Comic Sans MS",
-            fontSize = 40,
-            sheet = images.storeButtonSheet,
+            x = 125,
+            y = 70,
+            sheet = images.backButtonSheet,
             defaultFrame = 1,
             overFrame = 2,
-            label = "Back",
-            labelColor = { default={ 0, 0.5, 0 }, over={ 0, 0, 0, 0.5 } },
             onRelease = btnBackHandler
         }
     )

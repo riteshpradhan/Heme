@@ -10,6 +10,7 @@ local composer = require("composer");
 local hemeDatabox = require('libs.databox')
 local utils = require("libs.utils");
 local sounds = require( "libs.sounds" );
+local images = require("libs.images");
 local scene = composer.newScene();
 
 function scene:create( event )
@@ -126,7 +127,7 @@ function scene:show( event )
                 onRelease = btnMenuHandler
             })
             button_menu.x = display.contentCenterX + 100
-        	button_menu.y = display.contentCenterY
+        	button_menu.y = display.contentCenterY + y_offset
             sceneGroup:insert(button_menu)
             button_menu:toFront()
 
@@ -134,7 +135,7 @@ function scene:show( event )
                 defaultFile = "images/menu/play.png",
                 onRelease = btnPlayHandler
             })
-            button_play.x = display.contentCenterX - 100
+            button_play.x = display.contentCenterX 
             button_play.y = display.contentCenterY
             sceneGroup:insert(button_play)
             button_play:toFront()
@@ -152,12 +153,17 @@ function scene:show( event )
             --     onRelease = btnPlayHandler
             -- })
         else
-            button_back = widget.newButton({
-                defaultFile = "images/menu/back.png",
-                onRelease = btnMenuHandler
-            })
-            button_back.x = 100
-            button_back.y = display.contentHeight - 100
+            local button_back = widget.newButton(
+                {
+                    x = 125,
+                    y = 90,
+                    sheet = images.backButtonSheet,
+                    defaultFrame = 1,
+                    overFrame = 2,
+                    onRelease = btnMenuHandler
+                }
+            )
+
             sceneGroup:insert(button_back)
         end
 

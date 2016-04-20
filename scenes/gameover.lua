@@ -36,7 +36,7 @@ function scene:create( event )
     end
 
     -- Load Background image
-    local bgImage = display.newImage("images/scenes/help.png")
+    local bgImage = display.newImage("images/scenes/gameOverScreen.png")
     bgImage.x = display.contentCenterX
 	bgImage.y = display.contentCenterY
     sceneGroup:insert(bgImage)
