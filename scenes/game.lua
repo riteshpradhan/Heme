@@ -89,15 +89,36 @@ local destroyBodies = {}
 local createObjects = {}
 local customToast = {}
 local enemyBodies = {}
+local resetGameState = {}
 
+function resetGameState()
+    currentMedal = 0
+    currentCoin = 0
+    currentAmmo = hemeDatabox.ammo
+    currentFuel = hemeDatabox.fuel
+    currentHealth = hemeDatabox.health
+    currentDistance = 0
+    currentPlayer = hemeDatabox.player
+
+    currentMedalText.text = currentMedal
+    currentCoinText.text = currentCoin
+    currentAmmoText.text = hemeDatabox.ammo
+    currentFuelText.text = hemeDatabox.fuel
+    currentHealthText.text = hemeDatabox.health
+    currentDistanceText.text = currentDistance
+
+    counter = 0
+    runtime = 0
+
+end
 
 function customToast(toastStr)
     local myToast = display.newText( toastStr, display.contentCenterX, display.contentCenterY, "Comic Sans MS", 80 )
     myToast:setFillColor( 1, 0.3, 0, 0.8 )
     transition.fadeOut( myToast, {time=500} )
-    -- display.remove( myToast )
     allBodiesG:insert( myToast )
 end
+
 
 function createObjects()
 
@@ -295,6 +316,10 @@ function enterFrame()
         heme.fuel = heme.fuel - 1
         currentFuel = heme.fuel
         currentFuelText.text = currentFuel
+
+        if heme.fuel < 0 then
+            hemeGlobals.isGameOver = true
+        end
     end
 
     if hemeGlobals.isCoinUpdate then
@@ -508,12 +533,7 @@ function scene:show( event )
 
 
 
-		currentMedalText.text = currentMedal
-		currentCoinText.text = hemeDatabox.coin
-		currentAmmoText.text = hemeDatabox.ammo
-		currentFuelText.text = hemeDatabox.fuel
-		currentHealthText.text = hemeDatabox.health
-		currentDistanceText.text = currentDistance
+        resetGameState()
 
 
         sceneGroup:insert( scoreBoardG )
@@ -550,12 +570,6 @@ function scene:hide( event )
         Runtime:removeEventListener("tap", tapHandler)
 
         --cancel timer
-        -- timer.cancel(enemyTimer)
-        -- timer.cancel(obstructionTimer)
-        -- timer.cancel(refillTimer)
-        -- timer.cancel(powerupTimer)
-        -- timer.cancel(collectibleTimer)
-
         utils.cancelGameTimers(hemeGlobals.gameTimers)
 
         --stop Animation

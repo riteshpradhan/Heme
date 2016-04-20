@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-15 20:53:04
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 17:34:02
+-- @Last Modified time: 2016-04-20 00:00:59
 
 -- Ground To start launching: player
 
@@ -63,11 +63,15 @@ function _M:destroy()
 		transition.to(self, {time=100, alpha=0})
 		timer.performWithDelay( 1,
 				function()
-					if(self.shape.bodyType ~= nil) then
+
+					if(self.shape ~= nil and self.shape.bodyType ~= nil) then
 						physics.removeBody( self.shape );
 					end
-					self.shape:removeSelf( );
-					self = nil
+					display.remove(self.shape);
+					self.shape = nil;
+					self = nil;
+					-- self.shape:removeSelf( );
+					-- self = nil
 					end ,
 				1 )
 	end

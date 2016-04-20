@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 00:33:25
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 23:13:24
+-- @Last Modified time: 2016-04-19 23:44:53
 
 
 
@@ -23,8 +23,8 @@ local hemeDatabox = require('libs.databox')
 local currentAmmo = hemeDatabox.ammo
 local currentFuel = hemeDatabox.fuel
 local currentHealth = hemeDatabox.health
-local currentCoin = hemeDatabox.coin
-local currentMedal = hemeDatabox.medal
+local currentCoin = hemeDatabox.totalCoin
+local currentMedal = hemeDatabox.totalMedal
 
 
 local storeG = display.newGroup()
@@ -256,13 +256,13 @@ function scene:show( event )
     local phase = event.phase
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen)
-        topCurrentMedalT.text = currentMedal
-		topCurrentCoinT.text = currentCoin
+        topCurrentMedalT.text = hemeDatabox.totalMedal
+		topCurrentCoinT.text = hemeDatabox.totalCoin
 
-		coinCurrentT.text = currentCoin
-		ammoCurrentT.text = currentAmmo
-		fuelCurrentT.text = currentFuel
-		healthCurrentT.text = currentHealth
+		coinCurrentT.text = hemeDatabox.totalCoin
+		ammoCurrentT.text = hemeDatabox.ammo
+		fuelCurrentT.text = hemeDatabox.fuel
+		healthCurrentT.text = hemeDatabox.health
 
     elseif ( phase == "did" ) then
         -- Called when the scene is now on screen
@@ -283,8 +283,8 @@ function scene:hide( event )
         hemeDatabox.ammo = currentAmmo
 		hemeDatabox.fuel = currentFuel
 		hemeDatabox.health = currentHealth
-		hemeDatabox.coin = currentCoin
-		hemeDatabox.medal = currentMedal
+		hemeDatabox.totalCoin = currentCoin
+		hemeDatabox.totalMedal = currentMedal
 
     elseif ( phase == "did" ) then
         -- Called immediately after scene goes off screen
