@@ -46,17 +46,17 @@ hema.sequenceData = hemaSequenceData
 
 ------------------------------------------------------
 ------------- BIRD -----------------------------------
-local birdOption = { width=120, height=65, numFrames=2, sheetContentWidth=240, sheetContentHeight=65 }
+local birdOption = { width=83, height=45, numFrames=2, sheetContentWidth=166, sheetContentHeight=45 }
 local birdSheet = graphics.newImageSheet( 'images/enemy/birdEnemySheet.png', birdOption )
-local birdSequenceData = { name="bird", start=1, count=2, time=400 }
+local birdSequenceData = { name="bird", start=1, count=2, time=200 }
 bird.sheet = birdSheet
 bird.sequenceData = birdSequenceData
 
 ------------------------------------------------------
 ------------- AIRCRAFT -----------------------------------
-local aircraftOption = { width=120, height=65, numFrames=2, sheetContentWidth=240, sheetContentHeight=65 }
+local aircraftOption = { width=175, height=76, numFrames=2, sheetContentWidth=350, sheetContentHeight=76 }
 local aircraftSheet = graphics.newImageSheet( 'images/enemy/aircraftEnemySheet.png', aircraftOption )
-local aircraftSequenceData = { name="aircraft", start=1, count=2, time=400 }
+local aircraftSequenceData = { name="aircraft", start=1, count=2, time=200 }
 aircraft.sheet = aircraftSheet
 aircraft.sequenceData = aircraftSequenceData
 

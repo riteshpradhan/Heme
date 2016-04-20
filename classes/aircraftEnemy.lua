@@ -12,13 +12,11 @@ local utils = require("libs.utils")
 local sounds = require("libs.sounds")
 local hemeGlobals = require('libs.globals')
 
-local _M = enemy:newEnemy({hp=10, health=20, type="aircraftEnemy", w=80, h=80})
+local _M = enemy:newEnemy({hp=10, health=20, type="aircraftEnemy", w=175, h=76})
 
 _M.superSpawn = _M.spawn
 function _M:spawn()
 	self:superSpawn()
-	self.shape:setFillColor( 0,1,1,0.8 )
-
 	self.firingTimer = timer.performWithDelay( 3000, function() self:fire() end, 5)
 	table.insert( hemeGlobals.gameTimers, self.firingTimer)
 
@@ -74,7 +72,7 @@ function _M:destroy()
 		transition.to(self.shape, {time=100, alpha=0.1})
 		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 		timer.cancel(self.firingTimer)
-		if(self.enemySprite ~= nil ) then
+				if(self.enemySprite ~= nil ) then
 			self.enemySprite:removeSelf()
 		end
 	end

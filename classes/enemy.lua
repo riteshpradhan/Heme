@@ -40,7 +40,8 @@ function _M:spawn()
 	self.enemySprite = display.newSprite( images[self.type].sheet, images[self.type].sequenceData )
 	self.enemySprite.x, self.enemySprite.y = self.xPos, self.yPos
 	self.enemySprite:play()
-	self.shape = display.newRect(0,0,120,65)
+	print("dimensions--------", self.w, self.h)
+	self.shape = display.newRect(0,0,self.w,self.h)
 	self.shape:setFillColor(1,0,0,0)
 
 	-- self.shape = display.newImageRect('images/enemy/' .. self.type .. '.png', self.w, self.h)
@@ -102,6 +103,7 @@ function _M:destroy()
 	if (self ~= nil and self.shape ~= nil) then
 		transition.to(self, {time=100, alpha=0.1})
 		print(self)
+
 		timer.performWithDelay( 10, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 
 		if(self.enemySprite ~= nil ) then
