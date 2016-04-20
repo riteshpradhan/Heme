@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:05:55
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 17:53:31
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-19 20:28:05
 
 -- load required library files
 local widget = require("widget")
@@ -68,6 +68,12 @@ function scene:create( event )
         composer.gotoScene("scenes.store", sceneOpt)
     end
 
+    local function btnPlayerChangeHandler(event)
+        sounds.play('menu_item')
+        local sceneOpt = {effect = "crossFade", time = 600}
+        composer.gotoScene("scenes.selectPlayer", sceneOpt)
+    end
+
     local function btnSettingsHandler(event)
         sounds.play('menu_item')
         local options = {
@@ -93,11 +99,19 @@ function scene:create( event )
 	button_settings.y = display.contentHeight - 100
     sceneGroup:insert(button_settings)
 
+    local button_select_player = widget.newButton({
+        defaultFile = "images/menu/favorite.png",
+        onRelease = btnPlayerChangeHandler
+    })
+    button_select_player.x = 250
+    button_select_player.y = display.contentHeight - 100
+    sceneGroup:insert(button_select_player)
+
 	local button_help = widget.newButton({
         defaultFile = "images/menu/help.png",
         onRelease = btnHelpHandler
     })
-    button_help.x = 250
+    button_help.x = 400
 	button_help.y = display.contentHeight - 100
     sceneGroup:insert(button_help)
 
@@ -105,7 +119,7 @@ function scene:create( event )
         defaultFile = "images/menu/information.png",
         onRelease = btnCreditsHandler
     })
-    button_credits.x = 400
+    button_credits.x = 550
 	button_credits.y = display.contentHeight - 100
     sceneGroup:insert(button_credits)
 
