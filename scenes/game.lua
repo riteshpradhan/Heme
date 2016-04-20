@@ -358,6 +358,7 @@ function onGameOver()
 
     local params = {distance = currentDistance, medal = currentMedal, coin = currentCoin }
     local sceneOpt = {effect = "crossFade", time = 1000, params=params}
+    sounds.stop(25)
     composer.gotoScene("scenes.gameover", sceneOpt)
 end
 
@@ -453,6 +454,13 @@ function scene:show( event )
 
     local sceneGroup = self.view
     local phase = event.phase
+
+    if(hemeDatabox.isMusicOn) then
+        if(audio.isChannelPlaying( 25 )) then
+            sounds.stop(25)
+        end
+        sounds.play('bg_music_game', {loops = -1, channel = 25})
+    end
 
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen)

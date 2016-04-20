@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-16 01:05:55
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-19 17:32:08
+-- @Last Modified time: 2016-04-19 20:59:33
 
 
 -- load required library files
@@ -10,6 +10,7 @@ local composer = require("composer");
 local hemeDatabox = require('libs.databox')
 local utils = require("libs.utils");
 local sounds = require( "libs.sounds" );
+local images = require("libs.images");
 local scene = composer.newScene();
 
 function scene:create( event )
@@ -61,7 +62,13 @@ function scene:show( event )
             else
                 hemeDatabox.isMusicOn = true
                 if(audio.isChannelPlaying( 25 ) == false) then
-                    sounds.play('bg_music', {loops = -1, channel = 25})
+                    if(is_playing) then
+                        sounds.stop(25)
+                        sounds.play('bg_music_game', {loops = -1, channel = 25})
+                    else
+                        sounds.stop(25)
+                        sounds.play('bg_music_menu', {loops = -1, channel = 25})
+                    end
                 end
                 sounds.isMusicOn = hemeDatabox.isMusicOn
                 sounds.play('music_toggle_on')
@@ -126,7 +133,7 @@ function scene:show( event )
                 onRelease = btnMenuHandler
             })
             button_menu.x = display.contentCenterX + 100
-        	button_menu.y = display.contentCenterY
+        	button_menu.y = display.contentCenterY + y_offset
             sceneGroup:insert(button_menu)
             button_menu:toFront()
 
@@ -134,7 +141,7 @@ function scene:show( event )
                 defaultFile = "images/menu/play.png",
                 onRelease = btnPlayHandler
             })
-            button_play.x = display.contentCenterX - 100
+            button_play.x = display.contentCenterX 
             button_play.y = display.contentCenterY
             sceneGroup:insert(button_play)
             button_play:toFront()
@@ -152,12 +159,17 @@ function scene:show( event )
             --     onRelease = btnPlayHandler
             -- })
         else
-            button_back = widget.newButton({
-                defaultFile = "images/menu/back.png",
-                onRelease = btnMenuHandler
-            })
-            button_back.x = 100
-            button_back.y = display.contentHeight - 100
+            local button_back = widget.newButton(
+                {
+                    x = 125,
+                    y = 90,
+                    sheet = images.backButtonSheet,
+                    defaultFrame = 1,
+                    overFrame = 2,
+                    onRelease = btnMenuHandler
+                }
+            )
+
             sceneGroup:insert(button_back)
         end
 
