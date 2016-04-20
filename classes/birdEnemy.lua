@@ -1,7 +1,6 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 20:45:50
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-19 17:46:20
+
 
 -- Enemy: bird
 -- This enemy doesn't fire back

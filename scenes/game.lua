@@ -62,7 +62,7 @@ local currentAmmo = hemeDatabox.ammo
 local currentFuel = hemeDatabox.fuel
 local currentHealth = hemeDatabox.health
 local currentDistance = 0
-
+local currentPlayer = hemeDatabox.player
 
 local runtime = 0
 local scrollSpeed = hemeGlobals.scrollSpeed
@@ -87,8 +87,16 @@ local tapHandler = {}
 local onGameOver = {}
 local destroyBodies = {}
 local createObjects = {}
+local customToast = {}
 
 
+function customToast(toastStr)
+    local myToast = display.newText( toastStr, display.contentCenterX, display.contentCenterY, "Comic Sans MS", 80 )
+    myToast:setFillColor( 1, 0.3, 0, 0.8 )
+    transition.fadeOut( myToast, {time=500} )
+    -- display.remove( myToast )
+    allBodiesG:insert( myToast )
+end
 
 function createObjects()
 
@@ -227,6 +235,10 @@ end
 function tapHandler(event)
     print("Tapped runtime tap listener")
     heme:fire()
+
+    heme.ammo = heme.ammo - 1
+    currentAmmo = heme.ammo
+    currentAmmoText.text = currentAmmo
 end
 
 
@@ -284,21 +296,25 @@ function enterFrame()
         currentCoin = heme.coin
         hemeGlobals.isCoinUpdate = false
         currentCoinText.text = currentCoin
+        customToast("+1 Coin!")
     end
     if hemeGlobals.isMedalUpdate then
         currentMedal = heme.medal
         hemeGlobals.isMedalUpdate = false
         currentMedalText.text = currentMedal
+        customToast("+1 Medal!")
     end
     if hemeGlobals.isAmmoUpdate then
         currentAmmo = heme.ammo
         hemeGlobals.isAmmoUpdate = false
         currentAmmoText.text = currentAmmo
+        customToast("Ammo Refill!")
     end
     if hemeGlobals.isFuelUpdate then
         currentFuel = heme.fuel
         hemeGlobals.isFuelUpdate = false
         currentFuelText.text = currentFuel
+        customToast("Fuel Refill!")
     end
     if hemeGlobals.isHealthUpdate then
         currentHealth = heme.health
@@ -339,10 +355,15 @@ function onGameOver()
     Runtime:removeEventListener("enterFrame", enterFrame)
     -- transition.cancel()
     -- destroyBodies()
+    sounds.stop(25)
+    if (hemeDatabox.highscore < currentDistance) then
+        hemeDatabox.highscore = currentDistance
+    end
+    hemeDatabox.totalCoin = hemeDatabox.totalCoin + currentCoin
+    hemeDatabox.totalMedal = hemeDatabox.totalMedal + currentMedal
 
     local params = {distance = currentDistance, medal = currentMedal, coin = currentCoin }
     local sceneOpt = {effect = "crossFade", time = 1000, params=params}
-    sounds.stop(25)
     composer.gotoScene("scenes.gameover", sceneOpt)
 end
 
@@ -456,7 +477,7 @@ function scene:show( event )
 
         button_pause:toFront();
         -- Single player Instance
-        local params = {g=nil, type='heme', ammo=55}
+        local params = {g=nil, type=hemeDatabox.player, ammo=hemeDatabox.ammo, fuel=hemeDatabox.fuel, health=hemeDatabox.health}
 		heme = player:newPlayer(params)
 		heme:launch()
 
@@ -475,10 +496,10 @@ function scene:show( event )
 
 
 		currentMedalText.text = currentMedal
-		currentCoinText.text = currentCoin
-		currentAmmoText.text = currentAmmo
-		currentFuelText.text = currentFuel
-		currentHealthText.text = currentHealth
+		currentCoinText.text = hemeDatabox.coin
+		currentAmmoText.text = hemeDatabox.ammo
+		currentFuelText.text = hemeDatabox.fuel
+		currentHealthText.text = hemeDatabox.health
 		currentDistanceText.text = currentDistance
 
 
