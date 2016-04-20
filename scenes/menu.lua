@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:05:55
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-19 20:25:28
+-- @Last Modified time: 2016-04-19 20:28:05
 
 -- load required library files
 local widget = require("widget")
@@ -70,7 +70,7 @@ function scene:create( event )
 
     local function btnPlayerChangeHandler(event)
         sounds.play('menu_item')
-        local sceneOpt = {effect = "slideLeft", time = 800}
+        local sceneOpt = {effect = "crossFade", time = 600}
         composer.gotoScene("scenes.selectPlayer", sceneOpt)
     end
 
