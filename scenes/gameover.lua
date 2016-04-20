@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-19 00:45:09
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-19 21:13:44
+-- @Last Modified by:   Ritesh Pradhan
+-- @Last Modified time: 2016-04-19 22:56:01
 
 local widget = require('widget')
 local composer = require( "composer" )
@@ -12,6 +12,12 @@ local sounds = require( "libs.sounds" );
 
 local awesomeG = display.newGroup( )
 local awesomenessT
+
+local highScoreT
+local currentScoreT
+local currentCoinT
+local currentMedalT
+
 
 function scene:create( event )
     local sceneGroup = self.view
@@ -46,7 +52,7 @@ function scene:create( event )
         onRelease = btnMenuHandler
     })
     button_menu.x = display.contentCenterX - 100
-    button_menu.y = display.contentCenterY + 200
+    button_menu.y = display.contentCenterY + 250
     sceneGroup:insert(button_menu)
 
     local button_restart = widget.newButton({
@@ -54,14 +60,17 @@ function scene:create( event )
         onRelease = btnRestartHandler
     })
     button_restart.x = display.contentCenterX + 100
-    button_restart.y = display.contentCenterY + 200
+    button_restart.y = display.contentCenterY + 250
     sceneGroup:insert(button_restart)
 
-    local rect = display.newRect( awesomeG, display.contentCenterX, display.contentCenterY, 400, 200 )
-    rect:setFillColor( 1,1,0,0.4 )
 
-    awesomenessT = display.newText( awesomeG, params.distance, display.contentCenterX, display.contentCenterY, native.systemFont, 80 )
-    awesomenessT:setFillColor( 1,0,0 )
+    --- 800 263
+            -- 325
+
+    highScoreT = display.newText( awesomeG, hemeDatabox.highscore, 800, 265, "Comic Sans MS", 40 )
+    currentScoreT = display.newText( awesomeG, params.distance, 800, 325, "Comic Sans MS", 40 )
+    currentCoinT = display.newText( awesomeG, params.coin, 800, 380, "Comic Sans MS", 40 )
+    currentMedalT = display.newText( awesomeG, params.medal, 800, 450, "Comic Sans MS", 40 )
 
     sceneGroup:insert( awesomeG )
 end
@@ -79,7 +88,10 @@ function scene:show( event )
     local phase = event.phase
     local params = event.params
     if ( phase == "will") then
-    	awesomenessT.text = params.distance
+    	highScoreT.text = hemeDatabox.highscore
+        currentScoreT.text = params.distance
+        currentCoinT.text = params.coin
+        currentMedalT.text = params.medal
     elseif ( phase == "did" ) then
 
     end

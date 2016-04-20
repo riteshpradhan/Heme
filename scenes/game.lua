@@ -355,10 +355,15 @@ function onGameOver()
     Runtime:removeEventListener("enterFrame", enterFrame)
     -- transition.cancel()
     -- destroyBodies()
+    sounds.stop(25)
+    if (hemeDatabox.highscore < currentDistance) then
+        hemeDatabox.highscore = currentDistance
+    end
+    hemeDatabox.totalCoin = hemeDatabox.totalCoin + currentCoin
+    hemeDatabox.totalMedal = hemeDatabox.totalMedal + currentMedal
 
     local params = {distance = currentDistance, medal = currentMedal, coin = currentCoin }
     local sceneOpt = {effect = "crossFade", time = 1000, params=params}
-    sounds.stop(25)
     composer.gotoScene("scenes.gameover", sceneOpt)
 end
 
@@ -472,7 +477,7 @@ function scene:show( event )
 
         button_pause:toFront();
         -- Single player Instance
-        local params = {g=nil, type=hemeDatabox.player, ammo=55}
+        local params = {g=nil, type=hemeDatabox.player, ammo=hemeDatabox.ammo, fuel=hemeDatabox.fuel, health=hemeDatabox.health}
 		heme = player:newPlayer(params)
 		heme:launch()
 
@@ -491,10 +496,10 @@ function scene:show( event )
 
 
 		currentMedalText.text = currentMedal
-		currentCoinText.text = currentCoin
-		currentAmmoText.text = currentAmmo
-		currentFuelText.text = currentFuel
-		currentHealthText.text = currentHealth
+		currentCoinText.text = hemeDatabox.coin
+		currentAmmoText.text = hemeDatabox.ammo
+		currentFuelText.text = hemeDatabox.fuel
+		currentHealthText.text = hemeDatabox.health
 		currentDistanceText.text = currentDistance
 
 

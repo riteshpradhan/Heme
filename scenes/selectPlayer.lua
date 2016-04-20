@@ -86,46 +86,58 @@ function scene:create( event )
 	hemeBox = display.newRoundedRect(display.contentCenterX - 250, display.contentCenterY, 300, 350, 20)
     hemeBox:setFillColor( 0.5, 0.5, 0.5, 0.5 )
     hemeBox:addEventListener( "tap", function() setDefault('heme')  end)
-    sceneGroup:insert(hemeBox)
+
 
     hemeName = display.newText( "Heme", 0, 0, "Comic Sans MS", 50 )
     hemeName.x = display.contentCenterX - 250
     hemeName.y = display.contentCenterY + 210
     hemeName:setFillColor( 0, 0.5, 0 )
-    sceneGroup:insert(hemeName);
+
 
     heme_current = display.newImage("images/menu/OK.png")
     heme_current.x = display.contentCenterX - 150
     heme_current.y = display.contentCenterY + 130
     heme_current.isVisible = false
-    sceneGroup:insert(heme_current);
+
 
     hemaBox = display.newRoundedRect(display.contentCenterX + 250, display.contentCenterY, 300, 350, 20)
     hemaBox:setFillColor( 0.5, 0.5, 0.5, 0.5 )
     hemaBox:addEventListener( 'tap', function() setDefault('hema') end)
-    sceneGroup:insert(hemaBox)
+
 
     hemaName = display.newText( "Hema", 0, 0, "Comic Sans MS", 50 )
     hemaName.x = display.contentCenterX + 250
     hemaName.y = display.contentCenterY + 210
     hemaName:setFillColor( 0, 0.5, 0 )
-    sceneGroup:insert(hemaName);
+
 
     hema_current = display.newImage("images/menu/OK.png")
     hema_current.x = display.contentCenterX + 350
     hema_current.y = display.contentCenterY + 130
     hema_current.isVisible = false
-    sceneGroup:insert(hema_current);
+
 
     heme = display.newImage('images/player/heme.png')
     heme.x = display.contentCenterX - 250
     heme.y = display.contentCenterY
-    sceneGroup:insert(heme)
+
 
     hema = display.newImage('images/player/hema.png')
     hema.x = display.contentCenterX + 250
     hema.y = display.contentCenterY
+
+
+
+    sceneGroup:insert(hemeBox)
+    sceneGroup:insert(heme)
+    sceneGroup:insert(hemeName);
+    sceneGroup:insert(heme_current);
+
+    sceneGroup:insert(hemaBox)
     sceneGroup:insert(hema)
+    sceneGroup:insert(hemaName);
+    sceneGroup:insert(hema_current);
+
 end
 
 function scene:show( event )
