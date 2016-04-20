@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 00:33:25
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 23:44:53
+-- @Last Modified time: 2016-04-20 01:54:15
 
 
 
@@ -256,6 +256,13 @@ function scene:show( event )
     local phase = event.phase
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen)
+
+        currentAmmo = hemeDatabox.ammo
+        currentFuel = hemeDatabox.fuel
+        currentHealth = hemeDatabox.health
+        currentCoin = hemeDatabox.totalCoin
+        currentMedal = hemeDatabox.totalMedal
+
         topCurrentMedalT.text = hemeDatabox.totalMedal
 		topCurrentCoinT.text = hemeDatabox.totalCoin
 
@@ -263,6 +270,7 @@ function scene:show( event )
 		ammoCurrentT.text = hemeDatabox.ammo
 		fuelCurrentT.text = hemeDatabox.fuel
 		healthCurrentT.text = hemeDatabox.health
+
 
     elseif ( phase == "did" ) then
         -- Called when the scene is now on screen
