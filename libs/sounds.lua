@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:42:51
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-19 21:21:03
+-- @Last Modified time: 2016-04-19 23:15:05
 
 -- Sounds library
 -- Manager for the sound and music files.
@@ -36,10 +36,10 @@ local sounds = {
     -- player_destroy = 'sounds/buzzer.wav',
     player_collide = 'sounds/Explosion12.wav',
     player_collect_powerups = 'sounds/power_up_3.wav',
-    player_health_refill = 'sounds/Powerup4.wav',
+    player_health_refill = 'sounds/powerUp6.wav',
     player_ammo_refill = 'sounds/ammo_refill.wav',
-    player_fuel_refill = 'sounds/Powerup7.wav',
-    player_collect_collectible = 'sounds/Pickup_Coin8.wav',
+    player_fuel_refill = 'sounds/powerUp8.wav',
+    player_collect_collectible = 'sounds/ring_inventory.wav',
     player_hit = 'sounds/Explosion12.wav',
 
     -- Enemy aircraft sounds
@@ -54,10 +54,10 @@ local sounds = {
     bird_collide = 'sounds/bird_hit.wav',
 
     -- Store sounds
-    purchase_coin = 'sounds/Powerup.wav',
-    purchase_ammo = 'sounds/ammo_refill.wav',
-    purchase_fuel = 'sounds/Powerup7.wav',
-    purchase_health = 'sounds/Powerup4.wav',
+    purchase_coin = 'sounds/sell_buy_item.wav',
+    purchase_ammo = 'sounds/sell_buy_item.wav',
+    purchase_fuel = 'sounds/sell_buy_item.wav',
+    purchase_health = 'sounds/sell_buy_item.wav',
     insufficient_fund = 'sounds/alert.wav',
 
     -- Bullet sounds
