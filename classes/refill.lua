@@ -14,7 +14,7 @@ local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
 local collisionFilters = require( 'libs.collisionFilters')
 
-local _M = {tag='refill', type='default', w=50, h=50, x=1030, y=hemeGlobals.yLevel[1], value=10, xVel=-10, yVel=0, value=10}
+local _M = {tag='refill', type='default', w=65, h=65, x=1030, y=hemeGlobals.yLevel[1], value=10, xVel=-10, yVel=0, value=10}
 
 function _M:newRefill(params)
 	local o = params or {}

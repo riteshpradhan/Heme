@@ -72,7 +72,7 @@ function _M:destroy()
 		transition.to(self.shape, {time=100, alpha=0.1})
 		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 		timer.cancel(self.firingTimer)
-				if(self.enemySprite ~= nil ) then
+		if(self.enemySprite ~= nil ) then
 			self.enemySprite:removeSelf()
 		end
 	end
