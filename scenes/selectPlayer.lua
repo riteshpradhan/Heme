@@ -34,7 +34,7 @@ function setDefault(selectedPlayer)
 	if(selectedPlayer ~= nil) then
     	hemeDatabox.player = selectedPlayer
     	print("current player => " .. hemeDatabox.defaultPlayer)
-    	sounds.play('setting_item')
+    	sounds.play('back')
     end
 
     if(hemeDatabox.player == 'hema') then
@@ -88,35 +88,44 @@ function scene:create( event )
     hemeBox:addEventListener( "tap", function() setDefault('heme')  end)
     sceneGroup:insert(hemeBox)
 
+    hemeName = display.newText( "Heme", 0, 0, "Comic Sans MS", 50 )
+    hemeName.x = display.contentCenterX - 250
+    hemeName.y = display.contentCenterY + 210
+    hemeName:setFillColor( 0, 0.5, 0 )
+    sceneGroup:insert(hemeName);
+
     heme_current = display.newImage("images/menu/OK.png")
-    heme_current.x = display.contentCenterX - 250
-    heme_current.y = display.contentCenterY + 210
+    heme_current.x = display.contentCenterX - 150
+    heme_current.y = display.contentCenterY + 130
     heme_current.isVisible = false
     sceneGroup:insert(heme_current);
-
-    hema_current = display.newImage("images/menu/OK.png")
-    hema_current.x = display.contentCenterX + 250
-    hema_current.y = display.contentCenterY + 210
-    hema_current.isVisible = false
-    sceneGroup:insert(hema_current);
-
-    heme = display.newImage('images/enemy/birdEnemy.png')
-    heme.x = display.contentCenterX - 250
-    heme.y = display.contentCenterY
-
-    sceneGroup:insert(heme)
 
     hemaBox = display.newRoundedRect(display.contentCenterX + 250, display.contentCenterY, 300, 350, 20)
     hemaBox:setFillColor( 0.5, 0.5, 0.5, 0.5 )
     hemaBox:addEventListener( 'tap', function() setDefault('hema') end)
     sceneGroup:insert(hemaBox)
 
-    hema = display.newImage('images/enemy/birdEnemy.png')
+    hemaName = display.newText( "Hema", 0, 0, "Comic Sans MS", 50 )
+    hemaName.x = display.contentCenterX + 250
+    hemaName.y = display.contentCenterY + 210
+    hemaName:setFillColor( 0, 0.5, 0 )
+    sceneGroup:insert(hemaName);
+
+    hema_current = display.newImage("images/menu/OK.png")
+    hema_current.x = display.contentCenterX + 350
+    hema_current.y = display.contentCenterY + 130
+    hema_current.isVisible = false
+    sceneGroup:insert(hema_current);
+
+    heme = display.newImage('images/player/heme.png')
+    heme.x = display.contentCenterX - 250
+    heme.y = display.contentCenterY
+    sceneGroup:insert(heme)
+
+    hema = display.newImage('images/player/hema.png')
     hema.x = display.contentCenterX + 250
     hema.y = display.contentCenterY
     sceneGroup:insert(hema)
-
-
 end
 
 function scene:show( event )
