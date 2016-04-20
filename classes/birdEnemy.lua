@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 20:45:50
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 20:35:59
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-19 17:46:20
 
 -- Enemy: bird
 -- This enemy doesn't fire back
@@ -46,6 +46,7 @@ function _M:collision(event)
 			utils.print_table(self.shape)
 			self.shape.health = self.shape.health - event.other.hp
 			if (self.shape.health <= 0) then
+				sounds.play('bird_destroy')
 				self:destroy()
 			end
 		end
@@ -60,7 +61,6 @@ end
 function _M:destroy()
 	print("Destroying birdEnemy")
 	if (self.shape ~= nil) then
-		sounds.play('bird_destroy')
 		transition.to(self.shape, {time=100, alpha=0.1})
 		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 	end

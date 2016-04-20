@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-16 01:05:55
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-19 01:29:48
+-- @Last Modified time: 2016-04-19 17:32:08
 
 
 -- load required library files
@@ -128,6 +128,7 @@ function scene:show( event )
             button_menu.x = display.contentCenterX + 100
         	button_menu.y = display.contentCenterY
             sceneGroup:insert(button_menu)
+            button_menu:toFront()
 
             button_play = widget.newButton({
                 defaultFile = "images/menu/play.png",
@@ -136,6 +137,7 @@ function scene:show( event )
             button_play.x = display.contentCenterX - 100
             button_play.y = display.contentCenterY
             sceneGroup:insert(button_play)
+            button_play:toFront()
 
             -- local button_restart = widget.newButton({
             --     defaultFile = "images/menu/restart.png",
@@ -174,6 +176,7 @@ function scene:show( event )
         button_music.x = display.contentCenterX - 100 + x_offset
     	button_music.y = display.contentCenterY + y_offset
         sceneGroup:insert(button_music)
+        button_music:toFront()
 
         if(hemeDatabox.isSoundOn == true) then
             button_sound = widget.newButton({
@@ -189,8 +192,7 @@ function scene:show( event )
         button_sound.x = display.contentCenterX + 100 + x_offset
         button_sound.y = display.contentCenterY + y_offset
         sceneGroup:insert(button_sound)
-
-
+        button_sound:toFront()
     end
 end
 

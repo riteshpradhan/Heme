@@ -57,6 +57,7 @@ function _M:collision(event)
 			utils.print_table(self.shape)
 			self.shape.health = self.shape.health - event.other.hp
 			if (self.shape.health <= 0) then
+				sounds.play('aircraft_destroy')	
 				self:destroy()
 			end
 		end
@@ -70,7 +71,6 @@ end
 function _M:destroy()
 	print("Destroying aircraftEnemy")
 	if (self.shape ~= nil) then
-		sounds.play('aircraft_destroy')
 		transition.to(self.shape, {time=100, alpha=0.1})
 		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 		timer.cancel(self.firingTimer)
