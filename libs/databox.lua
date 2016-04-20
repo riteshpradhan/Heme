@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-15 21:23:06
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 19:21:03
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-19 19:38:39
 
 
 -- Databox
@@ -23,6 +23,7 @@ local defaultData = {
                         isSoundOn = true, isMusicOn = true, isHelpShown = false,
                         medalBuyCoin = 5, coinBuyAmmo = 200, coinBuyFuel = 500, coinBuyHealth = 300,
                         coinAdd = 50, ammoAdd = 10, fuelAdd = 10, healthAdd = 10,
+                        defaultPlayer = 'heme'
                     }
 
 local path = system.pathForFile('databox.json', system.DocumentsDirectory)
