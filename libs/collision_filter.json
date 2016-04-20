@@ -7,7 +7,7 @@
 	"playerBullet":
 		{
 			"category": 2,
-			"collide_with": [3, 4, 5, 6, 7, 8]
+			"collide_with": [3, 4, 5]
 		},
 	"enemy":
 		{
@@ -27,17 +27,17 @@
 	"refill":
 		{
 			"category": 6,
-			"collide_with": [1, 2]
+			"collide_with": [1]
 		},
 	"powerup":
 		{
 			"category": 7,
-			"collide_with": [1, 2]
+			"collide_with": [1]
 		},
 	"collectible":
 		{
 			"category": 8,
-			"collide_with": [1, 2]
+			"collide_with": [1]
 		},
 	"ground":
 		{
