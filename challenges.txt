@@ -1,4 +1,7 @@
 1. adding physics body to sprite animations.
 2. Physics body motion in required directions within limit
 3. Background; Parallex effect
-4. gitlab use; version co
+4. gitlab use; version contorl
+5. handle multiple collisions, destruction, timers, transition
+6. make eachFrame light.
+7.

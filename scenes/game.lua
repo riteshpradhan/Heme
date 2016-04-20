@@ -73,6 +73,7 @@ local counter = 0
 local button_pause
 local obstructionType = {"castle", "tree"}
 
+local distanceToastName = {"Nice!", "Human!", "Sahi!!", "Daami", "Ramro!!", "Great!!", "Way to Go!!", "Magnificient", "Infallible!!", "Jet Master!!!"}
 -- local enemyTimer
 -- local obstructionTimer
 -- local refillTimer
@@ -109,13 +110,16 @@ function resetGameState()
 
     counter = 0
     runtime = 0
+    scrollSpeed = hemeGlobals.scrollSpeed
 
 end
 
 function customToast(toastStr)
-    local myToast = display.newText( toastStr, display.contentCenterX, display.contentCenterY, "Comic Sans MS", 80 )
-    myToast:setFillColor( 1, 0.3, 0, 0.8 )
-    transition.fadeOut( myToast, {time=500} )
+    local myToast = display.newText( toastStr, display.contentCenterX, display.contentCenterY, "Comic Sans MS", 60 )
+    myToast:setFillColor( 0, 0, 0, 0.6 )
+    myToast.x = display.contentCenterX
+    myToast.y = display.contentCenterY - 250
+    transition.fadeOut( myToast, {time=700} )
     allBodiesG:insert( myToast )
 end
 
@@ -308,8 +312,9 @@ function enterFrame()
     if (counter % 20) == 0 then
         currentDistance = currentDistance + math.floor(scrollSpeed/hemeGlobals.scrollSpeed)
         currentDistanceText.text = currentDistance
-        if (currentDistance == 20) then
+        if (currentDistance % 200 == 0) then
             scrollSpeed = scrollSpeed + 5
+            customToast(distanceToastName[(math.floor(currentDistance/200) % 10) + 1])
         end
     end
     if (counter % 60 == 0) then
@@ -318,6 +323,7 @@ function enterFrame()
         currentFuelText.text = currentFuel
 
         if heme.fuel < 0 then
+            customToast("Fuel Tank Empty !!!")
             hemeGlobals.isGameOver = true
         end
     end
@@ -326,25 +332,25 @@ function enterFrame()
         currentCoin = heme.coin
         hemeGlobals.isCoinUpdate = false
         currentCoinText.text = currentCoin
-        customToast("+1 Coin!")
+        -- customToast("+1 Coin!")
     end
     if hemeGlobals.isMedalUpdate then
         currentMedal = heme.medal
         hemeGlobals.isMedalUpdate = false
         currentMedalText.text = currentMedal
-        customToast("+1 Medal!")
+        -- customToast("+1 Medal!")
     end
     if hemeGlobals.isAmmoUpdate then
         currentAmmo = heme.ammo
         hemeGlobals.isAmmoUpdate = false
         currentAmmoText.text = currentAmmo
-        customToast("Ammo Refill!")
+        -- customToast("Ammo Refill!")
     end
     if hemeGlobals.isFuelUpdate then
         currentFuel = heme.fuel
         hemeGlobals.isFuelUpdate = false
         currentFuelText.text = currentFuel
-        customToast("Fuel Refill!")
+        -- customToast("Fuel Refill!")
     end
     if hemeGlobals.isHealthUpdate then
         currentHealth = heme.health
@@ -515,7 +521,7 @@ function scene:show( event )
 
         button_pause:toFront();
         -- Single player Instance
-        local params = {g=nil, type=hemeDatabox.player, ammo=hemeDatabox.ammo, fuel=hemeDatabox.fuel, health=hemeDatabox.health}
+        local params = {g=allBodiesG, type=hemeDatabox.player, ammo=hemeDatabox.ammo, fuel=hemeDatabox.fuel, health=hemeDatabox.health}
 		heme = player:newPlayer(params)
 		heme:launch()
 
@@ -528,6 +534,7 @@ function scene:show( event )
 
         -- Randomly generate many enemies; powerups; refills; collectible
         -- insert all into physicsBodies
+        scrollSpeed = hemeGlobals.scrollSpeed
         print("Scroll speed is : ", scrollSpeed)
         createObjects()
 

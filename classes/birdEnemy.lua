@@ -11,7 +11,7 @@ local enemy = require("classes.enemy")
 local utils = require('libs.utils')
 local sounds = require( "libs.sounds" );
 
-local _M = enemy:newEnemy({hp=10, health=10, type='birdEnemy', test_param=88})
+local _M = enemy:newEnemy({hp=5, health=4, type='birdEnemy', test_param=88})
 
 _M.superSpawn = _M.spawn
 function _M:spawn()
@@ -45,7 +45,8 @@ function _M:collision(event)
 			utils.print_table(self.shape)
 			self.shape.health = self.shape.health - event.other.hp
 			if (self.shape.health <= 0) then
-				sounds.play('bird_destroy')
+				-- sounds.play('bird_destroy')
+				sounds.play('bird_collide')
 				self:destroy()
 			end
 		end
