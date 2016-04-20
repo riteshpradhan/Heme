@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 17:06:15
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 18:24:57
+-- @Last Modified time: 2016-04-19 23:58:05
 
 -- Bullet visual effect
 -- Bullet can be either can be of Player or Enemy, or it can act as an explosion visualisation.
@@ -40,7 +40,7 @@ function _M.newBullet(params)
 	end
 
 	function bullet:enterFrame(event)
-		if(bullet.x ~= nil and (bullet.x >= display.contentWidth - 150 or bullet.x < 0)) then
+		if(bullet.x ~= nil and (bullet.x >= display.contentWidth - 50 or bullet.x < 0)) then
 			bullet:selfDestroy()
 			print("Bullet entered frame!!!!!!!!!!!")
 		end
@@ -63,7 +63,7 @@ function _M.newBullet(params)
 
 	function bullet:destroy()
 		print("FIred!!!!!!!!!!!!!!!!!1")
-		if (self ~= nil ) then
+		if (self ~= nil and self.bodyType) then
 			transition.to(self, {time=100, alpha=0})
 			timer.performWithDelay( 1,
 				function()
