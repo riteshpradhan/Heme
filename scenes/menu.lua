@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:05:55
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-19 20:28:05
+-- @Last Modified time: 2016-04-19 21:10:07
 
 -- load required library files
 local widget = require("widget")
@@ -58,6 +58,7 @@ function scene:create( event )
 
     local function btnPlayHandler(event)
         sounds.play('play')
+        sounds.stop(25)
         local sceneOpt = {effect = "fade", time = 800}
         composer.gotoScene("scenes.game", sceneOpt)
     end
@@ -142,9 +143,10 @@ end
 
 function scene:show( event )
     if(hemeDatabox.isMusicOn) then
-        if(audio.isChannelPlaying( 25 ) == false) then
-            sounds.play('bg_music', {loops = -1, channel = 25})
+        if(audio.isChannelPlaying( 25 )) then
+            sounds.stop(25)
         end
+        sounds.play('bg_music_menu', {loops = -1, channel = 25})
     end
     local sceneGroup = self.view
     local phase = event.phase

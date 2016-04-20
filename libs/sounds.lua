@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:42:51
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-19 18:43:26
+-- @Last Modified time: 2016-04-19 21:21:03
 
 -- Sounds library
 -- Manager for the sound and music files.
@@ -32,8 +32,8 @@ local sounds = {
 
     -- Player sounds
     player_spawn = 'sounds/launch.wav',
-    player_fire = 'sounds/Laser_Shoot3.wav',
-    player_destroy = 'sounds/buzzer.wav',
+    player_fire = 'sounds/Laser_Shoot4.wav',
+    -- player_destroy = 'sounds/buzzer.wav',
     player_collide = 'sounds/Explosion12.wav',
     player_collect_powerups = 'sounds/power_up_3.wav',
     player_health_refill = 'sounds/Powerup4.wav',
@@ -43,7 +43,7 @@ local sounds = {
     player_hit = 'sounds/Explosion12.wav',
 
     -- Enemy aircraft sounds
-    aircraft_fire = 'sounds/Laser_Shoot4.wav',
+    aircraft_fire = 'sounds/Laser_Shoot5.wav',
     aircraft_destroy = 'sounds/Explosion9.wav',
     aircraft_hit = 'sounds/Explosion6.wav',
     aircraft_collide = 'sounds/Explosion6.wav',
@@ -67,7 +67,10 @@ local sounds = {
     bullet_collide_health = 'sounds/Powerup4.wav',
 
     --- other sounds
-    bg_music = 'sounds/ERH-BlueBeat-01-_loop_.wav',
+    bg_music_menu = 'sounds/bg/ERH-BlueBeat-01-_loop_.wav',
+    bg_music_game = 'sounds/bg/beach.wav',
+    bg_music_game_over = 'sounds/bg/JordanTrudgett-battle-ccby3.wav',
+    
 }
 
 -- Reserve two channels for streams and switch between them with a nice fade out / fade in transition
