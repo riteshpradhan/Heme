@@ -1,8 +1,5 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:43:04
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 20:53:54
-
 
 -- all sprite loads here
 
@@ -53,7 +50,7 @@ local kushOption =
 		{ x = 101, y = 54, width = 33, height = 24}, --paper
 	}
 };
-local kushSheet = graphics.newImageSheet( "iamges/player/kush.png", kushOption );
+local kushSheet = graphics.newImageSheet( "imges/player/kush.png", kushOption );
 
 -- Create alex animation sequence for animation
 local kushSequenceData = {
@@ -106,7 +103,7 @@ local storeButtonOptions = {
     sheetContentHeight = 81
 }
 
-local storeButtonSheet = graphics.newImageSheet( "/images/scenes/storeButton.png", storeButtonOptions )
+local storeButtonSheet = graphics.newImageSheet( "images/scenes/storeButton.png", storeButtonOptions )
 
 ----------------------------------------------------
 -------- Insert eveything in libs.images table --------

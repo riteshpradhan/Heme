@@ -306,7 +306,9 @@ function onGameOver()
     Runtime:removeEventListener("enterFrame", enterFrame)
     -- transition.cancel()
     -- destroyBodies()
-    local sceneOpt = {effect = "crossFade", time = 1000, params={distance=currentDistance}}
+
+    local params = {distance = currentDistance, medal = currentMedal, coin = currentCoin }
+    local sceneOpt = {effect = "crossFade", time = 1000, params=params}
     composer.gotoScene("scenes.gameover", sceneOpt)
 end
 
