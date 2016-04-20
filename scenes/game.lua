@@ -262,17 +262,50 @@ function enterFrame()
     if hemeGlobals.isGameOver then
         onGameOver()
     end
+
     local dt = getDeltaTime()
     bg:moveBg(dt, scrollSpeed)
 
     counter = counter + 1
     if (counter % 20) == 0 then
-        currentDistance = currentDistance + scrollSpeed/hemeGlobals.scrollSpeed
+        currentDistance = currentDistance + math.floor(scrollSpeed/hemeGlobals.scrollSpeed)
         currentDistanceText.text = currentDistance
         if (currentDistance == 20) then
             scrollSpeed = scrollSpeed + 5
         end
     end
+    if (counter % 60 == 0) then
+        heme.fuel = heme.fuel - 1
+        currentFuel = heme.fuel
+        currentFuelText.text = currentFuel
+    end
+
+    if hemeGlobals.isCoinUpdate then
+        currentCoin = heme.coin
+        hemeGlobals.isCoinUpdate = false
+        currentCoinText.text = currentCoin
+    end
+    if hemeGlobals.isMedalUpdate then
+        currentMedal = heme.medal
+        hemeGlobals.isMedalUpdate = false
+        currentMedalText.text = currentMedal
+    end
+    if hemeGlobals.isAmmoUpdate then
+        currentAmmo = heme.ammo
+        hemeGlobals.isAmmoUpdate = false
+        currentAmmoText.text = currentAmmo
+    end
+    if hemeGlobals.isFuelUpdate then
+        currentFuel = heme.fuel
+        hemeGlobals.isFuelUpdate = false
+        currentFuelText.text = currentFuel
+    end
+    if hemeGlobals.isHealthUpdate then
+        currentHealth = heme.health
+        hemeGlobals.isHealthUpdate = false
+        currentHealthText.text = currentHealth
+    end
+
 end
 
 
@@ -354,12 +387,6 @@ function scene:create( event )
     bg:addScrollableBg(bgImage)
 
 
-
-
-
-    -- scoreBoardRect = display.newRect(display.contentCenterX, 50, display.contentWidth, 100 )
-    -- scoreBoardRect:setFillColor( 1, 0, 0, 0.5 )
-
     local scoreBoardImage = display.newImage("images/scenes/scoreBoardIcons.png")
     scoreBoardImage.x = display.contentCenterX;
     scoreBoardImage.y = 36;
@@ -371,39 +398,30 @@ function scene:create( event )
     local eachTextRectWidth = 0.5 * eachBoxWidth
 
 
-    -- local medalImageRect = display.newImageRect( scoreBoardG, "images/medal.png", eachImageRectWidth, 60 )
-    -- currentMedalText = display.newText( scoreBoardG, currentMedal, 0.6 * eachBoxWidth, 40, "fonts/Mistral.ttf", 55 )
-    currentMedalText = display.newText( scoreBoardG, currentMedal, 0.6 * eachBoxWidth, 40, native.systemFont, 55 )
+    currentMedalText = display.newText( scoreBoardG, currentMedal, 0.6 * eachBoxWidth, 40, "Comic Sans MS", 45 )
     currentMedalText:setFillColor(1,1,0)
 
-    -- local coinImageRect = display.newImageRect( scoreBoardG, "images/coin.png", eachImageRectWidth, 60 )
-    -- currentCoinText = display.newText( scoreBoardG, currentCoin, 1.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
-    currentCoinText = display.newText( scoreBoardG, currentCoin, 1.65 * eachBoxWidth, 40, native.systemFont, 55 )
+
+    currentCoinText = display.newText( scoreBoardG, currentCoin, 1.65 * eachBoxWidth, 40, "Comic Sans MS", 45 )
     currentCoinText:setFillColor(1,1,0)
 
-    -- local ammoImageRect = display.newImageRect( scoreBoardG, "images/ammo.png", eachImageRectWidth, 60 )
-    -- currentAmmoText = display.newText( scoreBoardG, currentAmmo, 2.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
-    currentAmmoText = display.newText( scoreBoardG, currentAmmo, 2.65 * eachBoxWidth, 40, native.systemFont, 55 )
+
+    currentAmmoText = display.newText( scoreBoardG, currentAmmo, 2.65 * eachBoxWidth, 40, "Comic Sans MS", 45 )
     currentAmmoText:setFillColor(1,1,0)
 
-    -- local fuelImageRect = display.newImageRect( scoreBoardG, "images/fuel.png", eachImageRectWidth, 60 )
-    -- currentFuelText = display.newText( scoreBoardG, currentFuel, 3.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
-    currentFuelText = display.newText( scoreBoardG, currentFuel, 3.65 * eachBoxWidth, 40, native.systemFont, 55 )
+
+    currentFuelText = display.newText( scoreBoardG, currentFuel, 3.65 * eachBoxWidth, 40, "Comic Sans MS", 45 )
     currentFuelText:setFillColor(1,1,0)
 
-    -- local healthImageRect = display.newImageRect( scoreBoardG, "images/health.png", eachImageRectWidth, 60 )
-    -- currentHealthText = display.newText( scoreBoardG, currentHealth, 4.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
-    currentHealthText = display.newText( scoreBoardG, currentHealth, 4.65 * eachBoxWidth, 40, native.systemFont, 55 )
+
+    currentHealthText = display.newText( scoreBoardG, currentHealth, 4.65 * eachBoxWidth, 40, "Comic Sans MS", 45 )
     currentHealthText:setFillColor(1,1,0)
 
-    -- local distanceImageRect = display.newImageRect( scoreBoardG, "images/distance.png", eachImageRectWidth, 60 )
-    -- currentDistanceText = display.newText( scoreBoardG, currentDistance, 5.65 * eachBoxWidth, 40, "/fonts/Mistral.ttf", 55 )
-    currentDistanceText = display.newText( scoreBoardG, currentDistance, 5.65 * eachBoxWidth, 40, native.systemFont, 55 )
+    currentDistanceText = display.newText( scoreBoardG, currentDistance, 5.65 * eachBoxWidth, 40, "Comic Sans MS", 45 )
     currentDistanceText:setFillColor(1,1,0)
 
     sceneGroup:insert(scoreBoardG)
 
-    print("Table")
     print(bg.bg1)
     utils.print_table(bg)
     sceneGroup:insert( bg.bg1 )
