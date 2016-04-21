@@ -147,7 +147,7 @@ function createObjects()
 
     local function createObstruction()
         local obsW, obsH = math.random(100, 200), (display.contentHeight -  hemeGlobals.yLevel[math.random(2)] + 20)
-        local obs = obstruction:newObstruction({g=nil, x=display.contentWidth, xVel=-scrollSpeed*100, type=obstructionType[math.random(2)], w=obsW, h=obsH})
+        local obs = obstruction:newObstruction({g=nil, x=display.contentWidth, xVel=-scrollSpeed*60, type=obstructionType[math.random(2)], w=obsW, h=obsH})
         obs:spawn()
         table.insert(hemeGlobals.physicsBodies, obs)
         allBodiesG:insert(obs.shape)

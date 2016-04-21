@@ -69,6 +69,7 @@ function _M:collision(event)
 	if event.phase == "began" then
 		print("Collision of Refill")
 		self:destroy()
+		-- self.shape.alpha = 0
 	elseif event.phase == "ended" then
 		-- print("Collision of Refill")
 		-- self:destroy()
