@@ -71,7 +71,7 @@ local ground1
 local lordShiva
 local counter = 0
 local button_pause
-local obstructionType = {"castle", "tree"}
+local obstructionType = {"tree1", "tree2", "tree3"}
 
 local distanceToastName = {"Nice!", "Human!", "Sahi!!", "Daami", "Ramro!!", "Great!!", "Way to Go!!", "Magnificient", "Infallible!!", "Jet Master!!!"}
 -- local enemyTimer
@@ -147,7 +147,7 @@ function createObjects()
 
     local function createObstruction()
         local obsW, obsH = math.random(100, 200), (display.contentHeight -  hemeGlobals.yLevel[math.random(2)] + 20)
-        local obs = obstruction:newObstruction({g=nil, x=display.contentWidth, xVel=-scrollSpeed*100, type=obstructionType[math.random(2)], w=obsW, h=obsH})
+        local obs = obstruction:newObstruction({g=nil, x=display.contentWidth, xVel=-scrollSpeed*100, type=obstructionType[math.random(3)], w=obsW, h=obsH})
         obs:spawn()
         table.insert(hemeGlobals.physicsBodies, obs)
         allBodiesG:insert(obs.shape)
