@@ -200,7 +200,7 @@ function createObjects()
 
     local function createCollectible()
         local yPos = math.random(3)
-        if (math.random(25) % 25 == 0) then
+        if (math.random(15) % 15 == 0) then
             local m = medalCollectible:newCollectible({xVel=-scrollSpeed*100, y=hemeGlobals.yLevel[yPos]})
             m:spawn()
             table.insert(hemeGlobals.physicsBodies, m)
@@ -217,7 +217,7 @@ function createObjects()
     local obstructionTimer = timer.performWithDelay( 5000, function() createObstruction() end, -1 )
     local refillTimer = timer.performWithDelay( 10000, function() createRefill() end, -1 )
     local powerupTimer = timer.performWithDelay( 15000, function() createPowerup() end, -1 )
-    local collectibleTimer = timer.performWithDelay( 3000, function() createCollectible() end, -1 )
+    local collectibleTimer = timer.performWithDelay( 2000, function() createCollectible() end, -1 )
 
     table.insert( hemeGlobals.gameTimers, enemyTimer )
     table.insert( hemeGlobals.gameTimers, obstructionTimer )
@@ -332,6 +332,15 @@ function enterFrame()
             customToast("Fuel Tank Empty !!!")
             sounds.play("player_destroy")
             hemeGlobals.isGameOver = true
+        end
+
+        if isObjectCreated[1] == false and currentDistance > 300 then
+            createObjects()
+            isObjectCreated[1] = true
+        end
+        if isObjectCreated[2] == false and currentDistance > 500 then
+            createObjects()
+            isObjectCreated[2] = true
         end
     end
 
