@@ -9,7 +9,7 @@
 9. store finalize									==> done
 10. Updates (all distance, coins, fuels ..)			==> done
 11. hyperdrive powerup sound
-
+12 collision sound with obstruction.
 
 
 

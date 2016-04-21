@@ -1,11 +1,11 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 21:20:16
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 20:24:03
+-- @Last Modified time: 2016-04-20 20:11:57
 
 local _M = {}
 _M.yLevel = {[1]=460, [2]=360, [3]=200, [4]=160}
-_M.scrollSpeed = 5
+_M.scrollSpeed = 2
 _M.gameTimers = {}
 _M.physicsBodies = {}
 
