@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-16 01:05:55
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-19 20:59:33
+-- @Last Modified time: 2016-04-20 21:41:32
 
 
 -- load required library files
@@ -50,10 +50,11 @@ function scene:show( event )
             button_music:removeSelf()
             if(hemeDatabox.isMusicOn == true) then
                 hemeDatabox.isMusicOn = false
-                if(audio.isChannelPlaying( 25 )) then
-                    sounds.stop(25)
-                end
                 sounds.isMusicOn = hemeDatabox.isMusicOn
+                -- if(audio.isChannelPlaying( 25 )) then
+                    sounds.musicStop()
+                -- end
+                
                 sounds.play('music_toggle_off')
                 button_music = widget.newButton({
                     defaultFile = "images/menu/music_off.png",
@@ -61,16 +62,15 @@ function scene:show( event )
                 })
             else
                 hemeDatabox.isMusicOn = true
-                if(audio.isChannelPlaying( 25 ) == false) then
-                    if(is_playing) then
-                        sounds.stop(25)
-                        sounds.play('bg_music_game', {loops = -1, channel = 25})
-                    else
-                        sounds.stop(25)
-                        sounds.play('bg_music_menu', {loops = -1, channel = 25})
-                    end
-                end
                 sounds.isMusicOn = hemeDatabox.isMusicOn
+                -- if(audio.isChannelPlaying( 25 ) == false) then
+                    if(is_playing) then
+                        sounds.musicPlay('bg_music_game')
+                    else
+                        sounds.musicPlay('bg_music_menu')
+                    end
+                -- end
+                
                 sounds.play('music_toggle_on')
                 button_music = widget.newButton({
                     defaultFile = "images/menu/music_on.png",

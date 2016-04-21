@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-19 00:45:09
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 22:56:01
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-20 21:43:14
 
 local widget = require('widget')
 local composer = require( "composer" )
@@ -78,12 +78,13 @@ end
 function scene:show( event )
     local sceneGroup = self.view
 
-    if(hemeDatabox.isMusicOn) then
-        if(audio.isChannelPlaying( 25 )) then
-            sounds.stop(25)
-        end
-        sounds.play('bg_music_game_over', {loops = -1, channel = 25})
-    end
+    -- if(hemeDatabox.isMusicOn) then
+        -- if(audio.isChannelPlaying( 25 )) then
+            -- sounds.stop(25)
+        -- end
+        -- sounds.musicPlay('bg_music_game_over', {loops = -1, channel = 25})
+    -- end
+    sounds.musicPlay('bg_music_game_over')
 
     local phase = event.phase
     local params = event.params

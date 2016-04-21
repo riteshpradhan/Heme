@@ -504,12 +504,13 @@ function scene:show( event )
     local sceneGroup = self.view
     local phase = event.phase
 
-    if(hemeDatabox.isMusicOn) then
-        if(audio.isChannelPlaying( 25 )) then
-            sounds.stop(25)
-        end
-        sounds.play('bg_music_game', {loops = -1, channel = 25})
-    end
+    -- if(hemeDatabox.isMusicOn) then
+        -- if(audio.isChannelPlaying( 25 )) then
+            -- sounds.stop(25)
+        -- end
+        -- sounds.musicPlay('bg_music_game', {loops = -1, channel = 25})
+    sounds.musicPlay('bg_music_game')
+    -- end
 
     if ( phase == "will" ) then
         -- Called when the scene is still off screen (but is about to come on screen)

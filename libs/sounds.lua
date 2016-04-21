@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:42:51
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-19 23:15:05
+-- @Last Modified time: 2016-04-20 21:53:19
 
 -- Sounds library
 -- Manager for the sound and music files.
@@ -116,6 +116,20 @@ function _M.play(sound, params)
         return
     end
     return audio.play(loadSound(sound), params)
+end
+
+function _M.musicStop()
+    audio.stop(25)
+end
+
+function _M.musicPlay(sound, params)
+    if not _M.isMusicOn then return end
+    if not sounds[sound] and audio.isChannelPlaying(25) then
+        print('sounds: no such sound: ' .. tostring(sound))
+        return
+    end
+    _M.musicStop()
+    return audio.play(loadSound(sound), {loops = -1, channel = 25}) 
 end
 
 return _M
