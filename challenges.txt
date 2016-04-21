@@ -5,4 +5,6 @@
 5. handle multiple collisions, destruction, timers, transition
 6. make eachFrame light.
 7. corona collision phases and physics objects removal
+8. Problem with increased speed.
+
 

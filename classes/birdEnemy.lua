@@ -77,10 +77,17 @@ function _M:destroy()
 	print("Destroying birdEnemy")
 	if (self.shape ~= nil) then
 		transition.to(self.shape, {time=100, alpha=0.1})
-		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
-		if(self.enemySprite ~= nil ) then
-			self.enemySprite:removeSelf()
-		end
+		timer.performWithDelay( 1,
+							function()
+								physics.removeBody( self.shape );
+								self.shape:removeSelf( );
+								if(self.enemySprite ~= nil ) then
+									self.enemySprite:removeSelf()
+								end
+								self = nil;
+							end,
+						 	1 )
+
 	end
 end
 
