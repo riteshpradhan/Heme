@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:28:21
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-21 10:30:09
+-- @Last Modified time: 2016-04-21 13:43:56
 
 
 -- This collectible is used for long term bonus items during game play; power up levels and get more health, ammo and fuel
@@ -83,7 +83,7 @@ end
 function _M:destroy()
 	print("Destroying collectible")
 	if (self ~= nil and self.shape ~= nil) then
-		transition.to(self, {time=100, alpha=0})
+		transition.to(self, {time=1, alpha=0})
 		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 		sounds.play('refill_destroy')
 	end

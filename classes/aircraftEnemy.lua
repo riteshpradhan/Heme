@@ -56,7 +56,7 @@ function _M:collision(event)
 			print("Collision of aircraftEnemy with player bullet")
 			utils.print_table(self)
 			utils.print_table(self.shape)
-			self.shape.health = self.shape.health - event.other.hp
+			-- self.shape.health = self.shape.health - event.other.hp
 
 			if (self.shape.health <= 0) then
 				sounds.play('aircraft_destroy')
@@ -86,7 +86,7 @@ end
 function _M:destroy()
 	print("Destroying aircraftEnemy")
 	if (self.shape ~= nil) then
-		transition.to(self.shape, {time=100, alpha=0.1})
+		transition.to(self.shape, {time=1, alpha=0})
 		timer.cancel(self.firingTimer)
 		timer.performWithDelay( 1,
 							function()

@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-14 21:52:06
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-21 10:29:24
+-- @Last Modified time: 2016-04-21 13:44:40
 
 -- This is also enemy but industrible one
 -- static type; infinite mass
@@ -66,7 +66,7 @@ end
 function _M:destroy()
 	print("Destroying obstruction")
 	if (self ~= nil and self.shape ~= nil) then
-		transition.to(self, {time=100, alpha=0})
+		transition.to(self, {time=1, alpha=0})
 		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 		sounds.play('powerup_destroy')
 	end

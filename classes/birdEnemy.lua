@@ -76,7 +76,7 @@ end
 function _M:destroy()
 	print("Destroying birdEnemy")
 	if (self.shape ~= nil) then
-		transition.to(self.shape, {time=100, alpha=0.1})
+		transition.to(self.shape, {time=1, alpha=0.1})
 		timer.performWithDelay( 1,
 							function()
 								physics.removeBody( self.shape );

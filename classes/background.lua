@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:28:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 20:12:26
+-- @Last Modified time: 2016-04-21 13:43:40
 
 local utils = require('libs.utils')
 
@@ -50,7 +50,7 @@ end
 
 function _M:destroy()
     if (self.bg1 ~= nil and self.bg2 ~= nil) then
-        transition.to(self.bg1, {time=100, alpha=0})
+        transition.to(self.bg1, {time=1, alpha=0})
         timer.performWithDelay( 1, function() self.bg1:removeSelf( ); self.bg2:removeSelf( ) end , 1 )
     end
 end

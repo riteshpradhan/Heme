@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:39:21
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-21 10:03:00
+-- @Last Modified time: 2016-04-21 13:44:35
 
 -- Collectible: medal
 -- Long term  Bonus
@@ -47,7 +47,7 @@ end
 function _M:destroy()
 	print("Destroying medalCollectible")
 	if (self.shape ~= nil) then
-		transition.to(self.shape, {time=100, alpha=0})
+		transition.to(self.shape, {time=1, alpha=0})
 		self.shape:removeSelf( )
 	end
 end

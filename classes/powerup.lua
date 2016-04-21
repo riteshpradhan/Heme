@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:42:01
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-20 23:20:14
+-- @Last Modified time: 2016-04-21 13:44:58
 
 -- This powerup is used at the instant of consumption. Amazing powerups
 -- airblast
@@ -79,7 +79,7 @@ end
 function _M:destroy()
 	print("Destroying powerup")
 	if (self ~= nil and self.shape ~= nil) then
-		transition.to(self, {time=100, alpha=0})
+		transition.to(self, {time=1, alpha=0})
 		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 		sounds.play('powerup_destroy')
 	end
