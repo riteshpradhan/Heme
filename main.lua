@@ -1,13 +1,13 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-08 13:51:34
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-20 23:03:47
+-- @Last Modified time: 2016-04-20 23:15:39
 
 local physics = require( "widget" )
 local physics = require( "physics" )
 physics.start( )
 physics.setGravity( 0, 0 )
-physics.setDrawMode( 'hybrid' )
+-- physics.setDrawMode( 'hybrid' )
 
 --------- globals and utils -----------
 local hemeDatabox = require('libs.databox') -- This library automatically loads and saves it's storage into databox.json inside Documents directory

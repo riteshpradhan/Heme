@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-14 21:52:06
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-20 21:29:07
+-- @Last Modified time: 2016-04-20 23:17:59
 
 -- This is also enemy but industrible one
 -- static type; infinite mass
@@ -17,7 +17,7 @@ local utils = require('libs.utils')
 local collisionFilters = require( 'libs.collisionFilters')
 
 
-local _M = {tag='obstruction', type='default', w=50, h=280, x=930, y=display.contentHeight-40, xVel=-100, yVel=0}
+local _M = {tag='obstruction', type='default', w=50, h=280, x=1300, y=display.contentHeight-40, xVel=-100, yVel=0}
 
 function _M:newObstruction(params)
 	local o = params or {}

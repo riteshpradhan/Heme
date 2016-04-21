@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-20 18:31:16
+-- @Last Modified time: 2016-04-20 23:21:23
 
 
 -- Heme Player
@@ -214,7 +214,7 @@ function _M:fire()
 	-- sound.play('player_fire')
 	-- create a self destructible bullet
 	if (self.ammo > 0) then
-		local bullet = newPlayerBullet({x = self.shape.x, y = self.shape.y, isExplosion = self.type == 'playerBullet', hp=5})
+		local bullet = newPlayerBullet({x = self.shape.x + 100, y = self.shape.y, isExplosion = self.type == 'playerBullet', hp=5})
 		table.insert( hemeGlobals.physicsBodies, bullet )
 		sounds.play('player_fire')
 	else

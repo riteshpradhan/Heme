@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 22:58:39
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-18 21:18:10
+-- @Last Modified by:   Ritesh Pradhan
+-- @Last Modified time: 2016-04-20 23:20:19
 
 
 -- This refill is used for instant bonus items during game play
@@ -14,7 +14,7 @@ local hemeGlobals = require('libs.globals')
 local utils = require('libs.utils')
 local collisionFilters = require( 'libs.collisionFilters')
 
-local _M = {tag='refill', type='default', w=65, h=65, x=1030, y=hemeGlobals.yLevel[1], value=10, xVel=-10, yVel=0, value=10}
+local _M = {tag='refill', type='default', w=65, h=65, x=1300, y=hemeGlobals.yLevel[1], value=10, xVel=-10, yVel=0, value=10}
 
 function _M:newRefill(params)
 	local o = params or {}

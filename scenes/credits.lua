@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:45:03
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-20 23:06:51
+-- @Last Modified time: 2016-04-20 23:17:36
 
 -- load required library files
 local widget = require("widget")
@@ -26,9 +26,9 @@ local lotsOfText = [[
 HEME
 
 Developers
-1. Kush Chandra Shrestha
-2. Ritesh Pradhan
-3. Samyam Acharya
+1. Kush Chandra Shrestha    (Tattu)
+2. Ritesh Pradhan           (Khoste)
+3. Samyam Acharya           (Gede)
 
 
 Sound Effects

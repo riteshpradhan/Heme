@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:42:01
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-18 23:35:07
+-- @Last Modified time: 2016-04-20 23:20:14
 
 -- This powerup is used at the instant of consumption. Amazing powerups
 -- airblast
@@ -14,7 +14,7 @@ local utils = require('libs.utils')
 local collisionFilters = require( 'libs.collisionFilters')
 local sounds = require('libs.sounds')
 
-local _M = {tag='powerup', type='default', w=65, h=65, x=1030, y=hemeGlobals.yLevel[1], xVel=-10, yVel=0}
+local _M = {tag='powerup', type='default', w=65, h=65, x=1300, y=hemeGlobals.yLevel[1], xVel=-10, yVel=0}
 
 function _M:newPowerup(params)
 	local o = params or {}

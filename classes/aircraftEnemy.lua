@@ -35,7 +35,7 @@ function _M:fire()
 	sounds.play('aircraft_fire')
 	-- sound.play('enemy_fire')
 	-- create a self destructible bullet
-	local bullet = newEnemyBullet({x = self.shape.x, y = self.shape.y, isExplosion = self.type == 'enemyBullet', hp=5})
+	local bullet = newEnemyBullet({x = self.shape.x -100, y = self.shape.y, isExplosion = self.type == 'enemyBullet', hp=5})
 	table.insert( hemeGlobals.physicsBodies, bullet )
 end
 
@@ -57,7 +57,7 @@ function _M:collision(event)
 			utils.print_table(self)
 			utils.print_table(self.shape)
 			self.shape.health = self.shape.health - event.other.hp
-			
+
 			if (self.shape.health <= 0) then
 				sounds.play('aircraft_destroy')
 				self.enemySprite.alpha = 0
