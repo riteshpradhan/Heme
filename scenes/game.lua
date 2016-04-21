@@ -129,14 +129,14 @@ function createObjects()
     local function createEnemy()
         local yPos = math.random(3)
         if (math.random( 5 ) % 5 ) == 0 then --generates aircraft 1 out of 5 enemies
-            local aircraft = aircraftEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[yPos], xVel=-scrollSpeed*20, w=175, h=76})
+            local aircraft = aircraftEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[yPos], xVel=-scrollSpeed*100, w=175, h=76})
             aircraft:spawn()
             table.insert(hemeGlobals.physicsBodies, aircraft)
             allBodiesG:insert(aircraft.shape)
             allBodiesG:insert( aircraft.enemySprite )
             table.insert(enemyBodies, aircraft)
         else
-            local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[yPos], xVel=-scrollSpeed*30, w=83, h=45, ritesh=9999})
+            local bird = birdEnemy:newEnemy({g=nil, x=display.contentWidth, y=hemeGlobals.yLevel[yPos], xVel=-scrollSpeed*100, w=83, h=45, ritesh=9999})
             bird:spawn()
             table.insert(hemeGlobals.physicsBodies, bird)
             allBodiesG:insert(bird.shape)
@@ -147,7 +147,7 @@ function createObjects()
 
     local function createObstruction()
         local obsW, obsH = math.random(75, 250), math.random( 250, 400 )
-        local obs = obstruction:newObstruction({g=nil, x=display.contentWidth, xVel=-scrollSpeed*10, type=obstructionType[math.random(2)], w=obsW, h=obsH})
+        local obs = obstruction:newObstruction({g=nil, x=display.contentWidth, xVel=-scrollSpeed*100, type=obstructionType[math.random(2)], w=obsW, h=obsH})
         obs:spawn()
         table.insert(hemeGlobals.physicsBodies, obs)
         allBodiesG:insert(obs.shape)
@@ -157,17 +157,17 @@ function createObjects()
         local r = math.random(3)
         local yPos = math.random(3)
         if r == 1 then
-            local ammor = ammoRefill:newRefill({xVel=-scrollSpeed*10, y=hemeGlobals.yLevel[yPos]})
+            local ammor = ammoRefill:newRefill({xVel=-scrollSpeed*100, y=hemeGlobals.yLevel[yPos]})
             ammor:spawn()
             table.insert(hemeGlobals.physicsBodies, ammor)
             allBodiesG:insert(ammor.shape)
         elseif r == 2 then
-            local fuelr = fuelRefill:newRefill({xVel=-scrollSpeed*15, y=hemeGlobals.yLevel[yPos]})
+            local fuelr = fuelRefill:newRefill({xVel=-scrollSpeed*100, y=hemeGlobals.yLevel[yPos]})
             fuelr:spawn()
             table.insert(hemeGlobals.physicsBodies, fuelr)
             allBodiesG:insert(fuelr.shape)
         else
-            local healthr = healthRefill:newRefill({xVel=-scrollSpeed*20, y=hemeGlobals.yLevel[yPos]})
+            local healthr = healthRefill:newRefill({xVel=-scrollSpeed*100, y=hemeGlobals.yLevel[yPos]})
             healthr:spawn()
             table.insert(hemeGlobals.physicsBodies, healthr)
             allBodiesG:insert(healthr.shape)
@@ -178,17 +178,17 @@ function createObjects()
         local r = math.random(3)
         local yPos = math.random(3)
         if r == 1 then
-            local a = airblastPowerup:newPowerup({xVel=-scrollSpeed*12, y=hemeGlobals.yLevel[yPos]})
+            local a = airblastPowerup:newPowerup({xVel=-scrollSpeed*100, y=hemeGlobals.yLevel[yPos]})
             a:spawn()
             table.insert(hemeGlobals.physicsBodies, a)
             allBodiesG:insert(a.shape)
         elseif r == 2 then
-            local b = hyperdrivePowerup:newPowerup({xVel=-scrollSpeed*17, y=hemeGlobals.yLevel[yPos]})
+            local b = hyperdrivePowerup:newPowerup({xVel=-scrollSpeed*100, y=hemeGlobals.yLevel[yPos]})
             b:spawn()
             table.insert(hemeGlobals.physicsBodies, b)
             allBodiesG:insert(b.shape)
         else
-            local c = plasmashieldPowerup:newPowerup({xVel=-scrollSpeed*22, y=hemeGlobals.yLevel[yPos]})
+            local c = plasmashieldPowerup:newPowerup({xVel=-scrollSpeed*100, y=hemeGlobals.yLevel[yPos]})
             c:spawn()
             table.insert(hemeGlobals.physicsBodies, c)
             allBodiesG:insert(c.shape)
@@ -198,12 +198,12 @@ function createObjects()
     local function createCollectible()
         local yPos = math.random(3)
         if (math.random(25) % 25 == 0) then
-            local m = medalCollectible:newCollectible({xVel=-scrollSpeed*30, y=hemeGlobals.yLevel[yPos]})
+            local m = medalCollectible:newCollectible({xVel=-scrollSpeed*100, y=hemeGlobals.yLevel[yPos]})
             m:spawn()
             table.insert(hemeGlobals.physicsBodies, m)
             allBodiesG:insert(m.shape)
         else
-            local c = coinCollectible:newCollectible({xVel=-scrollSpeed*25, y=hemeGlobals.yLevel[yPos]})
+            local c = coinCollectible:newCollectible({xVel=-scrollSpeed*100, y=hemeGlobals.yLevel[yPos]})
             c:spawn()
             table.insert(hemeGlobals.physicsBodies, c)
             allBodiesG:insert(c.shape)
@@ -465,26 +465,26 @@ function scene:create( event )
 
 
     currentMedalText = display.newText( scoreBoardG, currentMedal, 0.6 * eachBoxWidth, 40, "Comic Sans MS", 45 )
-    currentMedalText:setFillColor(1,1,0)
+    currentMedalText:setFillColor(0, 0, 0.5)
 
 
     currentCoinText = display.newText( scoreBoardG, currentCoin, 1.65 * eachBoxWidth, 40, "Comic Sans MS", 45 )
-    currentCoinText:setFillColor(1,1,0)
+    currentCoinText:setFillColor(0,0,0.5)
 
 
     currentAmmoText = display.newText( scoreBoardG, currentAmmo, 2.65 * eachBoxWidth, 40, "Comic Sans MS", 45 )
-    currentAmmoText:setFillColor(1,1,0)
+    currentAmmoText:setFillColor(0,0,0.5)
 
 
     currentFuelText = display.newText( scoreBoardG, currentFuel, 3.65 * eachBoxWidth, 40, "Comic Sans MS", 45 )
-    currentFuelText:setFillColor(1,1,0)
+    currentFuelText:setFillColor(0,0,0.5)
 
 
     currentHealthText = display.newText( scoreBoardG, currentHealth, 4.65 * eachBoxWidth, 40, "Comic Sans MS", 45 )
-    currentHealthText:setFillColor(1,1,0)
+    currentHealthText:setFillColor(0,0,0.5)
 
     currentDistanceText = display.newText( scoreBoardG, currentDistance, 5.65 * eachBoxWidth, 40, "Comic Sans MS", 45 )
-    currentDistanceText:setFillColor(1,1,0)
+    currentDistanceText:setFillColor(0,0,0.5)
 
     sceneGroup:insert(scoreBoardG)
 
