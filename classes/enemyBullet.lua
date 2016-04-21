@@ -24,7 +24,9 @@ function _M.newEnemyBullet(params)
 	enemyBullet:setLinearVelocity( -300, 0 )
 
 	function enemyBullet:collision(event)
-		if (event.phase == "ended") then
+		if ( event.phase == "began" ) then
+			self.alpha = 0
+		elseif event.phase == "ended" then
 			print("Collision of enemyBullet")
 			self:destroy()
 		end
