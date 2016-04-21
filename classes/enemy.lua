@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 19:32:35
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-20 23:19:27
+-- @Last Modified time: 2016-04-21 10:36:31
 
 
 -- Enemy: bird, aircraft
@@ -38,7 +38,7 @@ function _M:spawn()
 	utils.print_table(self)
 
 	self.enemySprite = display.newSprite( images[self.type].sheet, images[self.type].sequenceData )
-	self.enemySprite.x, self.enemySprite.y = self.xPos, self.yPos
+	self.enemySprite.x, self.enemySprite.y = self.x, self.y
 	self.enemySprite:play()
 	print("dimensions--------", self.w, self.h)
 	self.shape = display.newRect(0,0,self.w,self.h)

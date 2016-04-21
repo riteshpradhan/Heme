@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:39:21
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-21 00:05:53
+-- @Last Modified time: 2016-04-21 10:03:00
 
 -- Collectible: medal
 -- Long term  Bonus
@@ -30,9 +30,12 @@ end
 
 
 function _M:collision(event)
-	if event.phase == "ended" then
+	if event.phase == "began" then
+		self.shape.alpha = 0
+	elseif event.phase == "ended" then
 		print("Collision of medalCollectible")
 		-- collectible medal to certain extent
+		self:destroy()
 	end
 end
 

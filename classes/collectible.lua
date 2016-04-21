@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:28:21
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-20 23:19:09
+-- @Last Modified time: 2016-04-21 10:30:09
 
 
 -- This collectible is used for long term bonus items during game play; power up levels and get more health, ammo and fuel
@@ -14,7 +14,7 @@ local utils = require('libs.utils')
 local sounds = require('libs.sounds')
 local collisionFilters = require( 'libs.collisionFilters')
 
-local _M = {tag='collectible', type='default', w=50, h=50, x=1300, y=hemeGlobals.yLevel[1], xVel=-10, yVel=0, value=1}
+local _M = {tag='collectible', type='default', w=50, h=50, x=1330, y=hemeGlobals.yLevel[1], xVel=-10, yVel=0, value=1}
 
 function _M:newCollectible(params)
 	local o = params or {}

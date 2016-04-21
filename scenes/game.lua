@@ -71,8 +71,9 @@ local ground1
 local lordShiva
 local counter = 0
 local button_pause
-local isObjectCreated = {}
+local isIncreaseSpeed
 
+local isObjectCreated = {}
 local obstructionType = {"tree1", "tree2", "tree3"}
 local distanceToastName = {"Nice!", "Human!", "Sahi!!", "Daami", "Ramro!!", "Great!!", "Way to Go!!", "Magnificient", "Infallible!!", "Jet Master!!!"}
 -- local enemyTimer
@@ -114,7 +115,7 @@ function resetGameState()
     scrollSpeed = hemeGlobals.scrollSpeed
 
     isObjectCreated = {false, false, false}
-
+    isIncreaseSpeed = true
 end
 
 function customToast(toastStr)
@@ -318,8 +319,11 @@ function enterFrame()
     if (counter % 20) == 0 then
         currentDistance = currentDistance + math.abs(math.floor(scrollSpeed/hemeGlobals.scrollSpeed))
         currentDistanceText.text = currentDistance
-        if (currentDistance % 50 == 0) then
-            scrollSpeed = scrollSpeed + 2
+        if ( isIncreaseSpeed and currentDistance % 50 == 0) then
+            scrollSpeed = scrollSpeed + 1
+            if scrollSpeed >= 10 then
+                isIncreaseSpeed = false
+            end
             customToast(distanceToastName[(math.floor(currentDistance/50) % 10) + 1])
         end
     end
@@ -338,10 +342,10 @@ function enterFrame()
             createObjects()
             isObjectCreated[1] = true
         end
-        if isObjectCreated[2] == false and currentDistance > 500 then
-            createObjects()
-            isObjectCreated[2] = true
-        end
+        -- if isObjectCreated[2] == false and currentDistance > 500 then
+        --     createObjects()
+        --     isObjectCreated[2] = true
+        -- end
     end
 
     if hemeGlobals.isCoinUpdate then
