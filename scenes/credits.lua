@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:45:03
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-20 21:06:41
+-- @Last Modified time: 2016-04-20 23:06:51
 
 -- load required library files
 local widget = require("widget")
@@ -55,16 +55,20 @@ Background Music
     http://opengameart.org/content/fantasy-action-rpg-soundtrack-14-tracks-for-ardentryst-by-jordan-trudgett
     Copyright 2008 Jordan Trudgett | http://jordan.trudgett.com/ - Licensed under CC BY 3.0 http://creativecommons.org/licenses/by/3.0/
 
+Code Ideas:
+    1. Corona Cannon | The MIT License | Copyright (c) 2016 Corona Labs, Inc. https://coronalabs.com/
+
 Images
     1. Hema
          Licensed under CC BY 3.0 http://creativecommons.org/licenses/by/3.0/
 
-    Copyright@2016 HEME
+
+                    Copyright@2016  Heme Studios
 ]]
 
 
 function scrollToBottom(event)
-    scrollView:scrollTo( "bottom", {time=25000, onComplete=scrollToTop} )
+    scrollView:scrollTo( "bottom", {time=20000, onComplete=scrollToTop} )
 end
 
 function scrollToTop(event)
@@ -131,17 +135,14 @@ function scene:create( event )
     }
 
 
-    local creditsText = display.newText( lotsOfText, 0, 0, 500, 0, "Comic Sans MS", 30 )
+    local creditsText = display.newText( lotsOfText, 0, 0, 1100, 0, "Comic Sans MS", 30 )
     creditsText:setFillColor( 1 )
     creditsText.x = display.contentCenterX
-    creditsText.y = display.contentCenterY + 1000
+    creditsText.y = display.contentCenterY + 600
     scrollView:insert( creditsText )
-
 
     sceneGroup:insert(scrollView)
     sceneGroup:insert(backButton)
-
-
 end
 
 function scene:show( event )
@@ -169,4 +170,5 @@ end
 scene:addEventListener( "create", scene );
 scene:addEventListener( "show", scene );
 scene:addEventListener( "hide", scene );
-return scene;
+
+return scene
