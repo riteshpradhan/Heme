@@ -23,7 +23,7 @@ function _M.newBullet(params)
 	-- local selfDestroyTimer = timer.performWithDelay( 4000, function() bullet:selfDestroy() end, 1 )
 
 	function bullet:collision(event)
-		if event.phase == "ended" then
+		if event.phase == "began" then
 			print("Collision of bullet with powerups")
 			if (event.other.tag == "shiva") then
 				-- No sound
