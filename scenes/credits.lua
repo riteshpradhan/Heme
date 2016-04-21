@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:45:03
 -- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-21 00:22:48
+-- @Last Modified time: 2016-04-21 01:06:07
 
 -- load required library files
 local widget = require("widget")
@@ -26,7 +26,7 @@ HEME
 Developers
 1. Kush Chandra Shrestha    (Tattu)
 2. Ritesh Pradhan           (Khoste)
-3. Samyam Acharya           (Gede)
+3. Samyam Acharya           (Bhoote)
 
 
 Sound Effects
