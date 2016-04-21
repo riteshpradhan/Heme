@@ -146,7 +146,7 @@ function createObjects()
     end
 
     local function createObstruction()
-        local obsW, obsH = math.random(75, 250), math.random( 250, 400 )
+        local obsW, obsH = math.random(100, 200), (display.contentHeight -  hemeGlobals.yLevel[math.random(2)] + 20)
         local obs = obstruction:newObstruction({g=nil, x=display.contentWidth, xVel=-scrollSpeed*100, type=obstructionType[math.random(2)], w=obsW, h=obsH})
         obs:spawn()
         table.insert(hemeGlobals.physicsBodies, obs)
@@ -178,15 +178,15 @@ function createObjects()
         local r = math.random(3)
         local yPos = math.random(3)
         if r == 1 then
-            local a = airblastPowerup:newPowerup({xVel=-scrollSpeed*100, y=hemeGlobals.yLevel[yPos]})
-            a:spawn()
-            table.insert(hemeGlobals.physicsBodies, a)
-            allBodiesG:insert(a.shape)
+            -- local a = airblastPowerup:newPowerup({xVel=-scrollSpeed*100, y=hemeGlobals.yLevel[yPos]})
+            -- a:spawn()
+            -- table.insert(hemeGlobals.physicsBodies, a)
+            -- allBodiesG:insert(a.shape)
         elseif r == 2 then
-            local b = hyperdrivePowerup:newPowerup({xVel=-scrollSpeed*100, y=hemeGlobals.yLevel[yPos]})
-            b:spawn()
-            table.insert(hemeGlobals.physicsBodies, b)
-            allBodiesG:insert(b.shape)
+            -- local b = hyperdrivePowerup:newPowerup({xVel=-scrollSpeed*100, y=hemeGlobals.yLevel[yPos]})
+            -- b:spawn()
+            -- table.insert(hemeGlobals.physicsBodies, b)
+            -- allBodiesG:insert(b.shape)
         else
             local c = plasmashieldPowerup:newPowerup({xVel=-scrollSpeed*100, y=hemeGlobals.yLevel[yPos]})
             c:spawn()
@@ -310,10 +310,10 @@ function enterFrame()
 
     counter = counter + 1
     if (counter % 20) == 0 then
-        currentDistance = currentDistance + math.floor(scrollSpeed/hemeGlobals.scrollSpeed)
+        currentDistance = currentDistance + math.abs(math.floor(scrollSpeed/hemeGlobals.scrollSpeed))
         currentDistanceText.text = currentDistance
-        if (currentDistance % 200 == 0) then
-            scrollSpeed = scrollSpeed + 5
+        if (currentDistance % 100 == 0) then
+            scrollSpeed = scrollSpeed + 2
             customToast(distanceToastName[(math.floor(currentDistance/200) % 10) + 1])
         end
     end
@@ -324,6 +324,7 @@ function enterFrame()
 
         if heme.fuel < 0 then
             customToast("Fuel Tank Empty !!!")
+            sounds.play("player_destroy")
             hemeGlobals.isGameOver = true
         end
     end
@@ -539,18 +540,15 @@ function scene:show( event )
         print("Scroll speed is : ", scrollSpeed)
         createObjects()
 
-
-
         resetGameState()
-
 
         sceneGroup:insert( scoreBoardG )
         sceneGroup:insert( heme.shape )
         sceneGroup:insert( heme.playerSprite )
         sceneGroup:insert( scoreBoardG )
-        sceneGroup:insert( ground1.shape )
         sceneGroup:insert( lordShiva )
         sceneGroup:insert( allBodiesG )
+        sceneGroup:insert( ground1.shape )
 
     elseif ( phase == "did" ) then
         -- Called when the scene is now on screen

@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-14 21:52:06
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 15:48:22
+-- @Last Modified time: 2016-04-20 21:29:07
 
 -- This is also enemy but industrible one
 -- static type; infinite mass
@@ -34,7 +34,7 @@ function _M:spawn()
 	utils.print_table(self)
 
 	self.shape = display.newImageRect('images/obstruction/' .. self.type .. '.png', self.w, self.h)
-	self.shape.x, self.shape.y = self.x, self.y
+	self.shape.x, self.shape.y = self.x, display.contentHeight - self.h/2
 	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5, filter = collisionFilters.obstruction})
 	self.shape.type = self.type
 	self.shape.tag = self.tag
