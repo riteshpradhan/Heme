@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 19:32:35
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-21 13:44:04
+-- @Last Modified time: 2016-04-21 14:38:30
 
 
 -- Enemy: bird, aircraft
@@ -22,25 +22,19 @@ function _M:newEnemy(params)
 	local o = params or {}
 	setmetatable(o, self);
 	self.__index = self;
-	-- self.__newindex = function(o, k, v) rawset(self, k, v) end
-	print ("In enemy", o)
-	utils.print_table(o)
-	print ("In enemy self", self)
-	utils.print_table(self)
-
 	return o
 end
 
 function _M:spawn()
 
-	print("sefl: -----------------------------------------------------------------------" )
-	print(self.type)
-	utils.print_table(self)
+	-- print("sefl: -----------------------------------------------------------------------" )
+	-- print(self.type)
+	-- utils.print_table(self)
 
 	self.enemySprite = display.newSprite( images[self.type].sheet, images[self.type].sequenceData )
 	self.enemySprite.x, self.enemySprite.y = self.x, self.y
 	self.enemySprite:play()
-	print("dimensions--------", self.w, self.h)
+	-- print("dimensions--------", self.w, self.h)
 	self.shape = display.newRect(0,0,self.w,self.h)
 	self.shape:setFillColor(1,0,0,0)
 
@@ -55,16 +49,16 @@ function _M:spawn()
 	self.shape.hp = self.hp
 	self.shape.tag = self.tag
 	--kinematic body move with velocity --
-	print ("Scroll speed: ", self.xVel)
+	-- print ("Scroll speed: ", self.xVel)
 	self.shape:setLinearVelocity( self.xVel, self.yVel )
 
 	self.shape:addEventListener("collision", self)
-	self.shape:addEventListener("tap", self)
+	-- self.shape:addEventListener("tap", self)
 
 end
 
 function _M:move()
-	print("In move here :", self.y, hemeGlobals.yLevel[1])
+	-- print("In move here :", self.y, hemeGlobals.yLevel[1])
 	if (self.y == hemeGlobals.yLevel[1]) then
 		self:moveUp()
 	else
@@ -86,24 +80,22 @@ end
 
 function _M:collision(event)
 	if event.phase == "ended" then
-		print("Collision of enemy")
+		-- print("Collision of enemy")
 		self:destroy()
 	end
 end
 
 
-function _M:tap(event)
-	print("Tap of enemy")
-	print (event.target)
-end
+-- function _M:tap(event)
+-- 	print("Tap of enemy")
+-- 	print (event.target)
+-- end
 
 
 function _M:destroy()
-	print("Destroying enemy")
+	-- print("Destroying enemy")
 	if (self ~= nil and self.shape ~= nil) then
 		transition.to(self, {time=1, alpha=0.1})
-		print(self)
-
 		timer.performWithDelay( 10, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
 
 		if(self.enemySprite ~= nil ) then

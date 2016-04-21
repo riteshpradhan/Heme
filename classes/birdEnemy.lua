@@ -31,10 +31,9 @@ end
 function _M:collision(event)
 
 	if ( event.phase == "began" ) then
-		print("Collision of birdEnemy")
-		utils.print_table(event.other)
+		-- print("Collision of birdEnemy")
+		-- utils.print_table(event.other)
 		if (event.other.tag == "shiva") then
-			print("OFF screen ; destroy")
 			self.enemySprite.alpha = 0;
 			-- self:destroy()
 		elseif (event.other.tag == "player") then
@@ -43,9 +42,9 @@ function _M:collision(event)
 			-- self:destroy()
 		else
 			sounds.play('bird_hit')
-			print("Collision of birdEnemy with player bullet")
-			utils.print_table(self)
-			utils.print_table(self.shape)
+			-- print("Collision of birdEnemy with player bullet")
+			-- utils.print_table(self)
+			-- utils.print_table(self.shape)
 			self.shape.health = self.shape.health - event.other.hp
 			if (self.shape.health <= 0) then
 				sounds.play('bird_collide')
@@ -55,7 +54,7 @@ function _M:collision(event)
 		end
 
 	elseif event.phase == "ended" then
-		utils.print_table(event.other)
+		-- utils.print_table(event.other)
 		if (event.other.tag == "shiva") then
 			self:destroy()
 		elseif (event.other.tag == "player") then
@@ -68,13 +67,13 @@ function _M:collision(event)
 	end
 end
 
-function _M:tap(event)
-	print("Tap of birdEnemy")
-	print (event.target)
-end
+-- function _M:tap(event)
+-- 	print("Tap of birdEnemy")
+-- 	print (event.target)
+-- end
 
 function _M:destroy()
-	print("Destroying birdEnemy")
+	-- print("Destroying birdEnemy")
 	if (self.shape ~= nil) then
 		transition.to(self.shape, {time=1, alpha=0.1})
 		timer.performWithDelay( 1,

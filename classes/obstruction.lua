@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-14 21:52:06
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-21 13:44:40
+-- @Last Modified time: 2016-04-21 14:50:29
 
 -- This is also enemy but industrible one
 -- static type; infinite mass
@@ -23,16 +23,10 @@ function _M:newObstruction(params)
 	local o = params or {}
 	setmetatable(o, self);
 	self.__index = self;
-	-- self.__newindex = function(o, k, v) rawset(self, k, v) end
-	print ("In obstruction")
-	utils.print_table(o)
 	return o
 end
 
 function _M:spawn()
-	print("obstruction self: " )
-	utils.print_table(self)
-
 	self.shape = display.newImageRect('images/obstruction/' .. self.type .. '.png', self.w, self.h)
 	self.shape.x, self.shape.y = self.x, display.contentHeight - self.h/2
 	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5, filter = collisionFilters.obstruction})
@@ -42,13 +36,13 @@ function _M:spawn()
 	self.shape:setLinearVelocity( self.xVel, self.yVel )
 
 	self.shape:addEventListener("collision", self)
-	self.shape:addEventListener("tap", self)
+	-- self.shape:addEventListener("tap", self)
 end
 
 
 function _M:collision(event)
 	if event.phase == "began" then
-		print("in obstruction. Player is Sensor ", event.other.isSensor)
+		-- print("in obstruction. Player is Sensor ", event.other.isSensor)
 	elseif event.phase == "ended" then
 		-- print("Collision of obstruction")
 		-- self:destroy()
@@ -57,18 +51,18 @@ function _M:collision(event)
 end
 
 
-function _M:tap(event)
-	print("Tapped of obstruction")
-	print (event.target)
-end
+-- function _M:tap(event)
+-- 	print("Tapped of obstruction")
+-- 	print (event.target)
+-- end
 
 
 function _M:destroy()
-	print("Destroying obstruction")
+	-- print("Destroying obstruction")
 	if (self ~= nil and self.shape ~= nil) then
 		transition.to(self, {time=1, alpha=0})
 		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
-		sounds.play('powerup_destroy')
+		-- sounds.play('powerup_destroy')
 	end
 end
 

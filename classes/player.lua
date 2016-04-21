@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:17:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-20 23:21:23
+-- @Last Modified time: 2016-04-21 14:44:08
 
 
 -- Heme Player
@@ -35,13 +35,12 @@ function _M:newPlayer (o)
 	o = o or {};
 	setmetatable(o, self);
 	self.__index = self;
-	utils.print_table(self)
+	-- utils.print_table(self)
 	return o
 end
 
 -- launch player once game starts
 function _M:launch()
-	print("Printng self: ")
 		-- self.shape = display.newImageRect(params.g, 'images/player/' .. params.type .. '.png', 48, 48)
 
 	self.playerSprite = display.newSprite( images[self.type].sheet, images[self.type].sequenceData )
@@ -71,14 +70,14 @@ function _M:launch()
 	hemeGlobals.isHealthUpdate = false
 
 	self.shape:addEventListener('collision', self)
-	self.shape:addEventListener('tap', self)
+	-- self.shape:addEventListener('tap', self)
 end
 
 
 
 function _M:collision(event)
 	if event.phase == "began" then
-		print("Collision with player here")
+		-- print("Collision with player here")
 
 		-- if self.isHyperDriveActive then
 		-- 	print("hyperdrivePowerup is active; No collision effect in player; move fast")
@@ -87,12 +86,12 @@ function _M:collision(event)
 		if self.isPlasmaShieldActive then
 			print("plasmashieldPowerup is active; No collision effect in player")
 		else
-			utils.print_table(event.other)
-			print(event.other.test_param)
+			-- utils.print_table(event.other)
+			-- print(event.other.test_param)
 
 			if (event.other.tag == "ground") then
 				sounds.play('player_destroy')
-				print ("player collided with groound")
+				-- print ("player collided with groound")
 				--destroy
 				hemeGlobals.isGameOver = true
 				-- self:destroy()
@@ -101,7 +100,7 @@ function _M:collision(event)
 					sounds.play('player_collide')
 					self.health = self.health - event.other.hp
 					hemeGlobals.isHealthUpdate = true
-					print("collides enemy here and now health is : ", self.health)
+					-- print("collides enemy here and now health is : ", self.health)
 				elseif (event.other.tag == "bullet") then
 					sounds.play('player_hit')
 					self.health = self.health - event.other.hp
@@ -111,7 +110,7 @@ function _M:collision(event)
 					sounds.play('player_collect_collectible')
 					if (event.other.type == "hyperdrivePowerup") then
 						-- do something
-						print("hyperdrivePowerup")
+						-- print("hyperdrivePowerup")
 						self.isHyperDriveActive = true
 						self.shape.isSensor = true
 						toastMaker.makeToast(self.parent, "Hyperdrive Powerup!!")
@@ -128,7 +127,7 @@ function _M:collision(event)
 						table.insert(hemeGlobals.gameTimers, self.hyperTimer)
 					elseif (event.other.type == "plasmashieldPowerup") then
 						-- do something
-						print("plasmashieldPowerup")
+						-- print("plasmashieldPowerup")
 						self.isPlasmaShieldActive = true
 						self.shape.isSensor = true
 						toastMaker.makeToast(self.parent, "PlasmaShield Powerup!!")
@@ -144,7 +143,7 @@ function _M:collision(event)
 						table.insert(hemeGlobals.gameTimers, self.hyperTimer)
 					elseif (event.other.type == "airblastPowerup") then
 						-- do something
-						print("airblastPowerup")
+						-- print("airblastPowerup")
 						-- destroy nearby enemies.
 					end
 				elseif (event.other.tag == "refill") then
@@ -210,7 +209,7 @@ end
 
 -- fire bullets
 function _M:fire()
-	print("Firing bullet from player")
+	-- print("Firing bullet from player")
 	-- sound.play('player_fire')
 	-- create a self destructible bullet
 	if (self.ammo > 0) then
@@ -236,12 +235,12 @@ function _M:die()
 end
 
 
-function _M:tap(event)
-	print ("Testing tap")
-	-- self:die()
-	-- self:fire()
-	toast.show("Bullet is fired by Heme")
-end
+-- function _M:tap(event)
+-- 	print ("Testing tap")
+-- 	-- self:die()
+-- 	-- self:fire()
+-- 	toast.show("Bullet is fired by Heme")
+-- end
 
 
 return _M

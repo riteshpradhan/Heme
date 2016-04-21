@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:39:21
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-21 13:44:35
+-- @Last Modified time: 2016-04-21 14:36:24
 
 -- Collectible: medal
 -- Long term  Bonus
@@ -33,19 +33,19 @@ function _M:collision(event)
 	if event.phase == "began" then
 		self.shape.alpha = 0
 	elseif event.phase == "ended" then
-		print("Collision of medalCollectible")
+		-- print("Collision of medalCollectible")
 		-- collectible medal to certain extent
 		self:destroy()
 	end
 end
 
-function _M:tap(event)
-	print("Tap of medalCollectible")
-	print (event.target)
-end
+-- function _M:tap(event)
+-- 	print("Tap of medalCollectible")
+-- 	print (event.target)
+-- end
 
 function _M:destroy()
-	print("Destroying medalCollectible")
+	-- print("Destroying medalCollectible")
 	if (self.shape ~= nil) then
 		transition.to(self.shape, {time=1, alpha=0})
 		self.shape:removeSelf( )

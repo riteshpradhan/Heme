@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 22:58:39
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-21 13:45:03
+-- @Last Modified time: 2016-04-21 14:26:40
 
 
 -- This refill is used for instant bonus items during game play
@@ -20,16 +20,10 @@ function _M:newRefill(params)
 	local o = params or {}
 	setmetatable(o, self);
 	self.__index = self;
-	-- self.__newindex = function(o, k, v) rawset(self, k, v) end
-	print ("In refill")
-	utils.print_table(o)
 	return o
 end
 
 function _M:spawn()
-	print("refill self: " )
-	utils.print_table(self)
-
 	self.shape = display.newImageRect('images/refill/' .. self.type .. '.png', self.w, self.h)
 	self.shape.x, self.shape.y = self.x, self.y
 	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5, filter = collisionFilters.refill})
@@ -41,11 +35,11 @@ function _M:spawn()
 	self.shape:setLinearVelocity( self.xVel, self.yVel )
 
 	self.shape:addEventListener("collision", self)
-	self.shape:addEventListener("tap", self)
+	-- self.shape:addEventListener("tap", self)
 end
 
 function _M:move()
-	print("In move here :", self.y, hemeGlobals.yLevel[1])
+	-- print("In move here :", self.y, hemeGlobals.yLevel[1])
 	if (self.y == hemeGlobals.yLevel[1]) then
 		self:moveUp()
 	else
@@ -67,7 +61,7 @@ end
 
 function _M:collision(event)
 	if event.phase == "began" then
-		print("Collision of Refill")
+		-- print("Collision of Refill")
 		self:destroy()
 		-- self.shape.alpha = 0
 	elseif event.phase == "ended" then
@@ -76,13 +70,13 @@ function _M:collision(event)
 	end
 end
 
-function _M:tap(event)
-	print("Tapped of Refill")
-	print (event.target)
-end
+-- function _M:tap(event)
+-- 	print("Tapped of Refill")
+-- 	print (event.target)
+-- end
 
 function _M:destroy()
-	print("Destroying Refill")
+	-- print("Destroying Refill")
 	if (self ~= nil and self.shape ~= nil) then
 		transition.to(self, {time=1, alpha=0})
 		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )

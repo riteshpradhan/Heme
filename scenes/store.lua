@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 00:33:25
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-21 13:50:53
+-- @Last Modified time: 2016-04-21 14:15:32
 
 
 
@@ -48,7 +48,7 @@ local buyFuel = {}
 local buyHealth = {}
 
 
-print("IN store: Coin: ", currentCoin)
+-- print("IN store: Coin: ", currentCoin)
 
 
 function buyCoin(event)

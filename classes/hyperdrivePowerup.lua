@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-14 01:00:17
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 19:33:15
+-- @Last Modified time: 2016-04-21 14:29:34
 
 
 -- Powerup: hyperdrive
@@ -31,15 +31,15 @@ end
 
 function _M:collision(event)
 	if event.phase == "ended" then
-		print("Collision of hyperdrivePowerup")
+		-- print("Collision of hyperdrivePowerup")
 		-- collectible coin to certain extent
 		self:destroy()
 	end
 end
 
-function _M:tap(event)
-	print("Tap of hyperdrivePowerup")
-	print (event.target)
-end
+-- function _M:tap(event)
+-- 	print("Tap of hyperdrivePowerup")
+-- 	print (event.target)
+-- end
 
 return _M

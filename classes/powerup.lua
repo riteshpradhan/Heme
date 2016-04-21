@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:42:01
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-21 13:44:58
+-- @Last Modified time: 2016-04-21 14:51:25
 
 -- This powerup is used at the instant of consumption. Amazing powerups
 -- airblast
@@ -20,16 +20,10 @@ function _M:newPowerup(params)
 	local o = params or {}
 	setmetatable(o, self);
 	self.__index = self;
-	-- self.__newindex = function(o, k, v) rawset(self, k, v) end
-	print ("In powerup")
-	utils.print_table(o)
 	return o
 end
 
 function _M:spawn()
-	print("powerup self: " )
-	utils.print_table(self)
-
 	self.shape = display.newImageRect('images/powerup/' .. self.type .. '.png', self.w, self.h)
 	self.shape.x, self.shape.y = self.x, self.y
 	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5, filter = collisionFilters.powerup})
@@ -40,11 +34,11 @@ function _M:spawn()
 	self.shape:setLinearVelocity( self.xVel, self.yVel )
 
 	self.shape:addEventListener("collision", self)
-	self.shape:addEventListener("tap", self)
+	-- self.shape:addEventListener("tap", self)
 end
 
 function _M:move()
-	print("In move here :", self.y, hemeGlobals.yLevel[1])
+	-- print("In move here :", self.y, hemeGlobals.yLevel[1])
 	if (self.y == hemeGlobals.yLevel[1]) then
 		self:moveUp()
 	else
@@ -71,17 +65,17 @@ function _M:collision(event)
 	end
 end
 
-function _M:tap(event)
-	print("Tapped of powerup")
-	print (event.target)
-end
+-- function _M:tap(event)
+-- 	print("Tapped of powerup")
+-- 	print (event.target)
+-- end
 
 function _M:destroy()
-	print("Destroying powerup")
+	-- print("Destroying powerup")
 	if (self ~= nil and self.shape ~= nil) then
 		transition.to(self, {time=1, alpha=0})
 		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
-		sounds.play('powerup_destroy')
+		-- sounds.play('powerup_destroy')
 	end
 end
 

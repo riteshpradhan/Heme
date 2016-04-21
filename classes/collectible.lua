@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:28:21
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-21 13:43:56
+-- @Last Modified time: 2016-04-21 14:48:28
 
 
 -- This collectible is used for long term bonus items during game play; power up levels and get more health, ammo and fuel
@@ -20,16 +20,10 @@ function _M:newCollectible(params)
 	local o = params or {}
 	setmetatable(o, self);
 	self.__index = self;
-	-- self.__newindex = function(o, k, v) rawset(self, k, v) end
-	print ("In collectible")
-	utils.print_table(o)
 	return o
 end
 
 function _M:spawn()
-	print("collectible self: " )
-	utils.print_table(self)
-
 	self.shape = display.newImageRect('images/collectible/' .. self.type .. '.png', self.w, self.h)
 	self.shape.x, self.shape.y = self.x, self.y
 	physics.addBody(self.shape, 'kinematic', {density = 2, friction = 0.5, bounce = 0.5, filter =collisionFilters.collectible})
@@ -42,11 +36,11 @@ function _M:spawn()
 	self.shape:setLinearVelocity( self.xVel, self.yVel )
 
 	self.shape:addEventListener("collision", self)
-	self.shape:addEventListener("tap", self)
+	-- self.shape:addEventListener("tap", self)
 end
 
 function _M:move()
-	print("In move here :", self.y, hemeGlobals.yLevel[1])
+	-- print("In move here :", self.y, hemeGlobals.yLevel[1])
 	if (self.y == hemeGlobals.yLevel[1]) then
 		self:moveUp()
 	else
@@ -74,18 +68,18 @@ function _M:collision(event)
 end
 
 
-function _M:tap(event)
-	print("Tapped of collectible")
-	print (event.target)
-end
+-- function _M:tap(event)
+-- 	print("Tapped of collectible")
+-- 	print (event.target)
+-- end
 
 
 function _M:destroy()
-	print("Destroying collectible")
+	-- print("Destroying collectible")
 	if (self ~= nil and self.shape ~= nil) then
 		transition.to(self, {time=1, alpha=0})
 		timer.performWithDelay( 1, function() physics.removeBody( self.shape ); self.shape:removeSelf( ); self = nil end , 1 )
-		sounds.play('refill_destroy')
+		-- sounds.play('refill_destroy')
 	end
 end
 

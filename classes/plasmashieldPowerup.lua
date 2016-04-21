@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-14 01:02:00
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 19:34:09
+-- @Last Modified time: 2016-04-21 14:29:17
 
 -- Powerup: plasmashield
 -- Super amazing power up; No collision with enemy;  if possible :D
@@ -26,16 +26,16 @@ function _M:collision(event)
 	if event.phase == "began" then
 		self.shape.alpha = 0
 	elseif event.phase == "ended" then
-		print("Collision of plasmashieldPowerup")
+		-- print("Collision of plasmashieldPowerup")
 		-- collectible coin to certain extent
 		self:destroy()
 	end
 end
 
-function _M:tap(event)
-	print("Tap of plasmashieldPowerup")
-	print (event.target)
-end
+-- function _M:tap(event)
+-- 	-- print("Tap of plasmashieldPowerup")
+-- 	print (event.target)
+-- end
 
 
 return _M

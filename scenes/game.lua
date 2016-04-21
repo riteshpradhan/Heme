@@ -23,13 +23,13 @@ local newShiva              = require( 'classes.shiva').newShiva
 
 local birdEnemy             = require ('classes.birdEnemy')
 local aircraftEnemy         = require ('classes.aircraftEnemy')
-local generalObstruction    = require ('classes.generalObstruction')
+-- local generalObstruction    = require ('classes.generalObstruction')
 local obstruction           = require ('classes.obstruction')
 local ammoRefill            = require ('classes.ammoRefill')
 local fuelRefill            = require ('classes.fuelRefill')
 local healthRefill          = require ('classes.healthRefill')
-local airblastPowerup       = require ('classes.airblastPowerup')
-local hyperdrivePowerup     = require ('classes.hyperdrivePowerup')
+-- local airblastPowerup       = require ('classes.airblastPowerup')
+-- local hyperdrivePowerup     = require ('classes.hyperdrivePowerup')
 local plasmashieldPowerup   = require ('classes.plasmashieldPowerup')
 local coinCollectible       = require ('classes.coinCollectible')
 local medalCollectible      = require ('classes.medalCollectible')
@@ -225,7 +225,7 @@ function createObjects()
     table.insert( hemeGlobals.gameTimers, refillTimer )
     table.insert( hemeGlobals.gameTimers, powerupTimer )
     table.insert( hemeGlobals.gameTimers, collectibleTimer )
-    print ("**********************************************************************************", #hemeGlobals.gameTimers)
+    -- print ("**********************************************************************************", #hemeGlobals.gameTimers)
 end
 
 function getDeltaTime()
@@ -261,13 +261,13 @@ function touchHandler(event)
             end
         end
     elseif "ended" == phase or "cancelled" == phase then
-                    print( "Position: ", heme.shape.y , heme.shape.x)
+                    -- print( "Position: ", heme.shape.y , heme.shape.x)
     end
 end
 
 
 function tapHandler(event)
-    print("Tapped runtime tap listener")
+    -- print("Tapped runtime tap listener")
     heme:fire()
 
     if (heme.ammo > 0) then
@@ -290,7 +290,7 @@ function btnPauseHandler(event)
     physics.pause()
     transition.pause()
 
-    print ("**********************************************************************************", #hemeGlobals.gameTimers)
+    -- print ("**********************************************************************************", #hemeGlobals.gameTimers)
     utils.pauseGameTimers(hemeGlobals.gameTimers)
     -- timer.pause(enemyTimer)
     -- timer.pause(obstructionTimer)
@@ -391,21 +391,21 @@ end
 
 function destroyBodies()
     -- destroy physics bodies
-    print(#hemeGlobals.physicsBodies)
+    -- print(#hemeGlobals.physicsBodies)
     for i, obj in ipairs( hemeGlobals.physicsBodies ) do
-        print( "Start destruction .... ")
-        print(i, obj)
+        -- print( "Start destruction .... ")
+        -- print(i, obj)
         if (obj.bodyType ~= nil) then
-            print("...", obj.tag)
+            -- print("...", obj.tag)
            -- physics.removeBody( obj )
            obj:destroy()
         elseif (obj.shape ~= nil and obj.shape.bodyType ~= nil) then
-            print("... ...", obj.shape.type)
+            -- print("... ...", obj.shape.type)
            -- physics.removeBody( obj.shape )
            obj:destroy()
         end
-        utils.print_table(obj.shape)
-        print("End destruction .... ")
+        -- utils.print_table(obj.shape)
+        -- print("End destruction .... ")
     end
     hemeGlobals.physicsBodies = {} -- clear
 
@@ -415,7 +415,7 @@ end
 
 
 function onGameOver()
-    print ("Game is over: dispatched")
+    -- print ("Game is over: dispatched")
     Runtime:removeEventListener("enterFrame", enterFrame)
     -- transition.cancel()
     -- destroyBodies()
@@ -508,8 +508,8 @@ function scene:create( event )
 
     sceneGroup:insert(scoreBoardG)
 
-    print(bg.bg1)
-    utils.print_table(bg)
+    -- print(bg.bg1)
+    -- utils.print_table(bg)
     sceneGroup:insert( bg.bg1 )
     sceneGroup:insert( bg.bg2 )
     sceneGroup:insert(scoreBoardImage);
@@ -556,7 +556,7 @@ function scene:show( event )
         -- Randomly generate many enemies; powerups; refills; collectible
         -- insert all into physicsBodies
         scrollSpeed = hemeGlobals.scrollSpeed
-        print("Scroll speed is : ", scrollSpeed)
+        -- print("Scroll speed is : ", scrollSpeed)
         createObjects()
 
         resetGameState()

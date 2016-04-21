@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-16 20:28:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-21 13:43:40
+-- @Last Modified time: 2016-04-21 14:42:15
 
 local utils = require('libs.utils')
 
@@ -11,7 +11,6 @@ function _M:newBackground (o)
     o = o or {};
     setmetatable(o, self);
     self.__index = self;
-    utils.print_table(self)
     return o
 end
 

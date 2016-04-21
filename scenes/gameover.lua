@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-19 00:45:09
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-20 21:43:14
+-- @Last Modified by:   Ritesh Pradhan
+-- @Last Modified time: 2016-04-21 14:18:30
 
 local widget = require('widget')
 local composer = require( "composer" )
@@ -22,12 +22,6 @@ local currentMedalT
 function scene:create( event )
     local sceneGroup = self.view
     local params = event.params
-
- --    local function btnBackHandler(event)
- --        sounds.play('back')
- --     	local sceneOpt = {effect = "crossFade", time = 600}
- --        composer.gotoScene("scenes.menu", sceneOpt)
-	-- end
 
     local function btnRestartHandler(event)
         sounds.play('back')
@@ -63,10 +57,6 @@ function scene:create( event )
     button_restart.y = display.contentCenterY + 250
     sceneGroup:insert(button_restart)
 
-
-    --- 800 263
-            -- 325
-
     highScoreT = display.newText( awesomeG, hemeDatabox.highscore, 800, 265, "Comic Sans MS", 40 )
     currentScoreT = display.newText( awesomeG, params.distance, 800, 325, "Comic Sans MS", 40 )
     currentCoinT = display.newText( awesomeG, params.coin, 800, 380, "Comic Sans MS", 40 )
@@ -77,13 +67,6 @@ end
 
 function scene:show( event )
     local sceneGroup = self.view
-
-    -- if(hemeDatabox.isMusicOn) then
-        -- if(audio.isChannelPlaying( 25 )) then
-            -- sounds.stop(25)
-        -- end
-        -- sounds.musicPlay('bg_music_game_over', {loops = -1, channel = 25})
-    -- end
     sounds.musicPlay('bg_music_game_over')
 
     local phase = event.phase

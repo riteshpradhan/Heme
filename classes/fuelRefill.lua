@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:23:59
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 19:32:09
+-- @Last Modified time: 2016-04-21 14:27:41
 
 -- Refill: fuel
 -- Instant Bonus
@@ -24,14 +24,14 @@ function _M:collision(event)
 	if event.phase == "began" then
 		self.shape.alpha = 0
 	elseif event.phase == "ended" then
-		print("Collision of fuelRefill")
+		-- print("Collision of fuelRefill")
 		self:destroy()
 	end
 end
 
-function _M:tap(event)
-	print("Tap of fuelRefill")
-	print (event.target)
-end
+-- function _M:tap(event)
+-- 	print("Tap of fuelRefill")
+-- 	print (event.target)
+-- end
 
 return _M

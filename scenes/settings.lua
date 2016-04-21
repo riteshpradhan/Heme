@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-16 01:05:55
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-20 21:41:32
+-- @Last Modified by:   Ritesh Pradhan
+-- @Last Modified time: 2016-04-21 14:15:51
 
 
 -- load required library files
@@ -15,6 +15,7 @@ local scene = composer.newScene();
 
 function scene:create( event )
 end
+
 function scene:show( event )
     local sceneGroup = self.view
 
@@ -54,7 +55,7 @@ function scene:show( event )
                 -- if(audio.isChannelPlaying( 25 )) then
                     sounds.musicStop()
                 -- end
-                
+
                 sounds.play('music_toggle_off')
                 button_music = widget.newButton({
                     defaultFile = "images/menu/music_off.png",
@@ -70,7 +71,7 @@ function scene:show( event )
                         sounds.musicPlay('bg_music_menu')
                     end
                 -- end
-                
+
                 sounds.play('music_toggle_on')
                 button_music = widget.newButton({
                     defaultFile = "images/menu/music_on.png",
@@ -111,7 +112,7 @@ function scene:show( event )
         end
 
         local function btnPlayHandler(event)
-            utils.print_table(event)
+            -- utils.print_table(event)
             if(event.target == button_play) then
                 sounds.play('play')
             else
@@ -141,7 +142,7 @@ function scene:show( event )
                 defaultFile = "images/menu/play.png",
                 onRelease = btnPlayHandler
             })
-            button_play.x = display.contentCenterX 
+            button_play.x = display.contentCenterX
             button_play.y = display.contentCenterY
             sceneGroup:insert(button_play)
             button_play:toFront()

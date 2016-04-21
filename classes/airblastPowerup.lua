@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-14 00:55:25
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 20:13:20
+-- @Last Modified time: 2016-04-21 14:29:48
 
 
 -- Powerup: airblast
@@ -32,15 +32,15 @@ end
 
 function _M:collision(event)
 	if event.phase == "ended" then
-		print("Collision of airblastPowerup")
+		-- print("Collision of airblastPowerup")
 		-- collectible coin to certain extent
 		self:destroy()
 	end
 end
 
-function _M:tap(event)
-	print("Tap of airblastPowerup")
-	print (event.target)
-end
+-- function _M:tap(event)
+-- 	print("Tap of airblastPowerup")
+-- 	print (event.target)
+-- end
 
 return _M

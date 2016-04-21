@@ -34,7 +34,7 @@ end
 function setDefault(selectedPlayer)
 	if(selectedPlayer ~= nil) then
     	hemeDatabox.player = selectedPlayer
-    	print("current player => " .. hemeDatabox.defaultPlayer)
+    	-- print("current player => " .. hemeDatabox.defaultPlayer)
     	sounds.play('back')
     end
 

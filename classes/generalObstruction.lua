@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-14 22:14:39
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 19:33:42
+-- @Last Modified time: 2016-04-21 14:34:25
 
 -- Obstruction: general type
 -- Types (tree; hill; building; windmill)
@@ -22,15 +22,15 @@ end
 
 function _M:collision(event)
 	if event.phase == "ended" then
-		print("Collision of generalObstruction")
+		-- print("Collision of generalObstruction")
 		-- collectible coin to certain extent
 		self:destroy()
 	end
 end
 
-function _M:tap(event)
-	print("Tap of generalObstruction")
-	print (event.target)
-end
+-- function _M:tap(event)
+-- 	print("Tap of generalObstruction")
+-- 	print (event.target)
+-- end
 
 return _M

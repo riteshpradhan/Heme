@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-08 13:51:34
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-21 13:42:10
+-- @Last Modified time: 2016-04-21 14:13:01
 
 local physics = require( "widget" )
 local physics = require( "physics" )
@@ -32,25 +32,14 @@ local function enterMenu(event)
 		effect = "crossFade",
 		time = 1500
 	}
-
 	-- load first scene
 	composer.gotoScene( "scenes.menu", sceneOpt);
 end
 
-
 local hemeSplash = display.newImage( "images/splashScreen.png", display.contentCenterX, display.contentCenterY)
--- hemeSplash.width, hemeSplash.height = 300, 300
 
 timer.performWithDelay(1000,
 					function()
 						transition.fadeOut( hemeSplash, {time=1000, onComplete=enterMenu} );
 					end
 					, 1)
-
-
-
--- time delay for enter new scene from this scene
--- timer.performWithDelay(1500,
--- 					function()
--- 						enterMenu()
--- 						, 1)

@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:19:41
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-17 19:32:22
+-- @Last Modified time: 2016-04-21 14:27:33
 
 -- Refill: health
 -- Instant Bonus
@@ -24,16 +24,16 @@ function _M:collision(event)
 	if event.phase == "began" then
 		self.shape.alpha = 0
 	elseif event.phase == "ended" then
-		print("Collision of healthRefill")
+		-- print("Collision of healthRefill")
 		-- refill health to certain extent
 		self:destroy()
 	end
 end
 
-function _M:tap(event)
-	print("Tap of healthRefill")
-	print (event.target)
-end
+-- function _M:tap(event)
+-- 	print("Tap of healthRefill")
+-- 	print (event.target)
+-- end
 
 
 return _M

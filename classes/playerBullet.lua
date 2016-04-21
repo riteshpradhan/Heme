@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 17:50:18
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 18:26:31
+-- @Last Modified time: 2016-04-21 14:32:13
 
 local physics = require("physics")
 local sounds = require("libs.sounds")
@@ -31,20 +31,19 @@ function _M.newPlayerBullet(params)
 		if ( event.phase == "began" ) then
 			self.alpha = 0
 		elseif event.phase == "ended" then
-			print("Collision of playerBullet")
-			utils.print_table(self)
+			-- print("Collision of playerBullet")
+			-- utils.print_table(self)
 			self:destroy()
 		end
 	end
 
 
-	function playerBullet:tap(event)
-		print("Tap of playerBullet of hp: ", self.hp, self.tag)
-
-	end
+	-- function playerBullet:tap(event)
+	-- 	print("Tap of playerBullet of hp: ", self.hp, self.tag)
+	-- end
 
 	playerBullet:addEventListener( 'collision')
-	playerBullet:addEventListener( 'tap')
+	-- playerBullet:addEventListener( 'tap')
 
 	return playerBullet
 end

@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-18 20:24:29
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-19 00:38:33
+-- @Last Modified time: 2016-04-21 14:25:10
 
 -- Shiva the destructor;
 -- whatever get collided to this object get destroyed.
@@ -20,12 +20,12 @@ function _M.newShiva()
 
     function shiva:collision(event)
     	if (event.phase == "ended") then
-	    	print("Destroy event.other without sound")
+	    	-- print("Destroy event.other without sound")
     	end
     end
 
     function shiva:destroy()
-    	print("Destroying shiva")
+    	-- print("Destroying shiva")
     	if(self ~= nil) then
     		physics.removeBody( self )
     		self:removeSelf( )

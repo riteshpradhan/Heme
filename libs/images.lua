@@ -60,67 +60,9 @@ local aircraftSequenceData = { name="aircraft", start=1, count=2, time=200 }
 aircraft.sheet = aircraftSheet
 aircraft.sequenceData = aircraftSequenceData
 
---------------------------------------------------------
----------- KUSH-----------------------------------------
-local kushOption =
-{
-	frames = {
-		{ x = 1, y = 2, width = 16, height = 25}, --frame 1
-		{ x = 18, y = 2, width = 16, height = 25}, --frame 2
-		{ x = 35, y = 2, width = 16, height = 25}, --frame 3
-		{ x = 52, y = 2, width = 16, height = 25}, --frame 4
-		{ x = 1, y = 54, width = 16, height = 24}, --ready1
-		{ x = 19, y = 54, width = 16, height = 24}, --ready2
-		{ x = 37, y = 54, width = 29, height = 24}, -- rock
-		{ x = 67, y = 54, width = 33, height = 24}, -- scissor
-		{ x = 101, y = 54, width = 33, height = 24}, --paper
-	}
-};
-local kushSheet = graphics.newImageSheet( "imges/player/kush.png", kushOption );
 
--- Create alex animation sequence for animation
-local kushSequenceData = {
-	{name = "normal", start=1 , count = 4, time = 800},
-	{name = "faster", frames = {1,2,3,4}, time = 400},
-	{name = "shake", frames={5,6}, time = 500},
-	{name = "rock", frames={7}},
-	{name = "paper", frames={9}},
-	{name = "scissor", frames={8}},
-}
-kush.sheet = kushSheet
-kush.sequenceData = kushSequenceData
-
---------------------------------------------------
-------------------- Button ------------------------
-local buttonOption = {
-	frames =
-	{
-		{ x = 3, y = 2, width=70, height = 22}, --frame 1
-		{ x = 78, y = 2, width=70, height = 22}, --frame 2
-	}
-};
-local buttonSheet = graphics.newImageSheet( "button.png", buttonOption );
-
-
--- local storeButtonOption = {
--- 	frames = {
--- 		{}
--- 	}
-
--- }
-
-
--- btnGo = widget.newButton( {
--- 			x = 200,
--- 			y = 20,
--- 			id = "btnGo",
--- 			label = "Go!",
--- 			labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0 } }, sheet = buttonSheet,
--- 			defaultFrame = 1,
--- 			overFrame = 2,
--- 			onPress = go,
--- 		} );
-
+------------------------ STORE BUTTONS --------------------
+-----------------------------------------------------------
 local storeButtonOptions = {
     width = 236,
     height = 81,

@@ -31,7 +31,7 @@ end
 
 -- fires bullet
 function _M:fire()
-	print("Firing bullet from player")
+	-- print("Firing bullet from player")
 	sounds.play('aircraft_fire')
 	-- sound.play('enemy_fire')
 	-- create a self destructible bullet
@@ -41,8 +41,8 @@ end
 
 function _M:collision(event)
 	if ( event.phase == "began" ) then
-		print("Collision of aircraftEnemy")
-		utils.print_table(event.other)
+		-- print("Collision of aircraftEnemy")
+		-- utils.print_table(event.other)
 		if (event.other.tag == "shiva") then
 			-- no sound, just destroying the object
 			self.enemySprite.alpha = 0
@@ -53,9 +53,6 @@ function _M:collision(event)
 			-- self:destroy()111111
 		else
 			sounds.play('aircraft_hit')
-			print("Collision of aircraftEnemy with player bullet")
-			utils.print_table(self)
-			utils.print_table(self.shape)
 			-- self.shape.health = self.shape.health - event.other.hp
 
 			if (self.shape.health <= 0) then
@@ -65,7 +62,7 @@ function _M:collision(event)
 			end
 		end
 	elseif event.phase == "ended" then
-		utils.print_table(event.other)
+		-- utils.print_table(event.other)
 		if (event.other.tag == "shiva") then
 			self:destroy()
 		elseif (event.other.tag == "player") then
@@ -79,12 +76,12 @@ function _M:collision(event)
 	end
 end
 
-function _M:tap(event)
-	print("Tap of aircraftEnemy")
-end
+-- function _M:tap(event)
+-- 	print("Tap of aircraftEnemy")
+-- end
 
 function _M:destroy()
-	print("Destroying aircraftEnemy")
+	-- print("Destroying aircraftEnemy")
 	if (self.shape ~= nil) then
 		transition.to(self.shape, {time=1, alpha=0})
 		timer.cancel(self.firingTimer)

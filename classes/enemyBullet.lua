@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-10 18:23:52
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-21 10:38:04
+-- @Last Modified time: 2016-04-21 14:32:42
 
 local physics = require("physics")
 local newBullet = require("classes.bullet").newBullet
@@ -27,7 +27,7 @@ function _M.newEnemyBullet(params)
 		if ( event.phase == "began" ) then
 			self.alpha = 0
 		elseif event.phase == "ended" then
-			print("Collision of enemyBullet")
+			-- print("Collision of enemyBullet")
 			self:destroy()
 		end
 	end

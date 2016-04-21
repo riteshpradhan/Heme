@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:45:03
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-21 01:06:07
+-- @Last Modified by:   Ritesh Pradhan
+-- @Last Modified time: 2016-04-21 14:21:18
 
 -- load required library files
 local widget = require("widget")
@@ -43,7 +43,7 @@ Background Music
 2. Game Music:
     beach.wav
     http://opengameart.org/content/42-monster-rpg-2-music-tracks
-    
+
     "Nooskewl Games" : The game is licensed under the Give It Your Own License.
 
 3. GameOver Music:
@@ -64,7 +64,7 @@ Images
 
 
 function scrollToBottom(event)
-    scrollView:scrollTo( "bottom", {time=20000, onComplete=scrollToTop} )
+    scrollView:scrollTo( "bottom", {time=18000, onComplete=scrollToTop} )
 end
 
 function scrollToTop(event)
@@ -77,9 +77,9 @@ function scrollListener(event)
 
     if event.limitReached then
         if direction == "up" then
-            print("Reached top limit")
+            -- print("Reached top limit")
         elseif direction == "down" then
-            print("Reached down limit")
+            -- print("Reached down limit")
         end
     end
 end
@@ -134,7 +134,7 @@ function scene:create( event )
     local creditsText = display.newText( lotsOfText, 0, 0, 1100, 0, "Comic Sans MS", 30 )
     creditsText:setFillColor( 1 )
     creditsText.x = display.contentCenterX
-    creditsText.y = display.contentCenterY + 600
+    creditsText.y = display.contentCenterY + 500
     scrollView:insert( creditsText )
 
     sceneGroup:insert(scrollView)

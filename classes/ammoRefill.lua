@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:25:32
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-20 18:16:45
+-- @Last Modified time: 2016-04-21 14:27:49
 
 -- Refill: ammo
 -- Instant Bonus
@@ -24,15 +24,15 @@ function _M:collision(event)
 	if event.phase == "began" then
 		self.shape.alpha = 0
 	elseif event.phase == "ended" then
-		print("Collision of ammoRefill")
+		-- print("Collision of ammoRefill")
 		self:destroy()
 	end
 end
 
-function _M:tap(event)
-	print("Tap of ammoRefill")
-	print (event.target)
-end
+-- function _M:tap(event)
+-- 	print("Tap of ammoRefill")
+-- 	print (event.target)
+-- end
 
 
 return _M
