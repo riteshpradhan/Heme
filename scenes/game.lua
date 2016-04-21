@@ -71,8 +71,9 @@ local ground1
 local lordShiva
 local counter = 0
 local button_pause
-local obstructionType = {"tree1", "tree2", "tree3"}
+local isObjectCreated = {}
 
+local obstructionType = {"tree1", "tree2", "tree3"}
 local distanceToastName = {"Nice!", "Human!", "Sahi!!", "Daami", "Ramro!!", "Great!!", "Way to Go!!", "Magnificient", "Infallible!!", "Jet Master!!!"}
 -- local enemyTimer
 -- local obstructionTimer
@@ -111,6 +112,8 @@ function resetGameState()
     counter = 0
     runtime = 0
     scrollSpeed = hemeGlobals.scrollSpeed
+
+    isObjectCreated = {false, false, false}
 
 end
 
@@ -197,7 +200,7 @@ function createObjects()
 
     local function createCollectible()
         local yPos = math.random(3)
-        if (math.random(25) % 25 == 0) then
+        if (math.random(15) % 15 == 0) then
             local m = medalCollectible:newCollectible({xVel=-scrollSpeed*100, y=hemeGlobals.yLevel[yPos]})
             m:spawn()
             table.insert(hemeGlobals.physicsBodies, m)
@@ -210,11 +213,11 @@ function createObjects()
         end
     end
 
-    local enemyTimer = timer.performWithDelay( 2000, function() createEnemy() end, -1 )
+    local enemyTimer = timer.performWithDelay( 1000, function() createEnemy() end, -1 )
     local obstructionTimer = timer.performWithDelay( 5000, function() createObstruction() end, -1 )
     local refillTimer = timer.performWithDelay( 10000, function() createRefill() end, -1 )
     local powerupTimer = timer.performWithDelay( 15000, function() createPowerup() end, -1 )
-    local collectibleTimer = timer.performWithDelay( 9000, function() createCollectible() end, -1 )
+    local collectibleTimer = timer.performWithDelay( 2000, function() createCollectible() end, -1 )
 
     table.insert( hemeGlobals.gameTimers, enemyTimer )
     table.insert( hemeGlobals.gameTimers, obstructionTimer )
@@ -266,9 +269,12 @@ function tapHandler(event)
     print("Tapped runtime tap listener")
     heme:fire()
 
-    heme.ammo = heme.ammo - 1
-    currentAmmo = heme.ammo
-    currentAmmoText.text = currentAmmo
+    if (heme.ammo > 0) then
+        heme.ammo = heme.ammo - 1
+        currentAmmo = heme.ammo
+        currentAmmoText.text = currentAmmo
+    end
+
 end
 
 
@@ -312,9 +318,9 @@ function enterFrame()
     if (counter % 20) == 0 then
         currentDistance = currentDistance + math.abs(math.floor(scrollSpeed/hemeGlobals.scrollSpeed))
         currentDistanceText.text = currentDistance
-        if (currentDistance % 100 == 0) then
+        if (currentDistance % 50 == 0) then
             scrollSpeed = scrollSpeed + 2
-            customToast(distanceToastName[(math.floor(currentDistance/200) % 10) + 1])
+            customToast(distanceToastName[(math.floor(currentDistance/50) % 10) + 1])
         end
     end
     if (counter % 60 == 0) then
@@ -322,10 +328,19 @@ function enterFrame()
         currentFuel = heme.fuel
         currentFuelText.text = currentFuel
 
-        if heme.fuel < 0 then
+        if currentFuel < 0 then
             customToast("Fuel Tank Empty !!!")
             sounds.play("player_destroy")
             hemeGlobals.isGameOver = true
+        end
+
+        if isObjectCreated[1] == false and currentDistance > 300 then
+            createObjects()
+            isObjectCreated[1] = true
+        end
+        if isObjectCreated[2] == false and currentDistance > 500 then
+            createObjects()
+            isObjectCreated[2] = true
         end
     end
 

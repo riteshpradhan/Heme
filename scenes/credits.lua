@@ -1,7 +1,7 @@
 -- @Author: Kush Chandra Shrestha
 -- @Date:   2016-04-15 23:45:03
--- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-20 23:17:36
+-- @Last Modified by:   Kush Chandra Shrestha
+-- @Last Modified time: 2016-04-21 01:06:07
 
 -- load required library files
 local widget = require("widget")
@@ -21,21 +21,18 @@ local scrollToBottom = {}
 
 local lotsOfText = [[
 
-
-
 HEME
 
 Developers
 1. Kush Chandra Shrestha    (Tattu)
 2. Ritesh Pradhan           (Khoste)
-3. Samyam Acharya           (Gede)
+3. Samyam Acharya           (Bhoote)
 
 
 Sound Effects
 1. http://soundbible.com
 2. http://opengameart.org/content/100-plus-game-sound-effects-wavoggm4a
-    Copyright/Attribution Notice:
-    you do not have to add a link but if you want to credit me feel free. Damaged Panda
+    Damaged Panda
 
 Background Music
 1. Menu Music:
@@ -46,9 +43,8 @@ Background Music
 2. Game Music:
     beach.wav
     http://opengameart.org/content/42-monster-rpg-2-music-tracks
-    These are the music files (in FLAC and OGG formats) from the recently open sourced Monster RPG 2. (Except jungle_ambience, which is not original).
-
-    The game is licensed under the Give It Your Own License, License, and I've chosen to re-license them under CC0, but I'm sure the good folks at Nooskewl Games would appreciate a shout out if you use their works.
+    
+    "Nooskewl Games" : The game is licensed under the Give It Your Own License.
 
 3. GameOver Music:
     JordanTrudgett-battle-ccby3.wav

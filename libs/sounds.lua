@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-09 17:42:51
--- @Last Modified by:   Kush Chandra Shrestha
--- @Last Modified time: 2016-04-20 22:11:08
+-- @Last Modified by:   Ritesh Pradhan
+-- @Last Modified time: 2016-04-21 00:41:42
 
 -- Sounds library
 -- Manager for the sound and music files.
@@ -19,7 +19,7 @@ local sounds = {
 
     -- Menu item sounds
     play = 'sounds/select-settings.wav',
-    pause = 'sounds/click-off.wav',  
+    pause = 'sounds/click-off.wav',
     menu_item = 'sounds/click-on.wav',
     back = 'sounds/click-off.wav',
 
@@ -39,7 +39,7 @@ local sounds = {
     player_health_refill = 'sounds/powerUp6.wav',
     player_ammo_refill = 'sounds/ammo_refill.wav',
     player_fuel_refill = 'sounds/powerUp8.wav',
-    player_collect_collectible = 'sounds/ring_inventory.wav',
+    player_collect_collectible = 'sounds/Pickup_Coin19.wav',
     player_hit = 'sounds/Explosion12.wav',
 
     -- Enemy aircraft sounds
@@ -70,7 +70,7 @@ local sounds = {
     bg_music_menu = 'sounds/bg/ERH-BlueBeat-01-_loop_.wav',
     bg_music_game = 'sounds/bg/beach.wav',
     bg_music_game_over = 'sounds/bg/JordanTrudgett-battle-ccby3.wav',
-    
+
 }
 
 -- Reserve two channels for streams and switch between them with a nice fade out / fade in transition
@@ -129,7 +129,7 @@ function _M.musicPlay(sound, params)
         return
     end
     _M.musicStop()
-    return audio.play(loadSound(sound), {loops = -1, channel = 25}) 
+    return audio.play(loadSound(sound), {loops = -1, channel = 25})
 end
 
 return _M

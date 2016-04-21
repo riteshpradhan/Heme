@@ -1,7 +1,7 @@
 -- @Author: Ritesh Pradhan
 -- @Date:   2016-04-13 23:39:21
 -- @Last Modified by:   Ritesh Pradhan
--- @Last Modified time: 2016-04-14 00:57:46
+-- @Last Modified time: 2016-04-21 00:05:53
 
 -- Collectible: medal
 -- Long term  Bonus
@@ -13,7 +13,7 @@ local physics = require("physics")
 local collectible = require("classes.collectible")
 local utils = require('libs.utils')
 
-local _M = collectible:newCollectible({value=50, type='medalCollectible'})
+local _M = collectible:newCollectible({value=1, type='medalCollectible'})
 
 _M.superSpawn = _M.spawn
 function _M:spawn()
