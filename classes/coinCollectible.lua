@@ -30,7 +30,9 @@ end
 
 
 function _M:collision(event)
-	if event.phase == "ended" then
+	if event.phase == "began" then
+		self.shape.alpha = 0
+	elseif event.phase == "ended" then
 		print("Collision of coinCollectible")
 		-- collectible coin to certain extent
 		self:destroy()

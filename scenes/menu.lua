@@ -35,7 +35,7 @@ end
 function scene:create( event )
     local sceneGroup = self.view
     -- bg.addScrollableBg()
-    local bgImage = { type="image", filename="images/scenes/bg.jpg" }
+    local bgImage = { type="image", filename="images/scenes/bg2.jpg" }
     bg = background:newBackground()
     bg:addScrollableBg(bgImage)
 
