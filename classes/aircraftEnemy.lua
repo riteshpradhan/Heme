@@ -40,23 +40,39 @@ function _M:fire()
 end
 
 function _M:collision(event)
-	if event.phase == "ended" then
+	if ( event.phase == "began" ) then
 		print("Collision of aircraftEnemy")
 		utils.print_table(event.other)
 		if (event.other.tag == "shiva") then
 			-- no sound, just destroying the object
-			self:destroy()
+			self.enemySprite.alpha = 0
+			-- self:destroy()
 		elseif (event.other.tag == "player") then
 			sounds.play('aircraft_collide')
-			self:destroy()
+			self.enemySprite.alpha = 0
+			-- self:destroy()111111
 		else
 			sounds.play('aircraft_hit')
 			print("Collision of aircraftEnemy with player bullet")
 			utils.print_table(self)
 			utils.print_table(self.shape)
 			self.shape.health = self.shape.health - event.other.hp
+			
 			if (self.shape.health <= 0) then
 				sounds.play('aircraft_destroy')
+				self.enemySprite.alpha = 0
+				-- self:destroy()
+			end
+		end
+	elseif event.phase == "ended" then
+		utils.print_table(event.other)
+		if (event.other.tag == "shiva") then
+			self:destroy()
+		elseif (event.other.tag == "player") then
+			self:destroy()
+		else
+			self.shape.health = self.shape.health - event.other.hp
+			if (self.shape.health <= 0) then
 				self:destroy()
 			end
 		end

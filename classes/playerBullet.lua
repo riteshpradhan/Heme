@@ -28,7 +28,9 @@ function _M.newPlayerBullet(params)
 	playerBullet:setLinearVelocity( 300, 0 )
 
 	function playerBullet:collision(event)
-		if event.phase == "ended" then
+		if ( event.phase == "began" ) then
+			self.alpha = 0
+		elseif event.phase == "ended" then
 			print("Collision of playerBullet")
 			utils.print_table(self)
 			self:destroy()

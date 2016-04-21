@@ -14,7 +14,7 @@ local utils = require('libs.utils')
 local collisionFilters = require( 'libs.collisionFilters')
 local sounds = require('libs.sounds')
 
-local _M = {tag='powerup', type='default', w=50, h=50, x=1030, y=hemeGlobals.yLevel[1], xVel=-10, yVel=0}
+local _M = {tag='powerup', type='default', w=65, h=65, x=1030, y=hemeGlobals.yLevel[1], xVel=-10, yVel=0}
 
 function _M:newPowerup(params)
 	local o = params or {}

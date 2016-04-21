@@ -29,15 +29,18 @@ end
 
 
 function _M:collision(event)
-	if event.phase == "ended" then
+
+	if ( event.phase == "began" ) then
 		print("Collision of birdEnemy")
 		utils.print_table(event.other)
 		if (event.other.tag == "shiva") then
 			print("OFF screen ; destroy")
-			self:destroy()
+			self.enemySprite.alpha = 0;
+			-- self:destroy()
 		elseif (event.other.tag == "player") then
 			sounds.play('bird_collide')
-			self:destroy()
+			self.enemySprite.alpha = 0;
+			-- self:destroy()
 		else
 			sounds.play('bird_hit')
 			print("Collision of birdEnemy with player bullet")
@@ -45,8 +48,20 @@ function _M:collision(event)
 			utils.print_table(self.shape)
 			self.shape.health = self.shape.health - event.other.hp
 			if (self.shape.health <= 0) then
-				-- sounds.play('bird_destroy')
 				sounds.play('bird_collide')
+				self.enemySprite.alpha = 0;
+				-- self:destroy()
+			end
+		end
+
+	elseif event.phase == "ended" then
+		utils.print_table(event.other)
+		if (event.other.tag == "shiva") then
+			self:destroy()
+		elseif (event.other.tag == "player") then
+			self:destroy()
+		else
+			if (self.shape.health <= 0) then
 				self:destroy()
 			end
 		end

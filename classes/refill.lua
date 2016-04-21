@@ -66,9 +66,12 @@ function _M:moveUp()
 end
 
 function _M:collision(event)
-	if event.phase == "ended" then
+	if event.phase == "began" then
 		print("Collision of Refill")
 		self:destroy()
+	elseif event.phase == "ended" then
+		-- print("Collision of Refill")
+		-- self:destroy()
 	end
 end
 
